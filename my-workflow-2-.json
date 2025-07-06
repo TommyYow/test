@@ -1,0 +1,168 @@
+{
+  "createdAt": "2025-07-05T14:21:30.882Z",
+  "updatedAt": "2025-07-05T14:21:30.882Z",
+  "id": "LGQFksygBXnYznff",
+  "name": "My workflow 2",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "code": {
+          "execute": {
+            "code": "const { createClient } = require(\"redis\");\nconst client = createClient({ url: \"redis://redis_db:6379\" });\nawait client.connect();\n\nconst embeddings = await this.getInputConnectionData('ai_embedding', 0);\n\nconst { RedisVectorStore } = require(\"@langchain/redis\");\nconst vectorStore = new RedisVectorStore(embeddings, {\n  redisClient: client,\n  indexName: \"n8n-docs\", // change me!\n});\n\nconst inputData = await this.getInputData();\nconst documentLoader = await this.getInputConnectionData('ai_document', 0);\n\nconst processedDocs = await documentLoader.processAll(inputData);\nawait vectorStore.addDocuments(processedDocs);"
+          }
+        },
+        "inputs": {
+          "input": [
+            {
+              "type": "main",
+              "maxConnections": 1,
+              "required": true
+            },
+            {
+              "type": "ai_embedding",
+              "maxConnections": 1,
+              "required": true
+            },
+            {
+              "type": "ai_document",
+              "maxConnections": 1,
+              "required": true
+            }
+          ]
+        },
+        "outputs": {
+          "output": [
+            {
+              "type": "main"
+            }
+          ]
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.code",
+      "typeVersion": 1,
+      "position": [
+        220,
+        0
+      ],
+      "id": "449889b2-24ca-480a-84d6-8771c752670a",
+      "name": "LangChain Code"
+    },
+    {
+      "parameters": {
+        "mode": "raw",
+        "jsonOutput": "{\n  \"data\": [\n    \"Joe Biden gave a stumbling performance in a 90-minute showdown with Donald Trump - the first televised debate of the 2024 presidential election campaign. Democrats expressed concern at the president's performance - with party insiders saying his early answers triggered panic. But Vice-President Kamala Harris defended Biden, saying it was a slow start, but there was a strong finish. Trump repeatedly attacked Biden on the economy and his foreign policy record, while Biden took aim at his rival's criminal conviction and alleged attempts to overturn the 2020 election. Biden called Trump a sucker, a loser, and said he had the morals of an alley cat. Trump hit back, and said at one point: I really don’t know what he said at the end of that sentence, and I don’t think he did either. Trump also repeated falsehoods - from abortion, to taxes and the deficit - and at first avoided answering if he would accept the 2024 election result\",\n    \"On the daily Kremlin conference call I asked Vladimir Putin’s spokesman Dmitry Peskov whether Putin had watched the US presidential debate during the night. “I don’t think you would expect the Russian president to set his alarm clock and wake up in the early hours to watch a debate in America,\\\" he replied. \\\"This event is not on our agenda,\\\" Peskov added. \\\"We have lots of issues which are important for our country, which are topical for us. These are the issues our president deals with. Debates in the United States are not our priority. \\\"Nevertheless, we have seen media reports about this debate and we will familiarise ourselves with them in more detail.\\\" Asked by another journalist to give his preliminary assessment of the debate, Peskov replied: \\\"We are absolutely not going to give an assessment of this debate. \\\"Let me repeat: this is an internal matter for the United States. This is America’s election campaign. We never interfere with US election campaigns….and we don’t intend to this time.\\\"\"\n  ]\n}\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        40,
+        0
+      ],
+      "id": "f740c539-b6e5-4eed-9813-ac1a4310da61",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "textSplittingMode": "custom",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.documentDefaultDataLoader",
+      "typeVersion": 1.1,
+      "position": [
+        360,
+        220
+      ],
+      "id": "8b4a76ca-69cf-4457-8679-399e721044b6",
+      "name": "Default Data Loader"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.textSplitterRecursiveCharacterTextSplitter",
+      "typeVersion": 1,
+      "position": [
+        380,
+        400
+      ],
+      "id": "a31bfbb7-63dd-4bc5-aea5-9d1c529e3323",
+      "name": "Recursive Character Text Splitter"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        180,
+        240
+      ],
+      "id": "244d6d64-5c86-42c9-b1c8-0c7553935248",
+      "name": "Embeddings OpenAI"
+    }
+  ],
+  "connections": {
+    "LangChain Code": {
+      "main": [
+        []
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "LangChain Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Default Data Loader": {
+      "ai_document": [
+        [
+          {
+            "node": "LangChain Code",
+            "type": "ai_document",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Recursive Character Text Splitter": {
+      "ai_textSplitter": [
+        [
+          {
+            "node": "Default Data Loader",
+            "type": "ai_textSplitter",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings OpenAI": {
+      "ai_embedding": [
+        [
+          {
+            "node": "LangChain Code",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {},
+  "versionId": "ce35e761-0593-47d3-9893-52fe30b94dab",
+  "triggerCount": 0,
+  "tags": []
+}
