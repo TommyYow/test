@@ -1,0 +1,105 @@
+{
+  "createdAt": "2025-07-07T15:43:28.777Z",
+  "updatedAt": "2025-07-07T16:06:13.773Z",
+  "id": "Pgc7FlsU1Y9bQ3VV",
+  "name": "My workflow 3",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "CUSTOM.redisVectorStore",
+      "typeVersion": 1,
+      "position": [
+        220,
+        0
+      ],
+      "id": "813d2129-16a1-446d-a971-0b0134fe6eea",
+      "name": "Redis Vector Store"
+    },
+    {
+      "parameters": {
+        "textSplittingMode": "custom",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.documentDefaultDataLoader",
+      "typeVersion": 1.1,
+      "position": [
+        100,
+        200
+      ],
+      "id": "f9bcf3cb-b58f-43cb-97aa-b51b6c65ec85",
+      "name": "Default Data Loader"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.textSplitterRecursiveCharacterTextSplitter",
+      "typeVersion": 1,
+      "position": [
+        340,
+        440
+      ],
+      "id": "73547232-12dc-45dd-bb43-da975802f9b9",
+      "name": "Recursive Character Text Splitter"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        440,
+        220
+      ],
+      "id": "15fee877-c8b5-4cba-b241-5a102f888a34",
+      "name": "Embeddings OpenAI"
+    }
+  ],
+  "connections": {
+    "Default Data Loader": {
+      "ai_document": [
+        [
+          {
+            "node": "Redis Vector Store",
+            "type": "ai_document",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Recursive Character Text Splitter": {
+      "ai_textSplitter": [
+        [
+          {
+            "node": "Default Data Loader",
+            "type": "ai_textSplitter",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings OpenAI": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Redis Vector Store",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {},
+  "versionId": "8521ee06-ff17-4b0c-98a8-5372389b1e04",
+  "triggerCount": 0,
+  "tags": []
+}
