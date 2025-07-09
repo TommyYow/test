@@ -1,0 +1,329 @@
+{
+  "createdAt": "2025-07-08T16:41:06.420Z",
+  "updatedAt": "2025-07-08T17:02:39.245Z",
+  "id": "EHfPHEvis5Z1eE7Y",
+  "name": "Demo: RAG in n8n",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "content": "### Readme\nLoad your data into a vector database with the 📚 **Load Data** flow, and then use your data as chat context with the 🐕 **Retriever** flow.\n\n**Quick start**\n1. Click on the `Execute Workflow` button to run the 📚 **Load Data** flow.\n2. Click on `Open Chat` button to run the 🐕 **Retriever** flow. Then ask a question about content from your document(s)\n\n\nFor more info, check [our docs on RAG in n8n](https://docs.n8n.io/advanced-ai/rag-in-n8n/).",
+        "height": 300,
+        "width": 440,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -656,
+        -64
+      ],
+      "typeVersion": 1,
+      "id": "0d07742b-0b36-4c2e-990c-266cbe6e2d4d",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2,
+      "position": [
+        944,
+        -16
+      ],
+      "id": "579aed76-9644-42d1-ac13-7369059ff1c2",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        720,
+        -16
+      ],
+      "id": "9c30de61-935a-471f-ae88-ec5f67beeefc",
+      "name": "When chat message received",
+      "webhookId": "4091fa09-fb9a-4039-9411-7104d213f601"
+    },
+    {
+      "parameters": {
+        "content": "### 🐕 2. Retriever Flow",
+        "height": 460,
+        "width": 680,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        608,
+        -64
+      ],
+      "typeVersion": 1,
+      "id": "28bc73a1-e64a-47bf-ac1c-ffe644894ea5",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "content": "### Embeddings\n\nThe Insert and Retrieve operation use the same embedding node.\n\nThis is to ensure that they are using the **exact same embeddings and settings**.\n\nDifferent embeddings might not work at all, or have unintended consequences.\n",
+        "height": 240,
+        "width": 320,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        672,
+        448
+      ],
+      "typeVersion": 1,
+      "id": "0cf8c647-418c-4d1a-8952-766145afca72",
+      "name": "Sticky Note3"
+    },
+    {
+      "parameters": {
+        "model": "llama3.1:8b",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOllama",
+      "typeVersion": 1,
+      "position": [
+        832,
+        240
+      ],
+      "id": "3d49f8aa-ae9a-4e88-a793-8ea11b94e895",
+      "name": "Ollama Chat Model",
+      "credentials": {
+        "ollamaApi": {
+          "id": "7W2eHR5MD4jEpF6H",
+          "name": "Ollama account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": "llama3.1:8b",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOllama",
+      "typeVersion": 1,
+      "position": [
+        656,
+        224
+      ],
+      "id": "7dd6e1a2-5657-4de1-8609-5fec974f8df9",
+      "name": "Ollama Chat Model1",
+      "credentials": {
+        "ollamaApi": {
+          "id": "7W2eHR5MD4jEpF6H",
+          "name": "Ollama account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "databaseName": "n8n-rag"
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryMongoDbChat",
+      "typeVersion": 1,
+      "position": [
+        960,
+        192
+      ],
+      "id": "fb23e4ec-a846-4158-a087-cbb61263657e",
+      "name": "MongoDB Chat Memory",
+      "credentials": {
+        "mongoDb": {
+          "id": "Pw6uAQWZZGSMy4dq",
+          "name": "MongoDB account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": "llama3.1:8b"
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOllama",
+      "typeVersion": 1,
+      "position": [
+        1072,
+        624
+      ],
+      "id": "3af23b51-e05e-4956-9d13-c1ccf9475f1e",
+      "name": "Embeddings Ollama",
+      "credentials": {
+        "ollamaApi": {
+          "id": "7W2eHR5MD4jEpF6H",
+          "name": "Ollama account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "description": "Use this tool to get information about the LHDN e-Invoicing."
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolVectorStore",
+      "typeVersion": 1.1,
+      "position": [
+        1088,
+        192
+      ],
+      "id": "31914664-3b38-422c-8c63-8a1c6147c446",
+      "name": "Answer questions with a vector store"
+    },
+    {
+      "parameters": {
+        "mongoCollection": {
+          "__rl": true,
+          "value": "ai",
+          "mode": "list",
+          "cachedResultName": "ai"
+        },
+        "vectorIndexName": "ai",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStoreMongoDBAtlas",
+      "typeVersion": 1.3,
+      "position": [
+        896,
+        416
+      ],
+      "id": "70e418df-6cf8-453a-b611-b42d82916f22",
+      "name": "MongoDB Atlas Vector Store",
+      "credentials": {
+        "mongoDb": {
+          "id": "Pw6uAQWZZGSMy4dq",
+          "name": "MongoDB account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": "phi4:latest",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmOllama",
+      "typeVersion": 1,
+      "position": [
+        1216,
+        544
+      ],
+      "id": "ec3ca7c6-fc04-4555-a769-d4a72410c04f",
+      "name": "Ollama Model",
+      "credentials": {
+        "ollamaApi": {
+          "id": "7W2eHR5MD4jEpF6H",
+          "name": "Ollama account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Ollama Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Ollama Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "MongoDB Chat Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings Ollama": {
+      "ai_embedding": [
+        [
+          {
+            "node": "MongoDB Atlas Vector Store",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        []
+      ]
+    },
+    "Answer questions with a vector store": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "MongoDB Atlas Vector Store": {
+      "ai_vectorStore": [
+        [
+          {
+            "node": "Answer questions with a vector store",
+            "type": "ai_vectorStore",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Ollama Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Answer questions with a vector store",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateId": "rag-starter-template",
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "727b619d-f0f7-4663-a067-77c7736e33df",
+  "triggerCount": 0,
+  "tags": []
+}
