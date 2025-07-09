@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-07-07T15:43:28.777Z",
-  "updatedAt": "2025-07-07T16:06:13.773Z",
+  "updatedAt": "2025-07-08T15:07:36.689Z",
   "id": "Pgc7FlsU1Y9bQ3VV",
   "name": "My workflow 3",
   "active": false,
@@ -11,11 +11,28 @@
       "type": "CUSTOM.redisVectorStore",
       "typeVersion": 1,
       "position": [
-        220,
+        224,
         0
       ],
       "id": "813d2129-16a1-446d-a971-0b0134fe6eea",
-      "name": "Redis Vector Store"
+      "name": "Redis Vector Store",
+      "credentials": {
+        "redis": {
+          "id": "opd4dwddiuoAFDq2",
+          "name": "Redis account 2"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -80,
+        -16
+      ],
+      "id": "de7acbe3-4307-4796-8a1e-b384afd00ed3",
+      "name": "When clicking ‘Execute workflow’"
     },
     {
       "parameters": {
@@ -25,10 +42,10 @@
       "type": "@n8n/n8n-nodes-langchain.documentDefaultDataLoader",
       "typeVersion": 1.1,
       "position": [
-        100,
-        200
+        80,
+        208
       ],
-      "id": "f9bcf3cb-b58f-43cb-97aa-b51b6c65ec85",
+      "id": "63dc5a97-bb8e-46ab-8398-baf5d2ca5a59",
       "name": "Default Data Loader"
     },
     {
@@ -38,27 +55,44 @@
       "type": "@n8n/n8n-nodes-langchain.textSplitterRecursiveCharacterTextSplitter",
       "typeVersion": 1,
       "position": [
-        340,
-        440
+        208,
+        384
       ],
-      "id": "73547232-12dc-45dd-bb43-da975802f9b9",
+      "id": "8e4d7948-6b76-4d62-ab4a-77d00128234e",
       "name": "Recursive Character Text Splitter"
     },
     {
       "parameters": {
         "options": {}
       },
-      "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
-      "typeVersion": 1.2,
+      "type": "@n8n/n8n-nodes-langchain.embeddingsAzureOpenAi",
+      "typeVersion": 1,
       "position": [
-        440,
-        220
+        480,
+        192
       ],
-      "id": "15fee877-c8b5-4cba-b241-5a102f888a34",
-      "name": "Embeddings OpenAI"
+      "id": "330e240c-5951-4bd0-8b34-35a26ae30bb5",
+      "name": "Embeddings Azure OpenAI",
+      "credentials": {
+        "azureOpenAiApi": {
+          "id": "h4XFcorsImYkAtqM",
+          "name": "Azure Open AI account"
+        }
+      }
     }
   ],
   "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Redis Vector Store",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
     "Default Data Loader": {
       "ai_document": [
         [
@@ -81,7 +115,7 @@
         ]
       ]
     },
-    "Embeddings OpenAI": {
+    "Embeddings Azure OpenAI": {
       "ai_embedding": [
         [
           {
@@ -97,9 +131,22 @@
     "executionOrder": "v1"
   },
   "staticData": null,
-  "meta": null,
-  "pinData": {},
-  "versionId": "8521ee06-ff17-4b0c-98a8-5372389b1e04",
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {
+    "When clicking ‘Execute workflow’": [
+      {
+        "json": {
+          "data": [
+            "Joe Biden gave a stumbling performance in a 90-minute showdown with Donald Trump - the first televised debate of the 2024 presidential election campaign. Democrats expressed concern at the president's performance - with party insiders saying his early answers triggered panic. But Vice-President Kamala Harris defended Biden, saying it was a slow start, but there was a strong finish. Trump repeatedly attacked Biden on the economy and his foreign policy record, while Biden took aim at his rival's criminal conviction and alleged attempts to overturn the 2020 election. Biden called Trump a sucker, a loser, and said he had the morals of an alley cat. Trump hit back, and said at one point: I really don’t know what he said at the end of that sentence, and I don’t think he did either. Trump also repeated falsehoods - from abortion, to taxes and the deficit - and at first avoided answering if he would accept the 2024 election result",
+            "On the daily Kremlin conference call I asked Vladimir Putin’s spokesman Dmitry Peskov whether Putin had watched the US presidential debate during the night. “I don’t think you would expect the Russian president to set his alarm clock and wake up in the early hours to watch a debate in America,\" he replied. \"This event is not on our agenda,\" Peskov added. \"We have lots of issues which are important for our country, which are topical for us. These are the issues our president deals with. Debates in the United States are not our priority. \"Nevertheless, we have seen media reports about this debate and we will familiarise ourselves with them in more detail.\" Asked by another journalist to give his preliminary assessment of the debate, Peskov replied: \"We are absolutely not going to give an assessment of this debate. \"Let me repeat: this is an internal matter for the United States. This is America’s election campaign. We never interfere with US election campaigns….and we don’t intend to this time.\""
+          ]
+        }
+      }
+    ]
+  },
+  "versionId": "db13acff-131d-44cf-a73e-cbe689a70b3a",
   "triggerCount": 0,
   "tags": []
 }
