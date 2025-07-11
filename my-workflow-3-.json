@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-07-07T15:43:28.777Z",
-  "updatedAt": "2025-07-08T15:07:36.689Z",
+  "updatedAt": "2025-07-10T16:15:35.501Z",
   "id": "Pgc7FlsU1Y9bQ3VV",
   "name": "My workflow 3",
   "active": false,
@@ -11,10 +11,10 @@
       "type": "CUSTOM.redisVectorStore",
       "typeVersion": 1,
       "position": [
-        224,
-        0
+        340,
+        -100
       ],
-      "id": "813d2129-16a1-446d-a971-0b0134fe6eea",
+      "id": "f43a9b6b-8243-47d7-8f70-5f675d49737e",
       "name": "Redis Vector Store",
       "credentials": {
         "redis": {
@@ -28,10 +28,10 @@
       "type": "n8n-nodes-base.manualTrigger",
       "typeVersion": 1,
       "position": [
-        -80,
-        -16
+        20,
+        -120
       ],
-      "id": "de7acbe3-4307-4796-8a1e-b384afd00ed3",
+      "id": "09f0a7cf-2d4a-45b2-bda6-16044c7f953a",
       "name": "When clicking ‘Execute workflow’"
     },
     {
@@ -42,10 +42,10 @@
       "type": "@n8n/n8n-nodes-langchain.documentDefaultDataLoader",
       "typeVersion": 1.1,
       "position": [
-        80,
-        208
+        180,
+        140
       ],
-      "id": "63dc5a97-bb8e-46ab-8398-baf5d2ca5a59",
+      "id": "4cc0214c-719d-49d9-a4e8-ee86bd82e15f",
       "name": "Default Data Loader"
     },
     {
@@ -55,10 +55,10 @@
       "type": "@n8n/n8n-nodes-langchain.textSplitterRecursiveCharacterTextSplitter",
       "typeVersion": 1,
       "position": [
-        208,
-        384
+        320,
+        300
       ],
-      "id": "8e4d7948-6b76-4d62-ab4a-77d00128234e",
+      "id": "296d26a7-2865-49fa-8f4d-b1ee7b1a63f9",
       "name": "Recursive Character Text Splitter"
     },
     {
@@ -68,10 +68,10 @@
       "type": "@n8n/n8n-nodes-langchain.embeddingsAzureOpenAi",
       "typeVersion": 1,
       "position": [
-        480,
-        192
+        580,
+        120
       ],
-      "id": "330e240c-5951-4bd0-8b34-35a26ae30bb5",
+      "id": "996a0885-38f9-4f9d-81f0-512f3c063b96",
       "name": "Embeddings Azure OpenAI",
       "credentials": {
         "azureOpenAiApi": {
@@ -146,7 +146,7 @@
       }
     ]
   },
-  "versionId": "db13acff-131d-44cf-a73e-cbe689a70b3a",
+  "versionId": "34969c70-cd10-49d4-adf7-d42546d1e536",
   "triggerCount": 0,
   "tags": []
 }
