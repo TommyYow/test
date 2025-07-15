@@ -1,0 +1,21 @@
+{
+  "createdAt": "2025-07-14T05:01:09.141Z",
+  "updatedAt": "2025-07-14T05:08:04.986Z",
+  "id": "kJ0sUXJjgikEt4XC",
+  "name": "My workflow 5",
+  "active": false,
+  "isArchived": false,
+  "nodes": [],
+  "connections": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "3e000b71-f3b0-415a-a04f-fc5663516780",
+  "triggerCount": 0,
+  "tags": []
+}
