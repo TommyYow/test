@@ -1,0 +1,19 @@
+{
+  "createdAt": "2025-07-16T16:47:00.046Z",
+  "updatedAt": "2025-07-16T16:47:00.046Z",
+  "id": "IsRHXfFA6MTilDlt",
+  "name": "RAG chatbot",
+  "active": false,
+  "isArchived": false,
+  "nodes": [],
+  "connections": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {},
+  "versionId": "4cfc3028-6cde-49b9-8991-7cff24cb20f0",
+  "triggerCount": 0,
+  "tags": []
+}
