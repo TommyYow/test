@@ -1,0 +1,45 @@
+{
+  "createdAt": "2025-07-27T16:00:49.097Z",
+  "updatedAt": "2025-07-27T16:01:05.039Z",
+  "id": "v7CI4ErwbATmIPSI",
+  "name": "My workflow 6",
+  "active": true,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "formTitle": "Test",
+        "formDescription": "test",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "test"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.2,
+      "position": [
+        0,
+        0
+      ],
+      "id": "ec9c65f2-8ced-47dd-8086-59eb61501445",
+      "name": "On form submission",
+      "webhookId": "0232413e-d1b8-421d-b9d9-f31f7d615613"
+    }
+  ],
+  "connections": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "62c2e4bb-bd55-4067-bd2f-7567f9a1e724",
+  "triggerCount": 1,
+  "tags": []
+}
