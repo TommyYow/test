@@ -1,0 +1,234 @@
+{
+  "createdAt": "2025-08-03T19:42:54.452Z",
+  "updatedAt": "2025-08-03T20:08:14.205Z",
+  "id": "QSm3M39u4rzi0X3x",
+  "name": "My workflow 7",
+  "active": true,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "public": true,
+        "mode": "webhook",
+        "options": {}
+      },
+      "id": "7f3d663e-d94d-4b43-9631-91ba8cf1c364",
+      "name": "When chat message received",
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "position": [
+        800,
+        1024
+      ],
+      "webhookId": "089e38ab-4eee-4c34-aa5d-54cf4a8f53b7",
+      "typeVersion": 1.1
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "You are a helpful assistant providing information about the LHDN e-Invoicing Malaysia."
+        }
+      },
+      "id": "68c04258-be4c-47e2-b25a-2885b5a04af8",
+      "name": "AI Agent",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "position": [
+        1152,
+        1024
+      ],
+      "typeVersion": 1.7
+    },
+    {
+      "parameters": {},
+      "id": "f2dc7047-d5f5-4cc1-93dc-04640836196c",
+      "name": "Window Buffer Memory",
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "position": [
+        1248,
+        1280
+      ],
+      "typeVersion": 1.3
+    },
+    {
+      "parameters": {
+        "content": "## Indexing content in the vector database\nThis part of the workflow is responsible for extracting content, generating embeddings and sending them to the Pinecone vector store.\n\nIt requests the OpenAPI specifications from GitHub using a HTTP request. Then, it splits the file in chunks, generating embeddings for each chunk using OpenAI, and saving them in Pinecone vector DB.",
+        "height": 200,
+        "width": 640
+      },
+      "id": "57686b39-154f-49c3-b344-d1c8be924646",
+      "name": "Sticky Note",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        784,
+        0
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "content": "## Querying and response generation \n\nThis part of the workflow is responsible for the chat interface, querying the vector store and generating relevant responses.\n\nIt uses OpenAI GPT 4o-mini to generate responses.",
+        "width": 580
+      },
+      "id": "0b03f6dc-f1e9-4c3a-b0c7-4e4c381b2ae8",
+      "name": "Sticky Note1",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        800,
+        832
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "content": "## RAG workflow in n8n\n\nThis is an example of how to use RAG techniques to create a chatbot with n8n. It is an API documentation chatbot that can answer questions about the GitHub API. It uses OpenAI for generating embeddings, the gpt-4o-mini LLM for generating responses and Pinecone as a vector database.\n\n### Before using this template\n* create OpenAI and Pinecone accounts\n* obtain API keys OpenAI and Pinecone \n* configure credentials in n8n for both\n* ensure you have a Pinecone index named \"n8n-demo\" or adjust the workflow accordingly.",
+        "height": 320,
+        "width": 620
+      },
+      "id": "9f88b702-0cb2-4872-b632-5501f4ddc501",
+      "name": "Sticky Note2",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        0,
+        0
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "model": "llama3.1:8b",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOllama",
+      "typeVersion": 1,
+      "position": [
+        1024,
+        1232
+      ],
+      "id": "caeed4eb-e217-4b46-bda0-829895348dc8",
+      "name": "Ollama Chat Model",
+      "credentials": {
+        "ollamaApi": {
+          "id": "7W2eHR5MD4jEpF6H",
+          "name": "Ollama account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "retrieve-as-tool",
+        "toolDescription": "Work with LHDN e-Invoicing guideline as a customer support",
+        "mongoCollection": {
+          "__rl": true,
+          "value": "ai",
+          "mode": "list",
+          "cachedResultName": "ai"
+        },
+        "vectorIndexName": "vector_index",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStoreMongoDBAtlas",
+      "typeVersion": 1.3,
+      "position": [
+        1440,
+        1328
+      ],
+      "id": "7d0b4138-a00c-4667-8a9a-70964dcc4524",
+      "name": "MongoDB Atlas Vector Store",
+      "credentials": {
+        "mongoDb": {
+          "id": "Pw6uAQWZZGSMy4dq",
+          "name": "MongoDB account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": "nomic-embed-text:latest"
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOllama",
+      "typeVersion": 1,
+      "position": [
+        1328,
+        1632
+      ],
+      "id": "65bcd92c-67b5-4b4f-9c95-4bde6c6bb9fe",
+      "name": "Embeddings Ollama",
+      "credentials": {
+        "ollamaApi": {
+          "id": "7W2eHR5MD4jEpF6H",
+          "name": "Ollama account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Window Buffer Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Ollama Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "MongoDB Atlas Vector Store": {
+      "ai_vectorStore": [
+        []
+      ],
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings Ollama": {
+      "ai_embedding": [
+        [
+          {
+            "node": "MongoDB Atlas Vector Store",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "31486436-8e6a-427e-81f5-497486b4ba65",
+  "triggerCount": 1,
+  "tags": []
+}
