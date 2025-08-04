@@ -1,6 +1,6 @@
 {
   "createdAt": "2025-07-08T16:41:06.420Z",
-  "updatedAt": "2025-07-08T17:02:39.245Z",
+  "updatedAt": "2025-08-03T19:33:42.284Z",
   "id": "EHfPHEvis5Z1eE7Y",
   "name": "Demo: RAG in n8n",
   "active": false,
@@ -94,26 +94,6 @@
       ],
       "id": "3d49f8aa-ae9a-4e88-a793-8ea11b94e895",
       "name": "Ollama Chat Model",
-      "credentials": {
-        "ollamaApi": {
-          "id": "7W2eHR5MD4jEpF6H",
-          "name": "Ollama account"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "model": "llama3.1:8b",
-        "options": {}
-      },
-      "type": "@n8n/n8n-nodes-langchain.lmChatOllama",
-      "typeVersion": 1,
-      "position": [
-        656,
-        224
-      ],
-      "id": "7dd6e1a2-5657-4de1-8609-5fec974f8df9",
-      "name": "Ollama Chat Model1",
       "credentials": {
         "ollamaApi": {
           "id": "7W2eHR5MD4jEpF6H",
@@ -242,17 +222,6 @@
         ]
       ]
     },
-    "Ollama Chat Model1": {
-      "ai_languageModel": [
-        [
-          {
-            "node": "AI Agent",
-            "type": "ai_languageModel",
-            "index": 1
-          }
-        ]
-      ]
-    },
     "MongoDB Chat Memory": {
       "ai_memory": [
         [
@@ -323,7 +292,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "727b619d-f0f7-4663-a067-77c7736e33df",
+  "versionId": "6404b30b-0f0d-456d-950a-8a148ade9406",
   "triggerCount": 0,
   "tags": []
 }
