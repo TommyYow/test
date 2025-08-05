@@ -1,0 +1,361 @@
+{
+  "createdAt": "2025-08-03T19:42:54.452Z",
+  "updatedAt": "2025-08-04T14:37:46.044Z",
+  "id": "QSm3M39u4rzi0X3x",
+  "name": "DEMO on AI RAG (e-Invoicing)",
+  "active": true,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "public": true,
+        "mode": "webhook",
+        "options": {}
+      },
+      "id": "7f3d663e-d94d-4b43-9631-91ba8cf1c364",
+      "name": "When chat message received",
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "position": [
+        800,
+        1024
+      ],
+      "webhookId": "089e38ab-4eee-4c34-aa5d-54cf4a8f53b7",
+      "typeVersion": 1.1
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "You are an expert assistant that answers questions based ONLY on the provided context documents. \n\nREQUIREMENTS:\n- Always cite specific sections from the documents\n- Include exact quotes when relevant (use quotation marks)\n- If information isn't in the documents, explicitly state this\n- Provide document names/sources when referencing information\n- Give detailed, specific answers rather than general summaries\n\nWhen answering:\n1. Start with the most relevant information from the documents\n2. Include direct quotes: \"According to [Document Name]: 'exact quote here'\"\n3. Reference specific sections, pages, or chapters when available\n4. If multiple documents mention the topic, compare their perspectives"
+        }
+      },
+      "id": "68c04258-be4c-47e2-b25a-2885b5a04af8",
+      "name": "AI Agent",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "position": [
+        1152,
+        1024
+      ],
+      "typeVersion": 1.7
+    },
+    {
+      "parameters": {
+        "mode": "retrieve-as-tool",
+        "toolDescription": "Work with LHDN e-Invoicing Guidelines to support customer query",
+        "mongoCollection": {
+          "__rl": true,
+          "value": "ai",
+          "mode": "list",
+          "cachedResultName": "ai"
+        },
+        "vectorIndexName": "vector_index",
+        "topK": 10,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStoreMongoDBAtlas",
+      "typeVersion": 1.3,
+      "position": [
+        1408,
+        1232
+      ],
+      "id": "7d0b4138-a00c-4667-8a9a-70964dcc4524",
+      "name": "MongoDB Atlas Vector Store",
+      "credentials": {
+        "mongoDb": {
+          "id": "Pw6uAQWZZGSMy4dq",
+          "name": "MongoDB account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": "gpt-4o-mini",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatAzureOpenAi",
+      "typeVersion": 1,
+      "position": [
+        1120,
+        1232
+      ],
+      "id": "2dabd6eb-ff15-4a14-9407-81ac40b46372",
+      "name": "Azure OpenAI Chat Model",
+      "credentials": {
+        "azureOpenAiApi": {
+          "id": "h4XFcorsImYkAtqM",
+          "name": "Azure Open AI account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.memoryMongoDbChat",
+      "typeVersion": 1,
+      "position": [
+        1280,
+        1232
+      ],
+      "id": "fec5a5ea-62f7-46a4-8095-e4471c566a7c",
+      "name": "MongoDB Chat Memory",
+      "credentials": {
+        "mongoDb": {
+          "id": "Pw6uAQWZZGSMy4dq",
+          "name": "MongoDB account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "description": "Search LHDN e-Invoicing guidelines to find relevant information for user questions",
+        "jsCode": "// Custom Voyage + MongoDB RAG Tool for AI Agent\nconst { MongoClient } = require('mongodb');\n\nconst VOYAGE_API_KEY = \"pa-CAZLoDUEqlwovEgzklHQCI9sWP8TMXbNPZbEdgSaBw8\";\nconst MONGODB_URI = \"mongodb+srv://kahwai:CzD5gN1nGpbhzEZg@cluster0.w0yf6hq.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0\";\nconst DATABASE_NAME = \"n8n-rag\";\nconst VOYAGE_API_URL = 'https://api.voyageai.com/v1/multimodalembeddings';\n\n// Get query from AI Agent\nconst query = $input.first().json.query || $input.first().json.input || $input.first().json.chatInput;\n\nif (!query) {\n  return [{\n    json: {\n      result: \"I need a question to search for relevant information.\"\n    }\n  }];\n}\n\ntry {\n  // Step 1: Convert query to Voyage embedding\n  const embeddingResponse = await $http.request({\n    method: 'POST',\n    url: VOYAGE_API_URL,\n    headers: {\n      'Authorization': `Bearer ${VOYAGE_API_KEY}`,\n      'Content-Type': 'application/json'\n    },\n    data: {\n      model: 'voyage-3-lite',\n      input: [query],\n      input_type: 'query',\n      truncation: true\n    }\n  });\n  \n  const queryEmbedding = embeddingResponse.data.data[0].embedding;\n  \n  // Step 2: Search MongoDB Atlas\n  const client = new MongoClient(MONGODB_URI);\n  await client.connect();\n  \n  const db = client.db(DATABASE_NAME); // Update with your DB name\n  const collection = db.collection('ai'); // Matches your collection\n  \n  const searchResults = await collection.aggregate([\n    {\n      $vectorSearch: {\n        index: \"vector_index\",\n        path: \"embedding\", \n        queryVector: queryEmbedding,\n        numCandidates: 50,\n        limit: 5\n      }\n    },\n    {\n      $addFields: {\n        similarity_score: { $meta: \"vectorSearchScore\" }\n      }\n    }\n  ]).toArray();\n  \n  await client.close();\n  \n  // Step 3: Format results for AI Agent\n  if (searchResults.length > 0) {\n    const context = searchResults.map(doc => {\n      const title = doc.metadata?.title || 'LHDN Document';\n      const content = doc.content || doc.pageContent || '';\n      return `**${title}**\\n${content}`;\n    }).join('\\n\\n---\\n\\n');\n    \n    return [{\n      json: {\n        result: `Found relevant information about \"${query}\":\\n\\n${context}`\n      }\n    }];\n  } else {\n    return [{\n      json: {\n        result: `I couldn't find specific information about \"${query}\" in the LHDN e-Invoicing guidelines.`\n      }\n    }];\n  }\n  \n} catch (error) {\n  return [{\n    json: {\n      result: `Error searching for information: ${error.message}`\n    }\n  }];\n}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolCode",
+      "typeVersion": 1.3,
+      "position": [
+        1728,
+        1232
+      ],
+      "id": "5ef9708d-ce97-4991-a412-763c2b09c614",
+      "name": "Code Tool"
+    },
+    {
+      "parameters": {
+        "model": "text-embedding-ada-002",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsAzureOpenAi",
+      "typeVersion": 1,
+      "position": [
+        1664,
+        1456
+      ],
+      "id": "762d33ac-0a2f-4ef8-a580-473cee1151e5",
+      "name": "Embeddings Azure OpenAI",
+      "credentials": {
+        "azureOpenAiApi": {
+          "id": "h4XFcorsImYkAtqM",
+          "name": "Azure Open AI account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        800,
+        416
+      ],
+      "id": "7bef87fc-ee34-4dab-8f8c-e3789d1562bf",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "textSplittingMode": "custom",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.documentDefaultDataLoader",
+      "typeVersion": 1.1,
+      "position": [
+        1408,
+        608
+      ],
+      "id": "2b99c78f-d872-477f-bd4f-65b186643c3a",
+      "name": "Default Data Loader"
+    },
+    {
+      "parameters": {
+        "chunkSize": 1500,
+        "chunkOverlap": 300,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.textSplitterRecursiveCharacterTextSplitter",
+      "typeVersion": 1,
+      "position": [
+        1408,
+        768
+      ],
+      "id": "70523bbf-83e8-47c1-8043-c5f2ab815b41",
+      "name": "Recursive Character Text Splitter"
+    },
+    {
+      "parameters": {
+        "resource": "blob",
+        "container": {
+          "__rl": true,
+          "value": "ragfiles",
+          "mode": "list",
+          "cachedResultName": "ragfiles"
+        },
+        "returnAll": true,
+        "options": {},
+        "requestOptions": {}
+      },
+      "type": "n8n-nodes-base.azureStorage",
+      "typeVersion": 1,
+      "position": [
+        1024,
+        416
+      ],
+      "id": "6f1fb672-0d0f-4819-8b55-cad681adc05e",
+      "name": "Get many blobs",
+      "credentials": {
+        "azureStorageSharedKeyApi": {
+          "id": "Tmkj0k0U0Kd7R90x",
+          "name": "Azure Storage account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "insert",
+        "mongoCollection": {
+          "__rl": true,
+          "value": "ai",
+          "mode": "list",
+          "cachedResultName": "ai"
+        },
+        "vectorIndexName": "ai",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStoreMongoDBAtlas",
+      "typeVersion": 1.3,
+      "position": [
+        1440,
+        368
+      ],
+      "id": "c245ca26-daff-4d07-9075-8dacab148f51",
+      "name": "MongoDB Atlas Vector Store1",
+      "credentials": {
+        "mongoDb": {
+          "id": "Pw6uAQWZZGSMy4dq",
+          "name": "MongoDB account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "MongoDB Atlas Vector Store": {
+      "ai_vectorStore": [
+        []
+      ],
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Azure OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "MongoDB Chat Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code Tool": {
+      "ai_tool": [
+        []
+      ]
+    },
+    "Embeddings Azure OpenAI": {
+      "ai_embedding": [
+        [
+          {
+            "node": "MongoDB Atlas Vector Store",
+            "type": "ai_embedding",
+            "index": 0
+          },
+          {
+            "node": "MongoDB Atlas Vector Store1",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Get many blobs",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Default Data Loader": {
+      "ai_document": [
+        [
+          {
+            "node": "MongoDB Atlas Vector Store1",
+            "type": "ai_document",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Recursive Character Text Splitter": {
+      "ai_textSplitter": [
+        [
+          {
+            "node": "Default Data Loader",
+            "type": "ai_textSplitter",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get many blobs": {
+      "main": [
+        [
+          {
+            "node": "MongoDB Atlas Vector Store1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "2c8d5be3-482f-4e9b-b006-70b39455e461",
+  "triggerCount": 1,
+  "tags": []
+}
