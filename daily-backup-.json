@@ -1,9 +1,9 @@
 {
-  "createdAt": "2025-06-10T12:35:31.094Z",
-  "updatedAt": "2025-06-10T13:13:53.841Z",
-  "id": "LVpc3lqMkmntX08X",
+  "createdAt": "2025-11-04T14:44:12.912Z",
+  "updatedAt": "2025-11-04T14:53:44.632Z",
+  "id": "n89jPAOVnHTt5OdM",
   "name": "Daily Backup",
-  "active": true,
+  "active": false,
   "isArchived": false,
   "nodes": [
     {
@@ -14,12 +14,12 @@
           ]
         }
       },
-      "id": "3008c4ee-ea77-4eef-b028-fab8c1bb48dd",
+      "id": "7b60e159-3527-467a-bca4-cc97da701acf",
       "name": "Schedule Trigger",
       "type": "n8n-nodes-base.scheduleTrigger",
       "position": [
-        180,
-        0
+        -144,
+        144
       ],
       "typeVersion": 1.2
     },
@@ -28,20 +28,14 @@
         "filters": {},
         "requestOptions": {}
       },
-      "id": "ea3e2fd6-fd0c-4361-a719-71c22cacc026",
+      "id": "9a48e9a5-e465-4fd8-9be7-0fea03e28e4b",
       "name": "Retrieve workflows",
       "type": "n8n-nodes-base.n8n",
       "position": [
-        660,
-        0
+        352,
+        144
       ],
-      "typeVersion": 1,
-      "credentials": {
-        "n8nApi": {
-          "id": "TySMpjgDNRPMLbH7",
-          "name": "n8n account"
-        }
-      }
+      "typeVersion": 1
     },
     {
       "parameters": {
@@ -54,12 +48,12 @@
         },
         "options": {}
       },
-      "id": "e38929cb-b5e4-49c0-a98c-9c29ff679f71",
+      "id": "5048ab2b-f24e-47d1-a69f-ae81b6a6364a",
       "name": "Aggregate",
       "type": "n8n-nodes-base.aggregate",
       "position": [
-        500,
-        0
+        192,
+        144
       ],
       "typeVersion": 1
     },
@@ -81,19 +75,19 @@
         },
         "filePath": "="
       },
-      "id": "0f4bbd24-129f-4483-97c1-79300e3a84ea",
+      "id": "071902b1-2311-4a9f-9359-565c86ca06dc",
       "name": "List files from repo",
       "type": "n8n-nodes-base.github",
       "position": [
-        340,
-        0
+        32,
+        144
       ],
       "webhookId": "354d699e-44b0-4444-9d31-af7fd4ff5561",
       "typeVersion": 1,
       "alwaysOutputData": false,
       "credentials": {
         "githubApi": {
-          "id": "vT9Gn9amJIi2bLIi",
+          "id": "UHC7YOH4mT6f3jH3",
           "name": "GitHub account"
         }
       },
@@ -119,18 +113,18 @@
         "fileContent": "={{ $('To base64').item.json.data }}",
         "commitMessage": "=backup-{{ $('Commit date & file name').item.json.commitDate }}"
       },
-      "id": "837cd32b-5ad7-4e54-b666-1de625b4e7b9",
+      "id": "a19699ea-4dd1-45bc-9c84-a009cd6c1a94",
       "name": "Update file",
       "type": "n8n-nodes-base.github",
       "position": [
-        1460,
-        -80
+        1152,
+        64
       ],
       "webhookId": "27218087-8df7-474d-a39f-70cfa9c34ec8",
       "typeVersion": 1,
       "credentials": {
         "githubApi": {
-          "id": "vT9Gn9amJIi2bLIi",
+          "id": "UHC7YOH4mT6f3jH3",
           "name": "GitHub account"
         }
       }
@@ -154,18 +148,18 @@
         "fileContent": "={{ $('To base64').item.json.data }}",
         "commitMessage": "=backup-{{ $node['Commit date & file name'].json.commitDate }}"
       },
-      "id": "be558e6a-0dbf-460b-bc8f-63b42d3fd934",
+      "id": "32e5cfcb-6201-498c-bc4e-d37ddfbacf26",
       "name": "Upload file",
       "type": "n8n-nodes-base.github",
       "position": [
-        1460,
-        80
+        1152,
+        224
       ],
       "webhookId": "ce4b561b-acb9-4cd8-b76f-4928dada9674",
       "typeVersion": 1,
       "credentials": {
         "githubApi": {
-          "id": "vT9Gn9amJIi2bLIi",
+          "id": "UHC7YOH4mT6f3jH3",
           "name": "GitHub account"
         }
       }
@@ -182,12 +176,12 @@
           ]
         }
       },
-      "id": "06834646-06c5-4717-a2c7-1cd37abe4990",
+      "id": "14fbaa2c-1ba3-4a39-b371-2afe4279e988",
       "name": "Check if file exists",
       "type": "n8n-nodes-base.if",
       "position": [
-        1300,
-        0
+        992,
+        144
       ],
       "typeVersion": 1
     },
@@ -199,12 +193,12 @@
           "format": true
         }
       },
-      "id": "97f68fab-6c27-4bab-9c02-6284f0f085e5",
+      "id": "f7118c56-afa3-4d6d-9eb4-522c917ab0c5",
       "name": "Json file",
       "type": "n8n-nodes-base.convertToFile",
       "position": [
-        820,
-        0
+        512,
+        144
       ],
       "typeVersion": 1.1
     },
@@ -213,12 +207,12 @@
         "operation": "binaryToPropery",
         "options": {}
       },
-      "id": "0fb0f8ae-7669-4a78-b580-3f3ba3251644",
+      "id": "cf2d37d8-9d36-4416-9238-9aa77f6b494d",
       "name": "To base64",
       "type": "n8n-nodes-base.extractFromFile",
       "position": [
-        980,
-        0
+        672,
+        144
       ],
       "typeVersion": 1
     },
@@ -229,12 +223,12 @@
         "width": 300,
         "color": 5
       },
-      "id": "2ac7ac80-7508-4d53-9750-0880c169d35a",
+      "id": "8375a573-8834-4c90-9337-6f1becea6d91",
       "name": "Sticky Note1",
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        320,
-        -140
+        0,
+        0
       ],
       "typeVersion": 1
     },
@@ -258,12 +252,12 @@
         },
         "options": {}
       },
-      "id": "862e4578-f250-4d1c-8468-c3c54bb92299",
+      "id": "5c712f50-d181-4172-a6af-173fb401540c",
       "name": "Commit date & file name",
       "type": "n8n-nodes-base.set",
       "position": [
-        1140,
-        0
+        832,
+        144
       ],
       "typeVersion": 3.4
     },
@@ -274,12 +268,12 @@
         "width": 460,
         "color": 3
       },
-      "id": "b1cdf59d-1a09-4ea6-ab56-71a86fbaf44e",
+      "id": "1f9c7f90-cf99-4f23-a4ee-84490e34c16e",
       "name": "Sticky Note2",
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        640,
-        -140
+        320,
+        0
       ],
       "typeVersion": 1
     },
@@ -290,12 +284,12 @@
         "width": 460,
         "color": 4
       },
-      "id": "4b1079b0-9a97-48c8-a37a-a20135d26ee8",
+      "id": "b2a63e1a-1225-4c90-a0f5-bb1b61ac274b",
       "name": "Sticky Note3",
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        1120,
-        -140
+        800,
+        0
       ],
       "typeVersion": 1
     }
@@ -400,24 +394,18 @@
   "settings": {
     "executionOrder": "v1"
   },
-  "staticData": {
-    "node:Schedule Trigger": {
-      "recurrenceRules": []
-    }
-  },
-  "meta": {
-    "templateCredsSetupCompleted": true
-  },
+  "staticData": null,
+  "meta": null,
   "pinData": {},
-  "versionId": "dab4af13-5e9f-46db-b0d2-9f9a588714e1",
-  "triggerCount": 1,
+  "versionId": "8b662706-cbdf-4d16-8422-4cf3ba0f30e7",
+  "triggerCount": 0,
   "shared": [
     {
-      "createdAt": "2025-06-10T12:35:31.094Z",
-      "updatedAt": "2025-06-10T12:35:31.094Z",
+      "createdAt": "2025-11-04T14:44:12.912Z",
+      "updatedAt": "2025-11-04T14:44:12.912Z",
       "role": "workflow:owner",
-      "workflowId": "LVpc3lqMkmntX08X",
-      "projectId": "J4aJZ1K2PyZvolNE"
+      "workflowId": "n89jPAOVnHTt5OdM",
+      "projectId": "aMgj29TxarMT8Wwf"
     }
   ],
   "tags": []
