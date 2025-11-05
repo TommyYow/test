@@ -1,9 +1,9 @@
 {
   "createdAt": "2025-11-04T14:44:12.912Z",
-  "updatedAt": "2025-11-04T14:53:44.632Z",
+  "updatedAt": "2025-11-04T14:55:28.115Z",
   "id": "n89jPAOVnHTt5OdM",
   "name": "Daily Backup",
-  "active": false,
+  "active": true,
   "isArchived": false,
   "nodes": [
     {
@@ -35,7 +35,13 @@
         352,
         144
       ],
-      "typeVersion": 1
+      "typeVersion": 1,
+      "credentials": {
+        "n8nApi": {
+          "id": "rZLyXDVvISR3E5LV",
+          "name": "n8n account"
+        }
+      }
     },
     {
       "parameters": {
@@ -394,11 +400,17 @@
   "settings": {
     "executionOrder": "v1"
   },
-  "staticData": null,
-  "meta": null,
+  "staticData": {
+    "node:Schedule Trigger": {
+      "recurrenceRules": []
+    }
+  },
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
   "pinData": {},
-  "versionId": "8b662706-cbdf-4d16-8422-4cf3ba0f30e7",
-  "triggerCount": 0,
+  "versionId": "f435c31e-3289-4403-8792-5c4310dfc620",
+  "triggerCount": 1,
   "shared": [
     {
       "createdAt": "2025-11-04T14:44:12.912Z",
