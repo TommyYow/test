@@ -1,70 +1,28 @@
 {
-  "createdAt": "2025-06-26T15:14:40.856Z",
-  "updatedAt": "2025-07-07T02:25:45.507Z",
-  "id": "J321lv1HdefcSqtb",
+  "createdAt": "2025-11-06T08:57:02.330Z",
+  "updatedAt": "2025-11-06T08:59:53.304Z",
+  "id": "oyVXHlEqYGMskSyl",
   "name": "My workflow",
   "active": false,
-  "isArchived": false,
+  "isArchived": true,
   "nodes": [
     {
       "parameters": {
-        "httpMethod": "POST",
-        "path": "042aec51-f9d1-4dd8-8e9d-05446b0646a0",
+        "path": "a4c08f21-aecd-4bed-85f4-227f310e6e0a",
         "options": {}
       },
       "type": "n8n-nodes-base.webhook",
-      "typeVersion": 2,
+      "typeVersion": 2.1,
       "position": [
-        -400,
-        40
+        0,
+        0
       ],
-      "id": "efd909b4-5b2d-463c-81ae-26c7b31ca436",
+      "id": "bd53172f-c112-4b36-8615-d802cfca2988",
       "name": "Webhook",
-      "webhookId": "042aec51-f9d1-4dd8-8e9d-05446b0646a0"
-    },
-    {
-      "parameters": {
-        "method": "POST",
-        "url": "=https://dev.azure.com/Innnlabs/Ricoh%20Managed%20Platform%20-%20Web%20Application%20Portal/_apis/wit/workitems/Bug?api-version=7.1",
-        "authentication": "genericCredentialType",
-        "genericAuthType": "httpBasicAuth",
-        "sendBody": true,
-        "bodyParameters": {
-          "parameters": [
-            {}
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.2,
-      "position": [
-        -180,
-        40
-      ],
-      "id": "7d56d0d3-cfb1-4619-a8f6-e3e47d55258b",
-      "name": "HTTP Request",
-      "credentials": {
-        "httpBasicAuth": {
-          "id": "lBd2m2jJ3MrxTRQ2",
-          "name": "Kah Wai's ADO PAT"
-        }
-      }
+      "webhookId": "a4c08f21-aecd-4bed-85f4-227f310e6e0a"
     }
   ],
-  "connections": {
-    "Webhook": {
-      "main": [
-        [
-          {
-            "node": "HTTP Request",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    }
-  },
+  "connections": {},
   "settings": {
     "executionOrder": "v1"
   },
@@ -73,15 +31,15 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "daeffc53-9e1a-4ccf-992f-e6cdef181fc4",
+  "versionId": "2b9b8cc1-a007-4c79-a0a5-f0422d60bf80",
   "triggerCount": 1,
   "shared": [
     {
-      "createdAt": "2025-06-26T15:14:40.856Z",
-      "updatedAt": "2025-06-26T15:14:40.856Z",
+      "createdAt": "2025-11-06T08:57:02.330Z",
+      "updatedAt": "2025-11-06T08:57:02.330Z",
       "role": "workflow:owner",
-      "workflowId": "J321lv1HdefcSqtb",
-      "projectId": "J4aJZ1K2PyZvolNE"
+      "workflowId": "oyVXHlEqYGMskSyl",
+      "projectId": "DhUySAhR7zpTinZG"
     }
   ],
   "tags": []
