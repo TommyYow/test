@@ -1,0 +1,415 @@
+{
+  "updatedAt": "2026-02-23T04:40:11.969Z",
+  "createdAt": "2026-02-23T04:40:11.969Z",
+  "id": "LHgmlerI5PkjdipQ",
+  "name": "Auto-update knowledge base with Drive, LlamaIndex & Azure OpenAI embeddings",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "content": "\n# Knowledge Base",
+        "height": 1004,
+        "width": 1888,
+        "color": 5
+      },
+      "id": "814443d3-d036-4e95-88ed-3096a113fe3c",
+      "name": "Sticky Note",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        368,
+        240
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "mode": "insert",
+        "memoryKey": {
+          "__rl": true,
+          "mode": "list",
+          "value": "n8n KB"
+        }
+      },
+      "id": "7e7be658-a429-4529-98a3-a08cb69e5ed8",
+      "name": "Insert Data to Store",
+      "type": "@n8n/n8n-nodes-langchain.vectorStoreInMemory",
+      "position": [
+        1856,
+        576
+      ],
+      "typeVersion": 1.2
+    },
+    {
+      "parameters": {
+        "model": "3small",
+        "options": {}
+      },
+      "id": "e934f660-04c3-49d9-862d-9c7dfa7edb68",
+      "name": "Embeddings Azure OpenAI",
+      "type": "@n8n/n8n-nodes-langchain.embeddingsAzureOpenAi",
+      "position": [
+        1856,
+        800
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "586ad57d-9fd1-436a-b406-53de8662a4d7",
+      "name": "Default Data Loader1",
+      "type": "@n8n/n8n-nodes-langchain.documentDefaultDataLoader",
+      "position": [
+        2048,
+        800
+      ],
+      "typeVersion": 1.1
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "version": 2,
+            "leftValue": "",
+            "caseSensitive": true,
+            "typeValidation": "strict"
+          },
+          "combinator": "and",
+          "conditions": [
+            {
+              "id": "921ff875-817d-47fd-bd47-530ebdc21902",
+              "operator": {
+                "name": "filter.operator.equals",
+                "type": "string",
+                "operation": "equals"
+              },
+              "leftValue": "={{ $json.status }}",
+              "rightValue": "SUCCESS"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "6832751c-f6ed-4d0d-930c-38ac11e3dbc4",
+      "name": "Check Parsing Completion1",
+      "type": "n8n-nodes-base.if",
+      "position": [
+        1408,
+        624
+      ],
+      "typeVersion": 2.2
+    },
+    {
+      "parameters": {
+        "content": "# 📋 Credentials Setup Guide\n\n## Required Credentials\n\n### 1. Azure OpenAI API\n**Node:** Embeddings Azure OpenAI\n- **Purpose:** Generate embeddings for vector storage\n- **Setup:**\n  1. Go to [Azure Portal](https://portal.azure.com)\n  2. Create/access Azure OpenAI resource\n  3. Navigate to \"Keys and Endpoint\"\n  4. Copy API Key and Endpoint\n  5. In n8n: Add credential \"Azure OpenAI\"\n  6. Paste API Key, Endpoint, and set deployment name to \"3small\"\n\n### 2. LlamaIndex API\n**Node:** Parse Document via LlamaIndex1\n- **Purpose:** Parse documents using LlamaIndex cloud service\n- **Setup:**\n  1. Visit [LlamaIndex Cloud](https://cloud.llamaindex.ai)\n  2. Sign up/login to account\n  3. Go to API Settings\n  4. Generate new API key\n  5. In n8n: Add \"HTTP Header Auth\" credential\n  6. Header Name: `Authorization`\n  7. Header Value: `Bearer YOUR_TOKEN_HERE`\n\n### 3. Google Drive OAuth2\n**Node:** Knowledge Base Updated Trigger1 & Download Knowledge Document1\n- **Purpose:** Monitor and download files from Google Drive\n- **Setup:**\n  1. Go to [Google Cloud Console](https://console.cloud.google.com)\n  2. Create new project or select existing\n  3. Enable Google Drive API\n  4. Create OAuth 2.0 credentials\n  5. Add authorized redirect URI from n8n\n  6. In n8n: Add \"Google Drive OAuth2\" credential\n  7. Enter Client ID and Client Secret\n  8. Complete OAuth flow",
+        "height": 1008,
+        "width": 688
+      },
+      "id": "e4bf75a2-1b6a-4109-afdb-a3b3ec85ae15",
+      "name": "Sticky Note1",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        2320,
+        240
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "triggerOn": "specificFolder",
+        "folderToWatch": {
+          "__rl": true,
+          "mode": "list",
+          "value": ""
+        }
+      },
+      "id": "748e3adc-eccd-40c4-823c-634efc94cdc0",
+      "name": "Knowledge Base Updated Trigger",
+      "type": "n8n-nodes-base.googleDriveTrigger",
+      "position": [
+        512,
+        704
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "operation": "download",
+        "fileId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "10maY1IaeelAKV5xBe5DsHiKEXCoAeAFuH2sWfZkvXa4",
+          "cachedResultUrl": "https://docs.google.com/document/d/10maY1IaeelAKV5xBe5DsHiKEXCoAeAFuH2sWfZkvXa4/edit?usp=drivesdk",
+          "cachedResultName": "n8n Template Guideline"
+        },
+        "options": {}
+      },
+      "id": "2998884c-d225-47f0-be95-3d7b0b117aba",
+      "name": "Download Knowledge Document",
+      "type": "n8n-nodes-base.googleDrive",
+      "position": [
+        736,
+        704
+      ],
+      "typeVersion": 3
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.cloud.llamaindex.ai/api/v1/parsing/upload",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "accept",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "contentType": "multipart-form-data",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "parameterType": "formBinaryData",
+              "name": "file",
+              "inputDataFieldName": "data"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "f9c738ef-b885-4a02-bfdf-11b2ffd651be",
+      "name": "Parse Document via LlamaIndex",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [
+        960,
+        704
+      ],
+      "typeVersion": 4.2
+    },
+    {
+      "parameters": {
+        "url": "=https://api.cloud.llamaindex.ai/api/v1/parsing/job/{{ $json.id }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "accept",
+              "value": "application/json"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "4b3a66e9-5abb-470c-9fd7-e3f116f5026e",
+      "name": "Monitor Document Processing",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [
+        1184,
+        704
+      ],
+      "typeVersion": 4.2
+    },
+    {
+      "parameters": {
+        "url": "=https://api.cloud.llamaindex.ai/api/v1/parsing/job/{{ $json.id }}/result/markdown",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "accept",
+              "value": "application/json"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "10816b8b-cb09-4c4e-8c47-510381e68ce8",
+      "name": "Retrieve Parsed Content",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [
+        1632,
+        576
+      ],
+      "typeVersion": 4.2
+    },
+    {
+      "parameters": {
+        "amount": 10
+      },
+      "id": "379a5e46-c8a1-4f5d-b206-747306d44e22",
+      "name": "Wait Before Status Recheck",
+      "type": "n8n-nodes-base.wait",
+      "position": [
+        1632,
+        800
+      ],
+      "webhookId": "ba3e8cc1-4b9e-4eee-bf41-78862eea8023",
+      "typeVersion": 1.1
+    },
+    {
+      "parameters": {
+        "content": "## ☕ Appreciate This Workflow?\n\nSupport the creator by sending coffee:\n\n**PayPal:** [paypal.me/khmuhtadin](https://paypal.me/khmuhtadin)\n\nThank you! 🚀",
+        "height": 100,
+        "width": 370,
+        "color": 3
+      },
+      "id": "7b3480f2-a37b-45f8-9c17-471ed6c156ce",
+      "name": "Sticky Note4",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1856,
+        1120
+      ],
+      "typeVersion": 1
+    }
+  ],
+  "connections": {
+    "Default Data Loader1": {
+      "ai_document": [
+        [
+          {
+            "node": "Insert Data to Store",
+            "type": "ai_document",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings Azure OpenAI": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Insert Data to Store",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Retrieve Parsed Content": {
+      "main": [
+        [
+          {
+            "node": "Insert Data to Store",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Parsing Completion1": {
+      "main": [
+        [
+          {
+            "node": "Retrieve Parsed Content",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Wait Before Status Recheck",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait Before Status Recheck": {
+      "main": [
+        [
+          {
+            "node": "Monitor Document Processing",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download Knowledge Document": {
+      "main": [
+        [
+          {
+            "node": "Parse Document via LlamaIndex",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Monitor Document Processing": {
+      "main": [
+        [
+          {
+            "node": "Check Parsing Completion1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse Document via LlamaIndex": {
+      "main": [
+        [
+          {
+            "node": "Monitor Document Processing",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Knowledge Base Updated Trigger": {
+      "main": [
+        [
+          {
+            "node": "Download Knowledge Document",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "staticData": null,
+  "meta": {
+    "templateId": "9174"
+  },
+  "pinData": {},
+  "versionId": "97c17d39-4f2a-409d-84a2-c7a057664ff6",
+  "activeVersionId": null,
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2026-02-23T04:40:11.969Z",
+      "createdAt": "2026-02-23T04:40:11.969Z",
+      "role": "workflow:owner",
+      "workflowId": "LHgmlerI5PkjdipQ",
+      "projectId": "saQ1jG0Qa3Kzfsse"
+    }
+  ],
+  "activeVersion": null,
+  "tags": []
+}
