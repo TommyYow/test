@@ -1,0 +1,204 @@
+{
+  "updatedAt": "2026-02-24T04:58:07.606Z",
+  "createdAt": "2026-02-24T04:54:20.746Z",
+  "id": "kQcjp0YvLhj9xLzA",
+  "name": "Real-time email RAG assistant with Gmail, OpenAI GPT, and PGVector",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "chunkSize": 2000,
+        "chunkOverlap": 200,
+        "options": {
+          "splitCode": "markdown"
+        }
+      },
+      "id": "bce4a290-a71c-4277-9381-3cf86867341e",
+      "name": "Recursive Character Text Splitter2",
+      "type": "@n8n/n8n-nodes-langchain.textSplitterRecursiveCharacterTextSplitter",
+      "position": [
+        2208,
+        832
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "jsonMode": "expressionData",
+        "jsonData": "=Email details:\nDate: {{ $json.headers.date }}\n\nFrom Email: {{ $json.from.value[0].address }}\nFrom Name:  {{ $json.from.value[0].name }}\n\nTo Email: {{ $json.to.value[0].address }}\n\nEmail Subject:\n{{ $json.subject }}\n\nEmail body:\n{{ $json.text }}",
+        "options": {
+          "metadata": {
+            "metadataValues": [
+              {
+                "name": "=data_source",
+                "value": "=gmail"
+              },
+              {
+                "name": "=created_at",
+                "value": "={{ $json.date }}"
+              }
+            ]
+          }
+        }
+      },
+      "id": "9e7bd487-f657-4522-9f29-e937f604fff0",
+      "name": "Enhanced Default Data Loader",
+      "type": "@n8n/n8n-nodes-langchain.documentDefaultDataLoader",
+      "position": [
+        2128,
+        672
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "mode": "insert",
+        "tableName": "emails_vector_history",
+        "options": {}
+      },
+      "id": "251eaeab-ec58-48ad-b51c-556c739ba777",
+      "name": "Postgres PGVector Store3",
+      "type": "@n8n/n8n-nodes-langchain.vectorStorePGVector",
+      "position": [
+        1968,
+        464
+      ],
+      "typeVersion": 1.1
+    },
+    {
+      "parameters": {
+        "content": "## Watch Trigger (Email) - New Email\n## Get new Email -> Extract the text -> Add to Vector Store",
+        "height": 740,
+        "width": 1200,
+        "color": 4
+      },
+      "id": "c0930431-754d-4f87-bf44-6415a816aa7d",
+      "name": "Sticky Note2",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1440,
+        240
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "messageId": "={{ $json.id }}",
+        "simple": false,
+        "options": {}
+      },
+      "id": "7fa7e6b4-ea5e-4716-be0e-58b96458ec0d",
+      "name": "Get Mail Data",
+      "type": "n8n-nodes-base.gmail",
+      "position": [
+        1712,
+        464
+      ],
+      "webhookId": "[REDACTED_WEBHOOK_ID]",
+      "typeVersion": 2.1
+    },
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "filters": {}
+      },
+      "id": "a896498a-dc44-4d77-8268-7f7001510974",
+      "name": "Gmail Trigger",
+      "type": "n8n-nodes-base.gmailTrigger",
+      "position": [
+        1488,
+        464
+      ],
+      "typeVersion": 1.2
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.embeddingsGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        1840,
+        752
+      ],
+      "id": "9243ce3c-1090-4ed9-b801-7b11e48b1611",
+      "name": "Embeddings Google Gemini"
+    }
+  ],
+  "connections": {
+    "Enhanced Default Data Loader": {
+      "ai_document": [
+        [
+          {
+            "node": "Postgres PGVector Store3",
+            "type": "ai_document",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Recursive Character Text Splitter2": {
+      "ai_textSplitter": [
+        [
+          {
+            "node": "Enhanced Default Data Loader",
+            "type": "ai_textSplitter",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Mail Data": {
+      "main": [
+        [
+          {
+            "node": "Postgres PGVector Store3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gmail Trigger": {
+      "main": [
+        [
+          {
+            "node": "Get Mail Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "staticData": null,
+  "meta": {
+    "templateId": "5908"
+  },
+  "pinData": {},
+  "versionId": "cd7aebcb-a0ea-49a4-8625-1edefcc52712",
+  "activeVersionId": null,
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2026-02-24T04:54:20.746Z",
+      "createdAt": "2026-02-24T04:54:20.746Z",
+      "role": "workflow:owner",
+      "workflowId": "kQcjp0YvLhj9xLzA",
+      "projectId": "HkvQcrCdALIwWQwD"
+    }
+  ],
+  "activeVersion": null,
+  "tags": []
+}
