@@ -1,0 +1,69 @@
+{
+  "updatedAt": "2026-02-24T02:48:26.155Z",
+  "createdAt": "2026-02-24T02:48:07.772Z",
+  "id": "P8AACAlee504UiUy",
+  "name": "My Sub-workflow",
+  "active": false,
+  "isArchived": true,
+  "nodes": [
+    {
+      "parameters": {
+        "notice": "",
+        "dataType": "binary",
+        "binaryMode": "specificField",
+        "loader": "auto",
+        "binaryDataKey": "data",
+        "options": {}
+      },
+      "id": "51a61f7f-610b-4cda-8405-11983fec7c8a",
+      "name": "Default Data Loader",
+      "type": "@n8n/n8n-nodes-langchain.documentDefaultDataLoader",
+      "position": [
+        1056,
+        992
+      ],
+      "typeVersion": 1
+    },
+    {
+      "id": "66297f4d-9167-4669-bdec-e8a2094335ef",
+      "typeVersion": 1.1,
+      "name": "Start",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "position": [
+        848,
+        992
+      ],
+      "parameters": {
+        "inputSource": "passthrough"
+      }
+    }
+  ],
+  "connections": {
+    "Default Data Loader": {
+      "ai_document": [
+        []
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": false
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": null,
+  "versionId": "0a28f77a-249b-4aaa-8a2e-1d1a2ec31716",
+  "activeVersionId": null,
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2026-02-24T02:48:07.772Z",
+      "createdAt": "2026-02-24T02:48:07.772Z",
+      "role": "workflow:owner",
+      "workflowId": "P8AACAlee504UiUy",
+      "projectId": "HkvQcrCdALIwWQwD"
+    }
+  ],
+  "activeVersion": null,
+  "tags": []
+}
