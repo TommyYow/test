@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-02-23T04:44:25.319Z",
+  "updatedAt": "2026-02-24T03:47:38.451Z",
   "createdAt": "2026-02-23T04:44:25.319Z",
   "id": "QpvK2gcUeFFsGtpv",
   "name": "Auto-update knowledge base with Drive, LlamaIndex & Azure OpenAI embeddings copy",
@@ -35,8 +35,8 @@
       "name": "Insert Data to Store",
       "type": "@n8n/n8n-nodes-langchain.vectorStoreInMemory",
       "position": [
-        1856,
-        576
+        1840,
+        624
       ],
       "typeVersion": 1.2
     },
@@ -251,8 +251,7 @@
     },
     {
       "parameters": {
-        "amount": 10,
-        "path": "57c9a531-7370-4f56-897e-d007ca5cf79a"
+        "amount": 10
       },
       "id": "699c7142-bf66-450a-85d6-79ce3ad579b9",
       "name": "Wait Before Status Recheck",
@@ -399,7 +398,7 @@
     "templateId": "9174"
   },
   "pinData": {},
-  "versionId": "08ce9b2e-b19d-4408-b665-929dc084ef0d",
+  "versionId": "dd938e48-8e4d-4b63-b5cb-6fa9e0da63a8",
   "activeVersionId": null,
   "triggerCount": 0,
   "shared": [
