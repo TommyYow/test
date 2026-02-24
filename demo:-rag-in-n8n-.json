@@ -1,11 +1,69 @@
 {
-  "createdAt": "2025-07-08T16:41:06.420Z",
-  "updatedAt": "2025-08-03T19:33:42.284Z",
-  "id": "EHfPHEvis5Z1eE7Y",
+  "updatedAt": "2026-02-24T03:59:41.031Z",
+  "createdAt": "2026-02-24T03:45:08.563Z",
+  "id": "Cz7g0kwrYHeHU3gD",
   "name": "Demo: RAG in n8n",
   "active": false,
   "isArchived": false,
   "nodes": [
+    {
+      "parameters": {
+        "formTitle": "Upload your data to test RAG",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Upload your file(s)",
+              "fieldType": "file",
+              "acceptFileTypes": ".pdf, .csv",
+              "requiredField": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.2,
+      "position": [
+        -128,
+        0
+      ],
+      "id": "f7a656ec-83fc-4ed2-a089-57a9def662b7",
+      "name": "Upload your file here",
+      "webhookId": "82848bc4-5ea2-4e5a-8bb6-3c09b94a8c5d"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        528,
+        480
+      ],
+      "id": "6ea78663-cf2f-4f2d-8e68-43047c2afd87",
+      "name": "Embeddings OpenAI",
+      "credentials": {
+        "openAiApi": {
+          "id": "14",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "dataType": "binary",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.documentDefaultDataLoader",
+      "typeVersion": 1.1,
+      "position": [
+        320,
+        160
+      ],
+      "id": "94aecac0-03f9-4915-932b-d14a2576607b",
+      "name": "Default Data Loader"
+    },
     {
       "parameters": {
         "content": "### Readme\nLoad your data into a vector database with the 📚 **Load Data** flow, and then use your data as chat context with the 🐕 **Retriever** flow.\n\n**Quick start**\n1. Click on the `Execute Workflow` button to run the 📚 **Load Data** flow.\n2. Click on `Open Chat` button to run the 🐕 **Retriever** flow. Then ask a question about content from your document(s)\n\n\nFor more info, check [our docs on RAG in n8n](https://docs.n8n.io/advanced-ai/rag-in-n8n/).",
@@ -21,6 +79,61 @@
       "typeVersion": 1,
       "id": "0d07742b-0b36-4c2e-990c-266cbe6e2d4d",
       "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "### 📚 Load Data Flow",
+        "height": 460,
+        "width": 700,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -176,
+        -64
+      ],
+      "typeVersion": 1,
+      "id": "d19d04f3-5231-4e47-bed7-9f24a4a8f582",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "mode": "insert",
+        "memoryKey": {
+          "__rl": true,
+          "value": "vector_store_key",
+          "mode": "list",
+          "cachedResultName": "vector_store_key"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStoreInMemory",
+      "typeVersion": 1.2,
+      "position": [
+        -32,
+        256
+      ],
+      "id": "bf50a11f-ca6a-4e04-a6d2-42fee272b260",
+      "name": "Insert Data to Store"
+    },
+    {
+      "parameters": {
+        "mode": "retrieve-as-tool",
+        "toolName": "knowledge_base",
+        "toolDescription": "Use this knowledge base to answer questions from the user",
+        "memoryKey": {
+          "__rl": true,
+          "mode": "list",
+          "value": "vector_store_key"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStoreInMemory",
+      "typeVersion": 1.2,
+      "position": [
+        944,
+        208
+      ],
+      "id": "09c0db62-5413-440e-8c13-fb6bb66d9b6a",
+      "name": "Query Data Tool"
     },
     {
       "parameters": {
@@ -48,6 +161,30 @@
       "id": "9c30de61-935a-471f-ae88-ec5f67beeefc",
       "name": "When chat message received",
       "webhookId": "4091fa09-fb9a-4039-9411-7104d213f601"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4o-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        720,
+        208
+      ],
+      "id": "b5aa8942-9cd5-4c2f-bd77-7a0ceb921bac",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "14",
+          "name": "OpenAi account"
+        }
+      }
     },
     {
       "parameters": {
@@ -80,126 +217,58 @@
       "typeVersion": 1,
       "id": "0cf8c647-418c-4d1a-8952-766145afca72",
       "name": "Sticky Note3"
-    },
-    {
-      "parameters": {
-        "model": "llama3.1:8b",
-        "options": {}
-      },
-      "type": "@n8n/n8n-nodes-langchain.lmChatOllama",
-      "typeVersion": 1,
-      "position": [
-        832,
-        240
-      ],
-      "id": "3d49f8aa-ae9a-4e88-a793-8ea11b94e895",
-      "name": "Ollama Chat Model",
-      "credentials": {
-        "ollamaApi": {
-          "id": "7W2eHR5MD4jEpF6H",
-          "name": "Ollama account"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "databaseName": "n8n-rag"
-      },
-      "type": "@n8n/n8n-nodes-langchain.memoryMongoDbChat",
-      "typeVersion": 1,
-      "position": [
-        960,
-        192
-      ],
-      "id": "fb23e4ec-a846-4158-a087-cbb61263657e",
-      "name": "MongoDB Chat Memory",
-      "credentials": {
-        "mongoDb": {
-          "id": "Pw6uAQWZZGSMy4dq",
-          "name": "MongoDB account"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "model": "llama3.1:8b"
-      },
-      "type": "@n8n/n8n-nodes-langchain.embeddingsOllama",
-      "typeVersion": 1,
-      "position": [
-        1072,
-        624
-      ],
-      "id": "3af23b51-e05e-4956-9d13-c1ccf9475f1e",
-      "name": "Embeddings Ollama",
-      "credentials": {
-        "ollamaApi": {
-          "id": "7W2eHR5MD4jEpF6H",
-          "name": "Ollama account"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "description": "Use this tool to get information about the LHDN e-Invoicing."
-      },
-      "type": "@n8n/n8n-nodes-langchain.toolVectorStore",
-      "typeVersion": 1.1,
-      "position": [
-        1088,
-        192
-      ],
-      "id": "31914664-3b38-422c-8c63-8a1c6147c446",
-      "name": "Answer questions with a vector store"
-    },
-    {
-      "parameters": {
-        "mongoCollection": {
-          "__rl": true,
-          "value": "ai",
-          "mode": "list",
-          "cachedResultName": "ai"
-        },
-        "vectorIndexName": "ai",
-        "options": {}
-      },
-      "type": "@n8n/n8n-nodes-langchain.vectorStoreMongoDBAtlas",
-      "typeVersion": 1.3,
-      "position": [
-        896,
-        416
-      ],
-      "id": "70e418df-6cf8-453a-b611-b42d82916f22",
-      "name": "MongoDB Atlas Vector Store",
-      "credentials": {
-        "mongoDb": {
-          "id": "Pw6uAQWZZGSMy4dq",
-          "name": "MongoDB account"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "model": "phi4:latest",
-        "options": {}
-      },
-      "type": "@n8n/n8n-nodes-langchain.lmOllama",
-      "typeVersion": 1,
-      "position": [
-        1216,
-        544
-      ],
-      "id": "ec3ca7c6-fc04-4555-a769-d4a72410c04f",
-      "name": "Ollama Model",
-      "credentials": {
-        "ollamaApi": {
-          "id": "7W2eHR5MD4jEpF6H",
-          "name": "Ollama account"
-        }
-      }
     }
   ],
   "connections": {
+    "Upload your file here": {
+      "main": [
+        [
+          {
+            "node": "Insert Data to Store",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings OpenAI": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Insert Data to Store",
+            "type": "ai_embedding",
+            "index": 0
+          },
+          {
+            "node": "Query Data Tool",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Default Data Loader": {
+      "ai_document": [
+        [
+          {
+            "node": "Insert Data to Store",
+            "type": "ai_document",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Query Data Tool": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
     "When chat message received": {
       "main": [
         [
@@ -211,71 +280,11 @@
         ]
       ]
     },
-    "Ollama Chat Model": {
+    "OpenAI Chat Model": {
       "ai_languageModel": [
         [
           {
             "node": "AI Agent",
-            "type": "ai_languageModel",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "MongoDB Chat Memory": {
-      "ai_memory": [
-        [
-          {
-            "node": "AI Agent",
-            "type": "ai_memory",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Embeddings Ollama": {
-      "ai_embedding": [
-        [
-          {
-            "node": "MongoDB Atlas Vector Store",
-            "type": "ai_embedding",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "AI Agent": {
-      "main": [
-        []
-      ]
-    },
-    "Answer questions with a vector store": {
-      "ai_tool": [
-        [
-          {
-            "node": "AI Agent",
-            "type": "ai_tool",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "MongoDB Atlas Vector Store": {
-      "ai_vectorStore": [
-        [
-          {
-            "node": "Answer questions with a vector store",
-            "type": "ai_vectorStore",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Ollama Model": {
-      "ai_languageModel": [
-        [
-          {
-            "node": "Answer questions with a vector store",
             "type": "ai_languageModel",
             "index": 0
           }
@@ -284,7 +293,9 @@
     }
   },
   "settings": {
-    "executionOrder": "v1"
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
   },
   "staticData": null,
   "meta": {
@@ -292,16 +303,18 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "6404b30b-0f0d-456d-950a-8a148ade9406",
+  "versionId": "2a144304-7ed7-43e1-9a8c-34d8cc3991e0",
+  "activeVersionId": null,
   "triggerCount": 0,
   "shared": [
     {
-      "createdAt": "2025-07-08T16:41:06.420Z",
-      "updatedAt": "2025-07-08T16:41:06.420Z",
+      "updatedAt": "2026-02-24T03:45:08.563Z",
+      "createdAt": "2026-02-24T03:45:08.563Z",
       "role": "workflow:owner",
-      "workflowId": "EHfPHEvis5Z1eE7Y",
-      "projectId": "vlswka8GVhcByRUj"
+      "workflowId": "Cz7g0kwrYHeHU3gD",
+      "projectId": "saQ1jG0Qa3Kzfsse"
     }
   ],
+  "activeVersion": null,
   "tags": []
 }
