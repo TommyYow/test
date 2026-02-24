@@ -1,0 +1,68 @@
+{
+  "updatedAt": "2026-02-24T02:27:11.685Z",
+  "createdAt": "2026-02-23T09:17:48.289Z",
+  "id": "136yfxh8NWJ4Ebmn",
+  "name": "Smart Email Auto-Responder",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyHour"
+            }
+          ]
+        },
+        "simple": false,
+        "filters": {
+          "labelIds": [
+            "Label_43975351283257832"
+          ]
+        },
+        "options": {}
+      },
+      "id": "089a88a4-9be8-442c-a21d-007baa4874b3",
+      "name": "Gmail Trigger",
+      "type": "n8n-nodes-base.gmailTrigger",
+      "position": [
+        -768,
+        80
+      ],
+      "typeVersion": 1.2,
+      "notesInFlow": false
+    }
+  ],
+  "connections": {
+    "Gmail Trigger": {
+      "main": [
+        []
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "2b0baa5f-affa-44f1-b141-d3d8934de231",
+  "activeVersionId": null,
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2026-02-23T09:17:48.289Z",
+      "createdAt": "2026-02-23T09:17:48.289Z",
+      "role": "workflow:owner",
+      "workflowId": "136yfxh8NWJ4Ebmn",
+      "projectId": "jEyFJXtUUwEM8iYb"
+    }
+  ],
+  "activeVersion": null,
+  "tags": []
+}
