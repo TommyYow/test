@@ -1,46 +1,331 @@
 {
-  "updatedAt": "2025-11-06T08:59:53.304Z",
-  "createdAt": "2025-11-06T08:57:02.330Z",
-  "id": "oyVXHlEqYGMskSyl",
+  "updatedAt": "2026-02-24T01:38:46.485Z",
+  "createdAt": "2026-02-23T07:58:53.898Z",
+  "id": "nesoOCqJwi7SGorR",
   "name": "My workflow",
   "active": false,
-  "isArchived": true,
+  "isArchived": false,
   "nodes": [
     {
       "parameters": {
-        "path": "a4c08f21-aecd-4bed-85f4-227f310e6e0a",
+        "chunkOverlap": 100,
         "options": {}
       },
-      "type": "n8n-nodes-base.webhook",
-      "typeVersion": 2.1,
+      "id": "f8d89ac7-e9ef-443e-8242-f2ace5aa4345",
+      "name": "Recursive Character Text Splitter",
+      "type": "@n8n/n8n-nodes-langchain.textSplitterRecursiveCharacterTextSplitter",
       "position": [
-        0,
-        0
+        1424,
+        752
       ],
-      "id": "bd53172f-c112-4b36-8615-d802cfca2988",
-      "name": "Webhook",
-      "webhookId": "a4c08f21-aecd-4bed-85f4-227f310e6e0a"
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "dataType": "binary",
+        "binaryMode": "specificField",
+        "options": {}
+      },
+      "id": "81ecb516-fde3-453e-8e10-62c2ae1f5fc4",
+      "name": "Default Data Loader",
+      "type": "@n8n/n8n-nodes-langchain.documentDefaultDataLoader",
+      "position": [
+        1440,
+        576
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "mode": "insert",
+        "memoryKey": {
+          "__rl": true,
+          "mode": "list",
+          "value": "vector_store_key"
+        }
+      },
+      "id": "a458671a-2698-4cb4-a3e4-9b0ae9e722d6",
+      "name": "Simple Vector Store",
+      "type": "@n8n/n8n-nodes-langchain.vectorStoreInMemory",
+      "position": [
+        1360,
+        368
+      ],
+      "typeVersion": 1.2
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "c77539cd-8b42-478a-a13d-d0328d318070",
+      "name": "Embeddings OpenAI",
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
+      "position": [
+        1280,
+        576
+      ],
+      "typeVersion": 1.2,
+      "credentials": {
+        "openAiApi": {
+          "id": "AMj0XqYuf6o54e9W",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Google Drive Connection\nTo set up Google Drive OAuth2 credentials in n8n (using the recommended OAuth2 method), follow these steps:\n\n1. Create a Google Cloud Project:\n - Go to the Google Cloud Console.\n - Create a new project or select an existing one.\n\n2. Enable the Google Drive API:\n - In your project, navigate to “APIs & Services” > “Library”.\n - Search for “Google Drive API” and enable it.\n\n3. Configure OAuth Consent Screen:\n - Go to “APIs & Services” > “OAuth consent screen”.\n - Fill in the required fields (app name, user support email, etc.).\n - Add the necessary scopes (for Google Drive, typically https://www.googleapis.com/auth/drive).\n\n4. Create OAuth2 Credentials:\n - Go to “APIs & Services” > “Credentials”.\n - Click “Create Credentials” > “OAuth client ID”.\n - Choose “Web application”.\n - Add the following to “Authorized redirect URIs”:\n - https://<your-n8n-domain>/rest/oauth2-credential/callback\n - If running locally: http://localhost:5678/rest/oauth2-credential/callback\n\n5. Copy the Client ID and Client Secret.\n \n6. In n8n:\n - Go to “Credentials” and create new credentials for “Google Drive OAuth2 API”.\n - Enter the Client ID and Client Secret you copied from Google Cloud.\n - Set the appropriate scopes (e.g., https://www.googleapis.com/auth/drive).\n - Save and connect the credentials.\n\nAfter this, your Google Drive OAuth2 credentials should be set up and ready to use in your n8n workflows.\n\nNote: If you get 403:access denied you need to go back to Google cloud.\n - Go to Audience\n - Add your Email in Test users",
+        "height": 920,
+        "width": 620,
+        "color": 4
+      },
+      "id": "223649dc-436a-459e-9de2-229a15ec0f14",
+      "name": "Sticky Note1",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        2432,
+        864
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "content": "## 🛠️ Configuration Guide After Importing the Template\n\nOnce you download and import the chatbot template into your n8n instance, follow these steps to configure it properly:\n\n---\n\n### 🔑 1. **Set Up Google Drive Credentials**\n\n- Go to **Credentials** in n8n.\n- Create new credentials for **Google Drive OAuth2 API**.\n- Add your **Client ID** and **Client Secret** from Google Cloud Console \n(Follow the Google drive connection guide on the next green note).\n- Make sure to add the redirect URL:\n ```\n https://<your-n8n-domain>/rest/oauth2-credential/callback\n ```\n- Use the created credential in all `Google Drive` nodes.\n---\n\n### 📁 2. **Set the File or Folder to Load from Google Drive**\n\n- All the `Google Drive` node (except Download Files node):\n - Set the file name or folder name to search for.\n- In the `Google Drive Download Files` node:\n - Map the file ID from the search result using expressions like:\n ```\n {{$json[\"id\"]}}\n ```\n---\n\n### 🔐 3. **Connect Your OpenAI Credentials**\n\n- Create a new credential in n8n for **OpenAI API**.\n- Paste your OpenAI API key.\n- Use this credential in:\n - `Embeddings OpenAI` node\n - `OpenAI Chat Model` node\n - `Answer questions with a vector store`\n\n---",
+        "height": 980,
+        "width": 620,
+        "color": 6
+      },
+      "id": "54ba9d4a-6cf5-4995-bff2-48e4f48cd49b",
+      "name": "Sticky Note",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        2432,
+        -160
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "content": "# 🤖 Simple AI Chatbot Using Google Drive Knowledge in n8n\n\nThis guide explains how to use an **AI chatbot powered by OpenAI**, where the knowledge comes from files (like PDFs, text, etc.) stored in **Google Drive**. No coding needed!\n\n---\n\n## 📌 What This Workflow Does\n\n- Automatic file updates from Google Drive \n- Converts it into a searchable knowledge base (vector store)\n- Allows users to chat and ask questions about that file\n- AI replies based **only** on the content in your file!\n\n---",
+        "height": 520,
+        "width": 620
+      },
+      "id": "d4867a59-ad47-4303-80f6-2a070f48063b",
+      "name": "Sticky Note2",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1776,
+        -160
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "operation": "download",
+        "fileId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "={{ $json.id }}"
+        },
+        "options": {}
+      },
+      "id": "cf74c088-67e4-4505-b5f3-b9b99af649bc",
+      "name": "Download Files",
+      "type": "n8n-nodes-base.googleDrive",
+      "position": [
+        1168,
+        368
+      ],
+      "typeVersion": 3,
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "arOykrX1iB5N3soz",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "\n### 🧩 PART 1: **File Upload and Knowledge Preparation**\n\n| Node | What It Does |\n|----------------------------------------------|--------------------------------------------------------------|\n| 📂 File created in the Folder | Triggered when a new file is uploaded to Google Drive |\n|----------------------------------------------|--------------------------------------------------------------|\n| 📂 File updated in the Folder | Triggered when an existing file is updated |\n|----------------------------------------------|--------------------------------------------------------------|\n| 🔍 Search Files in your Google Drive | Finds the new or updated file |\n|----------------------------------------------|--------------------------------------------------------------|\n| ⬇️ Download Files | Downloads the actual content of the file |\n|----------------------------------------------|--------------------------------------------------------------|\n| 🧠 Embeddings OpenAI | Converts file into searchable AI vectors |\n|----------------------------------------------|--------------------------------------------------------------|\n| 📄 Default Data Loader | Loads document into chunks |\n|----------------------------------------------|--------------------------------------------------------------|\n| 🔁 Recursive Character Text Splitter | Splits large documents into clean text blocks |\n|----------------------------------------------|--------------------------------------------------------------|\n| 🧊 Simple Vector Store | Stores the vectors for AI retrieval later |\n",
+        "height": 1160,
+        "width": 1080,
+        "color": 3
+      },
+      "id": "02fc3228-4586-453a-ba72-c185681a21e1",
+      "name": "Sticky Note3",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        672,
+        -160
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "triggerOn": "specificFolder",
+        "folderToWatch": {
+          "__rl": true,
+          "value": "1JeZSngNy3Xnu0Q18b3L_TekW4x9rDJmm",
+          "mode": "list",
+          "cachedResultName": "AI Email Autoreply",
+          "cachedResultUrl": "https://drive.google.com/drive/folders/1JeZSngNy3Xnu0Q18b3L_TekW4x9rDJmm"
+        },
+        "event": "fileCreated",
+        "options": {}
+      },
+      "id": "5a5a4509-0807-4d33-bf5d-f4af982c5036",
+      "name": "File created in the Folder",
+      "type": "n8n-nodes-base.googleDriveTrigger",
+      "position": [
+        736,
+        288
+      ],
+      "typeVersion": 1,
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "arOykrX1iB5N3soz",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "triggerOn": "specificFolder",
+        "folderToWatch": {
+          "__rl": true,
+          "value": "1JeZSngNy3Xnu0Q18b3L_TekW4x9rDJmm",
+          "mode": "list",
+          "cachedResultName": "AI Email Autoreply",
+          "cachedResultUrl": "https://drive.google.com/drive/folders/1JeZSngNy3Xnu0Q18b3L_TekW4x9rDJmm"
+        },
+        "event": "fileUpdated",
+        "options": {}
+      },
+      "id": "fb24484a-d20f-4fb3-a522-a5d017f6587b",
+      "name": "File updated in the Folder",
+      "type": "n8n-nodes-base.googleDriveTrigger",
+      "position": [
+        736,
+        496
+      ],
+      "typeVersion": 1,
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "arOykrX1iB5N3soz",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "fileFolder",
+        "filter": {
+          "driveId": {
+            "__rl": true,
+            "value": "My Drive",
+            "mode": "list",
+            "cachedResultName": "My Drive",
+            "cachedResultUrl": "https://drive.google.com/drive/my-drive"
+          },
+          "folderId": {
+            "__rl": true,
+            "value": "1JeZSngNy3Xnu0Q18b3L_TekW4x9rDJmm",
+            "mode": "list",
+            "cachedResultName": "AI Email Autoreply",
+            "cachedResultUrl": "https://drive.google.com/drive/folders/1JeZSngNy3Xnu0Q18b3L_TekW4x9rDJmm"
+          },
+          "whatToSearch": "files",
+          "fileTypes": [
+            "application/vnd.google-apps.spreadsheet"
+          ]
+        },
+        "options": {}
+      },
+      "id": "547ad44e-04b0-4fd8-ae26-277466f2037e",
+      "name": "Search Files in your Google Drive Folder",
+      "type": "n8n-nodes-base.googleDrive",
+      "position": [
+        960,
+        368
+      ],
+      "typeVersion": 3,
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "arOykrX1iB5N3soz",
+          "name": "Google Drive account"
+        }
+      }
     }
   ],
-  "connections": {},
+  "connections": {
+    "File created in the Folder": {
+      "main": [
+        [
+          {
+            "node": "Search Files in your Google Drive Folder",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "File updated in the Folder": {
+      "main": [
+        [
+          {
+            "node": "Search Files in your Google Drive Folder",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Search Files in your Google Drive Folder": {
+      "main": [
+        [
+          {
+            "node": "Download Files",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
   "settings": {
-    "executionOrder": "v1"
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
   },
   "staticData": null,
   "meta": {
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "2b9b8cc1-a007-4c79-a0a5-f0422d60bf80",
+  "versionId": "1bdb7cac-b2b0-456c-9f35-b771155ae798",
   "activeVersionId": null,
-  "triggerCount": 1,
+  "triggerCount": 0,
   "shared": [
     {
-      "updatedAt": "2025-11-06T08:57:02.330Z",
-      "createdAt": "2025-11-06T08:57:02.330Z",
+      "updatedAt": "2026-02-23T07:58:53.898Z",
+      "createdAt": "2026-02-23T07:58:53.898Z",
       "role": "workflow:owner",
-      "workflowId": "oyVXHlEqYGMskSyl",
-      "projectId": "DhUySAhR7zpTinZG"
+      "workflowId": "nesoOCqJwi7SGorR",
+      "projectId": "HkvQcrCdALIwWQwD"
     }
   ],
   "activeVersion": null,
