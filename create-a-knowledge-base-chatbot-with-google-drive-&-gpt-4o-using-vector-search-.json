@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-02-24T03:34:53.846Z",
+  "updatedAt": "2026-02-25T02:06:11.088Z",
   "createdAt": "2026-02-24T01:51:55.602Z",
   "id": "GnTrpZTzPeasG9te",
   "name": "Create a knowledge base chatbot with Google Drive & GPT-4o using vector search",
@@ -15,8 +15,8 @@
       "name": "Recursive Character Text Splitter",
       "type": "@n8n/n8n-nodes-langchain.textSplitterRecursiveCharacterTextSplitter",
       "position": [
-        2512,
-        1184
+        2592,
+        1232
       ],
       "typeVersion": 1
     },
@@ -196,8 +196,7 @@
             "cachedResultName": "AI Email Autoreply",
             "cachedResultUrl": "https://drive.google.com/drive/folders/1JeZSngNy3Xnu0Q18b3L_TekW4x9rDJmm"
           },
-          "whatToSearch": "files",
-          "fileTypes": []
+          "whatToSearch": "files"
         },
         "options": {}
       },
@@ -223,8 +222,8 @@
       "type": "@n8n/n8n-nodes-langchain.embeddingsGoogleGemini",
       "typeVersion": 1,
       "position": [
-        2720,
-        992
+        2464,
+        1056
       ],
       "id": "3622ec0a-3faf-4b37-8928-d082aad6531e",
       "name": "Embeddings Google Gemini",
@@ -239,7 +238,7 @@
     {
       "parameters": {
         "mode": "insert",
-        "tableName": "",
+        "tableName": "hcs_kb_001",
         "options": {}
       },
       "type": "@n8n/n8n-nodes-langchain.vectorStorePGVector",
@@ -268,8 +267,8 @@
       "name": "Default Data Loader",
       "type": "@n8n/n8n-nodes-langchain.documentDefaultDataLoader",
       "position": [
-        2512,
-        992
+        2592,
+        1056
       ],
       "typeVersion": 1
     }
@@ -277,7 +276,13 @@
   "connections": {
     "Download Files": {
       "main": [
-        []
+        [
+          {
+            "node": "Postgres PGVector Store",
+            "type": "main",
+            "index": 0
+          }
+        ]
       ]
     },
     "File created in the Folder": {
@@ -326,12 +331,24 @@
     },
     "Embeddings Google Gemini": {
       "ai_embedding": [
-        []
+        [
+          {
+            "node": "Postgres PGVector Store",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
       ]
     },
     "Default Data Loader": {
       "ai_document": [
-        []
+        [
+          {
+            "node": "Postgres PGVector Store",
+            "type": "ai_document",
+            "index": 0
+          }
+        ]
       ]
     }
   },
@@ -353,7 +370,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "0ad7cf3e-796d-49b9-9214-1f8fead09928",
+  "versionId": "f4ee9b8b-05bf-47ec-8f52-705aea8223b9",
   "activeVersionId": null,
   "triggerCount": 2,
   "shared": [
