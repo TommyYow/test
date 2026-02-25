@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-02-24T04:58:07.606Z",
+  "updatedAt": "2026-02-24T13:16:49.473Z",
   "createdAt": "2026-02-24T04:54:20.746Z",
   "id": "kQcjp0YvLhj9xLzA",
   "name": "Real-time email RAG assistant with Gmail, OpenAI GPT, and PGVector",
@@ -64,7 +64,13 @@
         1968,
         464
       ],
-      "typeVersion": 1.1
+      "typeVersion": 1.1,
+      "credentials": {
+        "postgres": {
+          "id": "3pU8vz8Ui03Hajq7",
+          "name": "Postgres account"
+        }
+      }
     },
     {
       "parameters": {
@@ -85,9 +91,7 @@
     {
       "parameters": {
         "operation": "get",
-        "messageId": "={{ $json.id }}",
-        "simple": false,
-        "options": {}
+        "messageId": "={{ $json.id }}"
       },
       "id": "7fa7e6b4-ea5e-4716-be0e-58b96458ec0d",
       "name": "Get Mail Data",
@@ -120,7 +124,9 @@
       "typeVersion": 1.2
     },
     {
-      "parameters": {},
+      "parameters": {
+        "modelName": "models/gemini-embedding-001"
+      },
       "type": "@n8n/n8n-nodes-langchain.embeddingsGoogleGemini",
       "typeVersion": 1,
       "position": [
@@ -128,7 +134,13 @@
         752
       ],
       "id": "9243ce3c-1090-4ed9-b801-7b11e48b1611",
-      "name": "Embeddings Google Gemini"
+      "name": "Embeddings Google Gemini",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "sAGUiTQ6VpMO8eW9",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
     }
   ],
   "connections": {
@@ -187,7 +199,7 @@
     "templateId": "5908"
   },
   "pinData": {},
-  "versionId": "cd7aebcb-a0ea-49a4-8625-1edefcc52712",
+  "versionId": "2ca2a4af-bde5-4c09-8320-935d0e0d2eaa",
   "activeVersionId": null,
   "triggerCount": 0,
   "shared": [
