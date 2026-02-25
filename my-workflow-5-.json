@@ -1,30 +1,109 @@
 {
-  "createdAt": "2025-07-14T05:01:09.141Z",
-  "updatedAt": "2025-07-14T05:08:04.986Z",
-  "id": "kJ0sUXJjgikEt4XC",
+  "updatedAt": "2026-02-24T15:15:25.612Z",
+  "createdAt": "2026-02-24T13:21:49.228Z",
+  "id": "IlXA1mOD4wK4Qyoi",
   "name": "My workflow 5",
   "active": false,
   "isArchived": false,
-  "nodes": [],
-  "connections": {},
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "49af6dff-247f-4287-a24c-87444051e7ec",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "redisKey": {
+          "__rl": true,
+          "mode": "list",
+          "value": ""
+        }
+      },
+      "type": "CUSTOM.exampleNode",
+      "typeVersion": 1,
+      "position": [
+        272,
+        -16
+      ],
+      "id": "90c78f59-0bb7-4d5c-865d-869372307f4f",
+      "name": "Example Node"
+    },
+    {
+      "parameters": {
+        "mode": "insert",
+        "pineconeIndex": {
+          "__rl": true,
+          "mode": "list",
+          "value": ""
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStorePinecone",
+      "typeVersion": 1.3,
+      "position": [
+        144,
+        -256
+      ],
+      "id": "71c08c27-22e6-4302-b95c-edb48b4d91f6",
+      "name": "Pinecone Vector Store"
+    },
+    {
+      "parameters": {
+        "redisKey": {
+          "__rl": true,
+          "mode": "list",
+          "value": ""
+        }
+      },
+      "type": "CUSTOM.exampleNode",
+      "typeVersion": 1,
+      "position": [
+        -224,
+        -256
+      ],
+      "id": "9f8a1a70-c32c-4cbb-b66a-23a47dbbaf15",
+      "name": "Example Node1"
+    }
+  ],
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Example Node",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
   "settings": {
-    "executionOrder": "v1"
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
   },
   "staticData": null,
-  "meta": {
-    "templateCredsSetupCompleted": true
-  },
+  "meta": null,
   "pinData": {},
-  "versionId": "3e000b71-f3b0-415a-a04f-fc5663516780",
+  "versionId": "374ddd90-e5b4-44da-97cb-2902d90d18c2",
+  "activeVersionId": null,
   "triggerCount": 0,
   "shared": [
     {
-      "createdAt": "2025-07-14T05:01:09.141Z",
-      "updatedAt": "2025-07-14T05:01:09.141Z",
+      "updatedAt": "2026-02-24T13:21:49.228Z",
+      "createdAt": "2026-02-24T13:21:49.228Z",
       "role": "workflow:owner",
-      "workflowId": "kJ0sUXJjgikEt4XC",
-      "projectId": "Jb2rb6nu3JYanJaI"
+      "workflowId": "IlXA1mOD4wK4Qyoi",
+      "projectId": "aMgj29TxarMT8Wwf"
     }
   ],
+  "activeVersion": null,
   "tags": []
 }
