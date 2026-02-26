@@ -1,0 +1,474 @@
+{
+  "updatedAt": "2026-02-26T04:12:51.060Z",
+  "createdAt": "2026-02-23T09:17:48.289Z",
+  "id": "136yfxh8NWJ4Ebmn",
+  "name": "Hotel Auto Respond",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "name": "safai_info",
+        "description": "Use this tool to answer every questions by the user."
+      },
+      "id": "23d92c4f-9324-4806-b59d-abede13045a2",
+      "name": "Answer questions with a vector store",
+      "type": "@n8n/n8n-nodes-langchain.toolVectorStore",
+      "position": [
+        2160,
+        2064
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "pineconeIndex": {
+          "__rl": true,
+          "mode": "list",
+          "value": "mens-collection",
+          "cachedResultName": "mens-collection"
+        },
+        "options": {
+          "pineconeNamespace": "mens-collection"
+        }
+      },
+      "id": "6f7cad00-71b3-4994-a3e3-353b6a070600",
+      "name": "Pinecone Vector Store1",
+      "type": "@n8n/n8n-nodes-langchain.vectorStorePinecone",
+      "position": [
+        2064,
+        2192
+      ],
+      "typeVersion": 1.1
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "260afc5e-817c-49ba-b0eb-7bbdcaac16c9",
+      "name": "Embeddings OpenAI",
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
+      "position": [
+        2192,
+        2336
+      ],
+      "typeVersion": 1.2
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4.1-nano",
+          "cachedResultName": "gpt-4.1-nano"
+        },
+        "options": {}
+      },
+      "id": "4ed3079a-d602-4a01-ba7a-e9aca8fac417",
+      "name": "OpenAI Chat Model3",
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "position": [
+        2416,
+        2192
+      ],
+      "typeVersion": 1.2
+    },
+    {
+      "parameters": {
+        "jsonSchema": "{\n  \"type\": \"object\",\n  \"properties\": {\n    \"needsReply\": {\n      \"type\": \"boolean\"\n    },\n    \"reason\": {\n      \"type\": \"string\"\n    }\n  },\n  \"required\": [\"needsReply\"]\n}",
+        "autoFix": true
+      },
+      "id": "c92eb63e-d443-483d-8d85-82cc7c2e539e",
+      "name": "JSON Parser1",
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "position": [
+        768,
+        1904
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "content": "## Assesing whether the mail needs a reply or not",
+        "height": 448,
+        "width": 624,
+        "color": 4
+      },
+      "id": "44e3a50a-a89c-4f7b-aa20-30038226d472",
+      "name": "Sticky Note1",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        464,
+        1616
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "content": "## Selecting only the mails that need a reply",
+        "height": 272,
+        "width": 352,
+        "color": 3
+      },
+      "id": "90df52bb-74be-45a2-b4be-3dbf7d7365c6",
+      "name": "Sticky Note2",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1168,
+        1680
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "content": "## Custom Knowledge Base for the AI Agent",
+        "height": 480,
+        "width": 464,
+        "color": 6
+      },
+      "id": "d961b1e4-14f3-445f-b0cf-2d67cbd01c10",
+      "name": "Sticky Note3",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        2096,
+        1984
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "content": "## RAG Agent",
+        "height": 208,
+        "width": 304,
+        "color": 5
+      },
+      "id": "23663513-0de6-4f68-b53a-13fb2098f522",
+      "name": "Sticky Note4",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1632,
+        1664
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Customer Email Subject: {{ $('Receive Email from Gmail').item.json.subject }}\nCustomer Name: {{ $('Receive Email from Gmail').item.json.from }}\nCustomer Message: {{ $('Receive Email from Gmail').item.json.text }}\n\nPlease search the knowledge base and reply to this customer inquiry.",
+        "options": {
+          "systemMessage": "=You are a professional hotel customer support representative.\n\nUse the provided knowledge base to answer the guest's inquiry.\nAlways be polite, warm, and professional.\n\nRules:\n- Only answer based on the knowledge base\n- If answer not found, say: \"Our team will follow up with you shortly.\"\n- Never make up information\n- Sign off as \"Hotel Support Team\"\n\nAlways reply using this format:\nDear [extract guest name from email, or use \"Valued Guest\"],\n\nThank you for contacting us.\n\n[Your answer here based on knowledge base]\n\nIf you have any further questions, please don't hesitate to reach out.\n\nWarm regards,\nHotel Support Team\n📞 +XX-XXXX-XXXX\n🌐 www.yourhotel.com"
+        }
+      },
+      "id": "38288619-bc53-4300-941a-ffd6ef266b5d",
+      "name": "AI Agent",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "position": [
+        1680,
+        1728
+      ],
+      "typeVersion": 1.9
+    },
+    {
+      "parameters": {
+        "content": "## Sending a Reply",
+        "height": 240,
+        "width": 224,
+        "color": 4
+      },
+      "id": "88b40946-eabf-4ec3-9a65-1648100a64e1",
+      "name": "Sticky Note5",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        2032,
+        1584
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyHour",
+              "minute": 59
+            }
+          ]
+        },
+        "simple": false,
+        "filters": {
+          "q": "-from:me"
+        },
+        "options": {}
+      },
+      "id": "ab27940f-b7b5-421f-ad1d-bdb8cea1ab15",
+      "name": "Receive Email from Gmail",
+      "type": "n8n-nodes-base.gmailTrigger",
+      "position": [
+        256,
+        1760
+      ],
+      "typeVersion": 1,
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "PxWNojtMdxyKEMQe",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "reply",
+        "messageId": "={{ $('Receive Email from Gmail').item.json.id }}",
+        "message": "={{ $('AI Agent').item.json.output }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        2096,
+        1648
+      ],
+      "id": "79b5283b-5382-495f-a59d-3745fbd31692",
+      "name": "Reply to the email",
+      "webhookId": "df29d228-cfd1-4b21-9f67-819d7123ad8d",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "PxWNojtMdxyKEMQe",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-3.1-pro-preview",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        576,
+        1888
+      ],
+      "id": "7e2b6b44-d8af-4da1-b2ec-ff6dfdd7d919",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "fWa8nrFVTByaSTxH",
+          "name": "Google Gemini(PaLM) Api account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "prompt": "=You are a hotel customer support email classifier.\n\nAnalyze the following email and decide if it needs a reply.\n\nEmail Subject: {{ $input.item.json.subject }}\nEmail From: {{ $input.item.json.from }}\nEmail Body: {{ $input.item.json.text }}\n\nReply ONLY with valid JSON, no extra text, no markdown:\n{\n  \"needsReply\": true or false,\n  \"reason\": \"short reason\"\n}\n\nSet needsReply to FALSE if:\n- Just a thank you (\"Thank you\", \"Thanks!\", \"Great, thanks\")\n- Acknowledgement only (\"Got it\", \"Ok noted\")\n- Auto-reply or out-of-office\n- Newsletter or promotional email\n\nSet needsReply to TRUE if:\n- Asking about room availability or pricing\n- Making or modifying a reservation\n- Complaint or issue\n- Asking about hotel facilities or services\n- Any question needing a specific answer"
+      },
+      "id": "a890968e-c8df-42d2-b330-1587dd7a4165",
+      "name": "Assess if message needs a reply",
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "position": [
+        656,
+        1728
+      ],
+      "typeVersion": 1.3
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "version": 1,
+            "leftValue": "",
+            "caseSensitive": true,
+            "typeValidation": "strict"
+          },
+          "combinator": "and",
+          "conditions": [
+            {
+              "id": "53849246-ad32-4845-9976-9f9688f5a6f2",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              },
+              "leftValue": "={{ $json.needsReply }}",
+              "rightValue": "true"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "6b3201c4-61a5-481f-8cb5-1554e7bec501",
+      "name": "If Needs Reply",
+      "type": "n8n-nodes-base.if",
+      "position": [
+        1280,
+        1792
+      ],
+      "typeVersion": 2
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-3.1-pro-preview",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        1664,
+        1904
+      ],
+      "id": "446d7030-a843-44dc-8ee3-277f4f3fdfcd",
+      "name": "Google Gemini Chat Model1",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "fWa8nrFVTByaSTxH",
+          "name": "Google Gemini(PaLM) Api account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "retrieve-as-tool",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStorePGVector",
+      "typeVersion": 1.3,
+      "position": [
+        2080,
+        1776
+      ],
+      "id": "802ba45c-b011-468f-98eb-0074720d86e7",
+      "name": "Postgres PGVector Store",
+      "credentials": {
+        "postgres": {
+          "id": "8mGoTo12vHwO29yd",
+          "name": "Postgres account 2"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Reply to the email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model3": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Answer questions with a vector store",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Receive Email from Gmail": {
+      "main": [
+        [
+          {
+            "node": "Assess if message needs a reply",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "JSON Parser1": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Assess if message needs a reply",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Assess if message needs a reply",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Assess if message needs a reply": {
+      "main": [
+        [
+          {
+            "node": "If Needs Reply",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If Needs Reply": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Postgres PGVector Store": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "04efbf73-16c2-43b6-9f12-dcbdfb8d833f",
+  "activeVersionId": null,
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2026-02-23T09:17:48.289Z",
+      "createdAt": "2026-02-23T09:17:48.289Z",
+      "role": "workflow:owner",
+      "workflowId": "136yfxh8NWJ4Ebmn",
+      "projectId": "jEyFJXtUUwEM8iYb"
+    }
+  ],
+  "activeVersion": null,
+  "tags": []
+}
