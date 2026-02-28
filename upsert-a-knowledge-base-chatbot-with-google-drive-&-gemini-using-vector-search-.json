@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-02-27T04:59:43.136Z",
+  "updatedAt": "2026-02-27T07:39:46.287Z",
   "createdAt": "2026-02-26T10:39:55.680Z",
   "id": "ruLesSTLMZLaYDut",
   "name": "Upsert a knowledge base chatbot with Google Drive & Gemini using vector search",
@@ -17,8 +17,8 @@
       "name": "Sticky Note1",
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        3568,
-        1248
+        3088,
+        784
       ],
       "typeVersion": 1
     },
@@ -33,7 +33,7 @@
       "name": "Sticky Note",
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        3760,
+        3728,
         240
       ],
       "typeVersion": 1
@@ -48,7 +48,7 @@
       "name": "Sticky Note2",
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        2912,
+        3088,
         240
       ],
       "typeVersion": 1
@@ -190,7 +190,7 @@
       "parameters": {
         "content": "\n### 🧩 PART 1: **File Upload and Knowledge Preparation**\n\n| Node | What It Does |\n|----------------------------------------------|--------------------------------------------------------------|\n| 📂 File created in the Folder | Triggered when a new file is uploaded to Google Drive |\n|----------------------------------------------|--------------------------------------------------------------|\n| 📂 File updated in the Folder | Triggered when an existing file is updated |\n|----------------------------------------------|--------------------------------------------------------------|\n| 🔍 Search Files in your Google Drive | Finds the new or updated file |\n|----------------------------------------------|--------------------------------------------------------------|\n| ⬇️ Download Files | Downloads the actual content of the file |\n|----------------------------------------------|--------------------------------------------------------------|\n| 🧠 Embeddings OpenAI | Converts file into searchable AI vectors |\n|----------------------------------------------|--------------------------------------------------------------|\n| 📄 Default Data Loader | Loads document into chunks |\n|----------------------------------------------|--------------------------------------------------------------|\n| 🔁 Recursive Character Text Splitter | Splits large documents into clean text blocks |\n|----------------------------------------------|--------------------------------------------------------------|\n| 🧊 Simple Vector Store | Stores the vectors for AI retrieval later |\n",
         "height": 1160,
-        "width": 1080,
+        "width": 1268,
         "color": 3
       },
       "id": "23872933-4018-4112-80b0-a46bc5ced6c9",
@@ -203,11 +203,14 @@
       "typeVersion": 1
     },
     {
-      "parameters": {},
+      "parameters": {
+        "function": "arn:aws:lambda:ap-southeast-5:875885262932:function:hcs-poc-upsert-kb-001",
+        "payload": "={\n    \"fileName\": {{ $('Download Files').item.json.name }},\n    \"metadata\": {\n      \"category\": {{ $json.Category }},\n      \"question\": {{ $json.Question }},\n      \"answer\": {{ $json.Answer }}\n    }\n}"
+      },
       "type": "n8n-nodes-base.awsLambda",
       "typeVersion": 1,
       "position": [
-        2752,
+        2768,
         784
       ],
       "id": "79725163-d6a8-42bc-8dd5-44736b752bd7",
@@ -229,7 +232,7 @@
         2544,
         784
       ],
-      "id": "aa0e3caa-8a2b-4c8c-807d-6d83a226cb52",
+      "id": "b1bbdae0-11af-4a31-ae1b-0ce885e8735f",
       "name": "Extract from File"
     }
   ],
@@ -308,7 +311,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "10b32cd5-0e4f-46da-bb93-cea7cf1f292a",
+  "versionId": "08b6eb42-5fdf-470b-88ed-793cc50ce8af",
   "activeVersionId": null,
   "triggerCount": 0,
   "shared": [
