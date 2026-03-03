@@ -1,54 +1,44 @@
 {
-  "createdAt": "2025-07-27T16:00:49.097Z",
-  "updatedAt": "2025-07-27T16:01:05.039Z",
-  "id": "v7CI4ErwbATmIPSI",
+  "updatedAt": "2026-03-03T03:45:24.398Z",
+  "createdAt": "2026-03-03T03:45:24.398Z",
+  "id": "KMglpzojmXH9c6J0",
   "name": "My workflow 6",
-  "active": true,
+  "active": false,
   "isArchived": false,
   "nodes": [
     {
-      "parameters": {
-        "formTitle": "Test",
-        "formDescription": "test",
-        "formFields": {
-          "values": [
-            {
-              "fieldLabel": "test"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.formTrigger",
-      "typeVersion": 2.2,
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
       "position": [
         0,
         0
       ],
-      "id": "ec9c65f2-8ced-47dd-8086-59eb61501445",
-      "name": "On form submission",
-      "webhookId": "0232413e-d1b8-421d-b9d9-f31f7d615613"
+      "id": "5ae45312-4154-462f-9a05-0c81d7ce1f88",
+      "name": "When clicking ‘Execute workflow’"
     }
   ],
   "connections": {},
   "settings": {
-    "executionOrder": "v1"
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
   },
   "staticData": null,
-  "meta": {
-    "templateCredsSetupCompleted": true
-  },
+  "meta": null,
   "pinData": {},
-  "versionId": "62c2e4bb-bd55-4067-bd2f-7567f9a1e724",
-  "triggerCount": 1,
+  "versionId": "5eb0d8f1-bb1c-4891-8984-a88b0c87c13f",
+  "activeVersionId": null,
+  "triggerCount": 0,
   "shared": [
     {
-      "createdAt": "2025-07-27T16:00:49.097Z",
-      "updatedAt": "2025-07-27T16:00:49.097Z",
+      "updatedAt": "2026-03-03T03:45:24.398Z",
+      "createdAt": "2026-03-03T03:45:24.398Z",
       "role": "workflow:owner",
-      "workflowId": "v7CI4ErwbATmIPSI",
-      "projectId": "J4aJZ1K2PyZvolNE"
+      "workflowId": "KMglpzojmXH9c6J0",
+      "projectId": "HkvQcrCdALIwWQwD"
     }
   ],
+  "activeVersion": null,
   "tags": []
 }
