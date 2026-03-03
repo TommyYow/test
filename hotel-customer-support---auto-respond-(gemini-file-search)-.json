@@ -1,0 +1,1928 @@
+{
+  "updatedAt": "2026-03-02T07:45:04.345Z",
+  "createdAt": "2026-03-02T06:07:08.171Z",
+  "id": "k1a0lfZAbAIoRdZF",
+  "name": "Hotel Customer Support - Auto Respond (Gemini File Search)",
+  "active": true,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "jsonSchema": "{\n  \"type\": \"object\",\n  \"properties\": {\n    \"needsReply\": { \"type\": \"boolean\" },\n    \"reason\": { \"type\": \"string\" },\n    \"category\": { \"type\": \"string\" },\n    \"urgency\": { \"type\": \"string\" }\n  },\n  \"required\": [\"needsReply\"]\n}",
+        "autoFix": true
+      },
+      "id": "54f3c044-49b9-42e4-9ee8-d8aa1f803353",
+      "name": "JSON Parser1",
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "position": [
+        768,
+        1904
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "content": "## Selecting only the mails that need a reply",
+        "height": 272,
+        "width": 352,
+        "color": 3
+      },
+      "id": "4a449f7d-3296-4c78-92c7-2d1551f516d6",
+      "name": "Sticky Note2",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1168,
+        1680
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "content": "## Sending a Reply",
+        "height": 240,
+        "width": 224,
+        "color": 4
+      },
+      "id": "750d75b3-320f-4c81-87e3-08c390eaf516",
+      "name": "Sticky Note5",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        2032,
+        1584
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "simple": false,
+        "filters": {
+          "q": "-from:me"
+        },
+        "options": {}
+      },
+      "id": "1614821b-193f-4df9-a8a4-14846eed7923",
+      "name": "Receive Email from Gmail",
+      "type": "n8n-nodes-base.gmailTrigger",
+      "position": [
+        -416,
+        2480
+      ],
+      "typeVersion": 1,
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "PxWNojtMdxyKEMQe",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "reply",
+        "messageId": "={{ $('Receive Email from Gmail').item.json.id }}",
+        "message": "={{ $('Message a model').item.json.content.parts[1].text }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        2096,
+        1648
+      ],
+      "id": "9eac4945-f953-4e31-97e4-09923dba0643",
+      "name": "Reply to the email",
+      "webhookId": "6fa4fc4e-9b2e-4812-bf7a-bfb1c861578a",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "PxWNojtMdxyKEMQe",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-3-pro-preview",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        576,
+        1888
+      ],
+      "id": "fa57e0e6-cf2e-4650-9186-0e60091534fe",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "JotYgsTc9JLNcYun",
+          "name": "Google Gemini(PaLM) Api - Gemini File Search"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "prompt": "=You are a hotel customer support email classifier.\nAnalyze the following email and decide if it needs a reply.\n\nEmail Subject: {{ $input.item.json.subject }}\nEmail From: {{ $input.item.json.from }}\nEmail Body: {{ $input.item.json.text }}\n\nReply ONLY with valid JSON, no extra text, no markdown:\n{\n  \"needsReply\": true or false,\n  \"reason\": \"short reason\",\n  \"category\": \"category name\",\n  \"urgency\": \"low/medium/high\"\n}\n\nSet needsReply to FALSE if:\n- Just a thank you (\"Thank you\", \"Thanks!\", \"Great, thanks\", \"Appreciated\", \"Thank you so much\")\n- Customer replying \"thank you\" to a previous support reply\n- Acknowledgement only (\"Got it\", \"Ok noted\", \"Sure\", \"Understood\")\n- Auto-reply, out-of-office, or no-reply sender\n- Newsletter, promotional, or marketing email\n- Spam or irrelevant content\n- Previous reply from our own support team (check if sender is our domain)\n- Any email with no question or request\n\nSet needsReply to TRUE if:\n- Asking about room availability, pricing, or promotions\n- Making, modifying, or cancelling a reservation\n- Complaint or negative feedback requiring resolution\n- Asking about hotel facilities, services, or amenities\n- Check-in or check-out related questions\n- Billing, payment, or invoice questions\n- Special requests (e.g. dietary needs, accessibility, early check-in)\n- Lost and found inquiries\n- Any question needing a specific answer\n\nSet urgency to \"high\" if:\n- Guest is currently checked in with an issue\n- Complaint requiring immediate attention\n- Same-day or next-day arrival question\n\nSet urgency to \"medium\" if:\n- Reservation inquiry within the next 7 days\n- Billing dispute\n\nSet urgency to \"low\" if:\n- General questions\n- Future reservations beyond 7 days\n- General feedback\n\nSet category to one of:\n\"Reservation\", \"Check-in/Check-out\", \"Billing\", \n\"Facilities\", \"Complaint\", \"Special Request\", \"General\""
+      },
+      "id": "98467611-a66a-4293-98b9-0308bff70bbf",
+      "name": "Assess if message needs a reply",
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "position": [
+        656,
+        1728
+      ],
+      "typeVersion": 1.3
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "version": 1,
+            "leftValue": "",
+            "caseSensitive": true,
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "53849246-ad32-4845-9976-9f9688f5a6f2",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              },
+              "leftValue": "={{ $json.needsReply }}",
+              "rightValue": "true"
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {}
+      },
+      "id": "3ec3f5ef-924d-463b-a91e-9640de6c05cc",
+      "name": "If Needs Reply",
+      "type": "n8n-nodes-base.if",
+      "position": [
+        1264,
+        1776
+      ],
+      "typeVersion": 2
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-3-pro-preview",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        768,
+        2064
+      ],
+      "id": "67e91fb7-d487-4a1d-bbee-327b257fc2d3",
+      "name": "Google Gemini Chat Model2",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "JotYgsTc9JLNcYun",
+          "name": "Google Gemini(PaLM) Api - Gemini File Search"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsonSchema": "{\n  \"type\": \"object\",\n  \"properties\": {\n    \"needsReply\": { \"type\": \"boolean\" },\n    \"reason\": { \"type\": \"string\" },\n    \"category\": { \"type\": \"string\" },\n    \"urgency\": { \"type\": \"string\" }\n  },\n  \"required\": [\"needsReply\"]\n}",
+        "autoFix": true
+      },
+      "id": "a4328f4f-4c17-4395-8693-42b2cbb8384d",
+      "name": "JSON Parser",
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "position": [
+        784,
+        2816
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "content": "## Assesing whether the mail needs a reply or not",
+        "height": 592,
+        "width": 624,
+        "color": 4
+      },
+      "id": "12489a32-f896-43b1-b2fe-751ece01cc3c",
+      "name": "Sticky Note",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        480,
+        2528
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "content": "## Selecting only the mails that need a reply",
+        "height": 272,
+        "width": 352,
+        "color": 3
+      },
+      "id": "aac83c6c-40ec-4739-9fc5-bb6dd8307e76",
+      "name": "Sticky Note3",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1184,
+        2592
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-3-flash-preview",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        592,
+        2800
+      ],
+      "id": "4a44ac9d-a489-41f0-9779-71f137c8d63b",
+      "name": "Google Gemini Chat Model3",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "fWa8nrFVTByaSTxH",
+          "name": "Google Gemini(PaLM) Api - PG VGStore"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "prompt": "=You are a hotel customer support email classifier.\nAnalyze the following email and decide if it needs a reply.\n\nEmail Subject: {{ $input.item.json.subject }}\nEmail From: {{ $input.item.json.from }}\nEmail Body: {{ $input.item.json.text }}\n\nReply ONLY with valid JSON, no extra text, no markdown:\n{\n  \"needsReply\": true or false,\n  \"reason\": \"short reason\",\n  \"category\": \"category name\",\n  \"urgency\": \"low/medium/high\"\n}\n\nSet needsReply to FALSE if:\n- Just a thank you (\"Thank you\", \"Thanks!\", \"Great, thanks\", \"Appreciated\", \"Thank you so much\")\n- Customer replying \"thank you\" to a previous support reply\n- Acknowledgement only (\"Got it\", \"Ok noted\", \"Sure\", \"Understood\")\n- Auto-reply, out-of-office, or no-reply sender\n- Newsletter, promotional, or marketing email\n- Spam or irrelevant content\n- Previous reply from our own support team (check if sender is our domain)\n- Any email with no question or request\n\nSet needsReply to TRUE if:\n- Asking about room availability, pricing, or promotions\n- Making, modifying, or cancelling a reservation\n- Complaint or negative feedback requiring resolution\n- Asking about hotel facilities, services, or amenities\n- Check-in or check-out related questions\n- Billing, payment, or invoice questions\n- Special requests (e.g. dietary needs, accessibility, early check-in)\n- Lost and found inquiries\n- Any question needing a specific answer\n\nSet urgency to \"high\" if:\n- Guest is currently checked in with an issue\n- Complaint requiring immediate attention\n- Same-day or next-day arrival question\n\nSet urgency to \"medium\" if:\n- Reservation inquiry within the next 7 days\n- Billing dispute\n\nSet urgency to \"low\" if:\n- General questions\n- Future reservations beyond 7 days\n- General feedback\n\nSet category to one of:\n\"Reservation\", \"Check-in/Check-out\", \"Billing\", \n\"Facilities\", \"Complaint\", \"Special Request\", \"General\""
+      },
+      "id": "6c586bf1-2c46-4530-8a4a-479f1ee71a96",
+      "name": "Assess if message needs a reply1",
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "position": [
+        672,
+        2640
+      ],
+      "typeVersion": 1.3
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "version": 1,
+            "leftValue": "",
+            "caseSensitive": true,
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "53849246-ad32-4845-9976-9f9688f5a6f2",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              },
+              "leftValue": "={{ $json.needsReply }}",
+              "rightValue": "true"
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {}
+      },
+      "id": "47da19f7-4bbc-46a5-94cd-bbf1eb59cbc5",
+      "name": "If Needs Reply1",
+      "type": "n8n-nodes-base.if",
+      "position": [
+        1280,
+        2688
+      ],
+      "typeVersion": 2
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-3-flash-preview",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        784,
+        2976
+      ],
+      "id": "a7f18621-7660-41f2-a78d-0d7752f05c29",
+      "name": "Google Gemini Chat Model5",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "fWa8nrFVTByaSTxH",
+          "name": "Google Gemini(PaLM) Api - PG VGStore"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsonSchema": "{\n  \"type\": \"object\",\n  \"properties\": {\n    \"needsReply\": { \"type\": \"boolean\" },\n    \"reason\": { \"type\": \"string\" },\n    \"category\": { \"type\": \"string\" },\n    \"urgency\": { \"type\": \"string\" }\n  },\n  \"required\": [\"needsReply\"]\n}",
+        "autoFix": true
+      },
+      "id": "65b74f26-1ada-41c4-8df3-ab798e300740",
+      "name": "JSON Parser2",
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "position": [
+        800,
+        3824
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "content": "## Assesing whether the mail needs a reply or not",
+        "height": 592,
+        "width": 624,
+        "color": 4
+      },
+      "id": "62fd1fdc-0b8e-45b9-b0dc-73fedc77dfc4",
+      "name": "Sticky Note8",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        496,
+        3536
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "content": "## Selecting only the mails that need a reply",
+        "height": 272,
+        "width": 352,
+        "color": 3
+      },
+      "id": "31ad20c3-e22d-468e-b202-b3210ce1efbe",
+      "name": "Sticky Note9",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1200,
+        3600
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "modelName": "=models/gemini-flash-lite-latest",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        608,
+        3808
+      ],
+      "id": "ec017757-2397-4444-bcf5-6487012519de",
+      "name": "Google Gemini Chat Model6",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "fWa8nrFVTByaSTxH",
+          "name": "Google Gemini(PaLM) Api - PG VGStore"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "prompt": "=You are a hotel customer support email classifier.\nAnalyze the following email and decide if it needs a reply.\n\nEmail Subject: {{ $input.item.json.subject }}\nEmail From: {{ $input.item.json.from }}\nEmail Body: {{ $input.item.json.text }}\n\nReply ONLY with valid JSON, no extra text, no markdown:\n{\n  \"needsReply\": true or false,\n  \"reason\": \"short reason\",\n  \"category\": \"category name\",\n  \"urgency\": \"low/medium/high\"\n}\n\nSet needsReply to FALSE if:\n- Just a thank you (\"Thank you\", \"Thanks!\", \"Great, thanks\", \"Appreciated\", \"Thank you so much\")\n- Customer replying \"thank you\" to a previous support reply\n- Acknowledgement only (\"Got it\", \"Ok noted\", \"Sure\", \"Understood\")\n- Auto-reply, out-of-office, or no-reply sender\n- Newsletter, promotional, or marketing email\n- Spam or irrelevant content\n- Previous reply from our own support team (check if sender is our domain)\n- Any email with no question or request\n\nSet needsReply to TRUE if:\n- Asking about room availability, pricing, or promotions\n- Making, modifying, or cancelling a reservation\n- Complaint or negative feedback requiring resolution\n- Asking about hotel facilities, services, or amenities\n- Check-in or check-out related questions\n- Billing, payment, or invoice questions\n- Special requests (e.g. dietary needs, accessibility, early check-in)\n- Lost and found inquiries\n- Any question needing a specific answer\n\nSet urgency to \"high\" if:\n- Guest is currently checked in with an issue\n- Complaint requiring immediate attention\n- Same-day or next-day arrival question\n\nSet urgency to \"medium\" if:\n- Reservation inquiry within the next 7 days\n- Billing dispute\n\nSet urgency to \"low\" if:\n- General questions\n- Future reservations beyond 7 days\n- General feedback\n\nSet category to one of:\n\"Reservation\", \"Check-in/Check-out\", \"Billing\", \n\"Facilities\", \"Complaint\", \"Special Request\", \"General\""
+      },
+      "id": "5630f96d-2da7-4ad2-b42c-e25b41eec08d",
+      "name": "Assess if message needs a reply2",
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "position": [
+        688,
+        3648
+      ],
+      "typeVersion": 1.3
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "version": 1,
+            "leftValue": "",
+            "caseSensitive": true,
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "53849246-ad32-4845-9976-9f9688f5a6f2",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              },
+              "leftValue": "={{ $json.needsReply }}",
+              "rightValue": "true"
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {}
+      },
+      "id": "9c821818-9e3b-4f16-adb4-0695f46fa55f",
+      "name": "If Needs Reply2",
+      "type": "n8n-nodes-base.if",
+      "position": [
+        1296,
+        3696
+      ],
+      "typeVersion": 2
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-flash-lite-latest",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        800,
+        3984
+      ],
+      "id": "9b49f410-aef4-4858-ad49-0c4d6781012f",
+      "name": "Google Gemini Chat Model8",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "fWa8nrFVTByaSTxH",
+          "name": "Google Gemini(PaLM) Api - PG VGStore"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Assesing whether the mail needs a reply or not",
+        "height": 592,
+        "width": 624,
+        "color": 4
+      },
+      "id": "2e84c6df-2d9d-4296-9e1e-8e505c2dff93",
+      "name": "Sticky Note1",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        464,
+        1616
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "content": "Gemini_3_Pro_Preview",
+        "height": 80,
+        "width": 208,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        240,
+        1808
+      ],
+      "id": "1ce116e6-64f8-4215-80eb-24456f04d213",
+      "name": "Sticky Note12"
+    },
+    {
+      "parameters": {
+        "content": "Gemini_3_Flash_Preview",
+        "height": 80,
+        "width": 208,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        208,
+        2592
+      ],
+      "id": "e4390a41-4405-4c8a-a2f6-0b2c385c283f",
+      "name": "Sticky Note13"
+    },
+    {
+      "parameters": {
+        "content": "Gemini_Flash_Lite_Latest",
+        "height": 80,
+        "width": 208,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        336,
+        3408
+      ],
+      "id": "3e12893c-a423-475f-a356-1df78e5cb2d3",
+      "name": "Sticky Note14"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "models/gemini-3-pro-preview",
+          "mode": "list",
+          "cachedResultName": "models/gemini-3-pro-preview"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=Customer Email Subject: {{ $('Receive Email from Gmail').item.json.subject }}\nCustomer Name: {{ $('Receive Email from Gmail').item.json.from }}\nCustomer Message: {{ $('Receive Email from Gmail').item.json.text }}"
+            },
+            {
+              "content": "You are a professional hotel customer support representative.\n\nSTRICT RULES - YOU MUST FOLLOW:\n1. ALWAYS use the File Search tool to find answers first\n2. ONLY use facts returned by the File Search tool - nothing else\n3. NEVER use your own knowledge or training data to answer\n4. NEVER guess or assume any hotel policies, prices, or details\n5. If you are about to answer without using File Search - STOP and search first\n\nLANGUAGE DETECTION:\n- Detect the language of the customer's email\n- ALWAYS reply in the SAME language the customer used\n- The knowledge base is in English — search it in English,\n  but translate your reply to match the customer's language\n- You must support ALL languages including but not limited to:\n  English, Malay, Chinese (Simplified & Traditional), Thai,\n  Arabic, Japanese, Korean, French, German, Spanish, Italian,\n  Portuguese, Hindi, Tamil, Vietnamese, Indonesian, Tagalog,\n  Russian, Turkish, Dutch, and any other language detected\n- NEVER default to English unless the customer writes in English\n  or the language cannot be determined\n- Translate the full HTML reply naturally including\n  \"Dear\", \"Thank you for reaching out\", \"Warm regards\" etc.\n\nMIXED LANGUAGE EMAILS:\n- If the customer mixes two languages (e.g. English + Chinese,\n  English + Malay), identify which language the QUESTION is written in\n- Reply in the language used for the QUESTION part\n- Example: \"i like to ask 酒店有没有早餐?\" → question is in Chinese → reply in Chinese\n- Example: \"Hi, boleh tanya pasal breakfast?\" → question is in Malay → reply in Malay\n- If truly unclear which language to use → default to English\n\nSTEP 1 - CHECK IF QUESTION IS HOTEL-RELATED:\nBefore searching, determine if the question is related to hotel services.\n\nHotel-related topics include:\n- Reservations, booking, cancellation\n- Check-in, check-out\n- Room types, amenities, facilities\n- Billing, payment, invoices\n- Hotel services (spa, pool, gym, restaurant)\n- Special requests, accessibility\n- Lost and found\n- Nearby attractions, restaurants, shopping recommendations\n- Local transportation and directions\n- Things to do near the hotel\n- Any question about the hotel or stay experience\n\nIf the question is NOT hotel-related, do NOT use File Search.\nReply ONLY with this HTML (translated to customer's language):\n\n<p>Dear [guest name or \"Valued Guest\"],</p>\n\n<p>Thank you for reaching out to us.</p>\n\n<p>We are only able to assist with inquiries related to our hotel services.\nFor other matters, we recommend seeking the appropriate resources.</p>\n\n<p>If you have any hotel-related questions, please don't hesitate to contact us.</p>\n\n<p>Warm regards,<br>\nHotel Support Team<br>\n📞 +XX-XXXX-XXXX<br>\n🌐 <a href=\"http://www.yourhotel.com\">www.yourhotel.com</a></p>\n\n<p>By Gemini_3_Pro_Preview</p>\n<p>Public API</p>\n\nSTEP 2 - IF HOTEL-RELATED, USE FILE SEARCH:\n- Use the File Search tool with the customer's question in ENGLISH\n- If File Search returns no results, reply ONLY with this HTML\n  (translated to customer's language):\n\n<p>Dear [guest name or \"Valued Guest\"],</p>\n\n<p>Thank you for your inquiry. Our team will follow up with you shortly.</p>\n\n<p>Warm regards,<br>\nHotel Support Team<br>\n📞 +XX-XXXX-XXXX<br>\n🌐 <a href=\"http://www.yourhotel.com\">www.yourhotel.com</a></p>\n\n<p>By Gemini_3_Pro_Preview</p>\n<p>Public API</p>\n\nAfter getting File Search results:\n- Rephrase the answer in natural, warm, professional sentences\n- Translate the rephrased answer to the customer's language\n- Do NOT copy word for word\n- Do NOT add any extra information not in the File Search results\n- Do NOT use phrases like \"We are pleased to inform you\" or \"I am happy to inform you\"\n- Keep each answer to 1-2 sentences per question\n\nSTEP 3 - DETECTING EMAIL FORMAT:\n- If customer sends a SINGLE question or writes in PARAGRAPH form → use single answer format, no colour changes\n- If customer sends MULTIPLE questions in POINT FORM (numbered list, bullet points, or each question on a new line) → use point form format with blue bold questions\n\nFOR SINGLE QUESTION OR PARAGRAPH:\n<p>Dear [guest name or \"Valued Guest\"],</p>\n\n<p>Thank you for reaching out to us.</p>\n\n<p>[Rephrased answer translated to customer's language]</p>\n\n<p>If you have any further questions, please don't hesitate to reach out.</p>\n\n<p>Warm regards,<br>\nHotel Support Team<br>\n📞 +XX-XXXX-XXXX<br>\n🌐 <a href=\"http://www.yourhotel.com\">www.yourhotel.com</a></p>\n\n<p>By Gemini_3_Pro_Preview</p>\n<p>Public API</p>\n\nFOR POINT FORM (multiple questions only):\n<p>Dear [guest name or \"Valued Guest\"],</p>\n\n<p>Thank you for reaching out to us. Please find the answers to your questions below:</p>\n\n<p><strong style=\"color:#1a73e8;\">1. [Repeat customer question in customer's language]</strong><br>\n[Answer translated to customer's language]</p>\n\n<p><strong style=\"color:#1a73e8;\">2. [Repeat customer question in customer's language]</strong><br>\n[Answer translated to customer's language]</p>\n\n<p><strong style=\"color:#1a73e8;\">3. [Repeat customer question in customer's language]</strong><br>\n[Answer translated to customer's language]</p>\n\n<p>If you have any further questions, please don't hesitate to reach out.</p>\n\n<p>Warm regards,<br>\nHotel Support Team<br>\n📞 +XX-XXXX-XXXX<br>\n🌐 <a href=\"http://www.yourhotel.com\">www.yourhotel.com</a></p>\n\n<p>By Gemini_3_Pro_Preview</p>\n<p>Public API</p>",
+              "role": "model"
+            }
+          ]
+        },
+        "builtInTools": {
+          "fileSearch": {
+            "fileSearchStoreNames": "[\"fileSearchStores/hotelcustomersupport-alagzxro9jne\"]"
+          }
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.googleGemini",
+      "typeVersion": 1.1,
+      "position": [
+        1648,
+        1728
+      ],
+      "id": "8cd7ed88-fa14-4aeb-b2f4-045bb22c56b8",
+      "name": "Message a model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "JotYgsTc9JLNcYun",
+          "name": "Google Gemini(PaLM) Api - Gemini File Search"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Sending a Reply",
+        "height": 240,
+        "width": 224,
+        "color": 4
+      },
+      "id": "b1d8455b-1617-40f8-afb4-74891486188d",
+      "name": "Sticky Note6",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        2032,
+        2560
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "operation": "reply",
+        "messageId": "={{ $('Receive Email from Gmail').item.json.id }}",
+        "message": "={{ $('Message a model1').item.json.content.parts[1].text }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        2096,
+        2624
+      ],
+      "id": "5e0a5e8a-fcdd-4e04-bb8b-65c953ca3d16",
+      "name": "Reply to the email1",
+      "webhookId": "6fa4fc4e-9b2e-4812-bf7a-bfb1c861578a",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "PxWNojtMdxyKEMQe",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "models/gemini-3-pro-preview",
+          "mode": "list",
+          "cachedResultName": "models/gemini-3-pro-preview"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=Customer Email Subject: {{ $('Receive Email from Gmail').item.json.subject }}\nCustomer Name: {{ $('Receive Email from Gmail').item.json.from }}\nCustomer Message: {{ $('Receive Email from Gmail').item.json.text }}"
+            },
+            {
+              "content": "You are a professional hotel customer support representative.\n\nSTRICT RULES - YOU MUST FOLLOW:\n1. ALWAYS use the File Search tool to find answers first\n2. ONLY use facts returned by the File Search tool - nothing else\n3. NEVER use your own knowledge or training data to answer\n4. NEVER guess or assume any hotel policies, prices, or details\n5. If you are about to answer without using File Search - STOP and search first\n\nLANGUAGE DETECTION:\n- Detect the language of the customer's email\n- ALWAYS reply in the SAME language the customer used\n- The knowledge base is in English — search it in English,\n  but translate your reply to match the customer's language\n- You must support ALL languages including but not limited to:\n  English, Malay, Chinese (Simplified & Traditional), Thai,\n  Arabic, Japanese, Korean, French, German, Spanish, Italian,\n  Portuguese, Hindi, Tamil, Vietnamese, Indonesian, Tagalog,\n  Russian, Turkish, Dutch, and any other language detected\n- NEVER default to English unless the customer writes in English\n  or the language cannot be determined\n- Translate the full HTML reply naturally including\n  \"Dear\", \"Thank you for reaching out\", \"Warm regards\" etc.\n\nMIXED LANGUAGE EMAILS:\n- If the customer mixes two languages (e.g. English + Chinese,\n  English + Malay), identify which language the QUESTION is written in\n- Reply in the language used for the QUESTION part\n- Example: \"i like to ask 酒店有没有早餐?\" → question is in Chinese → reply in Chinese\n- Example: \"Hi, boleh tanya pasal breakfast?\" → question is in Malay → reply in Malay\n- If truly unclear which language to use → default to English\n\nSTEP 1 - CHECK IF QUESTION IS HOTEL-RELATED:\nBefore searching, determine if the question is related to hotel services.\n\nHotel-related topics include:\n- Reservations, booking, cancellation\n- Check-in, check-out\n- Room types, amenities, facilities\n- Billing, payment, invoices\n- Hotel services (spa, pool, gym, restaurant)\n- Special requests, accessibility\n- Lost and found\n- Nearby attractions, restaurants, shopping recommendations\n- Local transportation and directions\n- Things to do near the hotel\n- Any question about the hotel or stay experience\n\nIf the question is NOT hotel-related, do NOT use File Search.\nReply ONLY with this HTML (translated to customer's language):\n\n<p>Dear [guest name or \"Valued Guest\"],</p>\n\n<p>Thank you for reaching out to us.</p>\n\n<p>We are only able to assist with inquiries related to our hotel services.\nFor other matters, we recommend seeking the appropriate resources.</p>\n\n<p>If you have any hotel-related questions, please don't hesitate to contact us.</p>\n\n<p>Warm regards,<br>\nHotel Support Team<br>\n📞 +XX-XXXX-XXXX<br>\n🌐 <a href=\"http://www.yourhotel.com\">www.yourhotel.com</a></p>\n\n<p>By Gemini_3_Pro_Preview</p>\n<p>Public API</p>\n\nSTEP 2 - IF HOTEL-RELATED, USE FILE SEARCH:\n- Use the File Search tool with the customer's question in ENGLISH\n- If File Search returns no results, reply ONLY with this HTML\n  (translated to customer's language):\n\n<p>Dear [guest name or \"Valued Guest\"],</p>\n\n<p>Thank you for your inquiry. Our team will follow up with you shortly.</p>\n\n<p>Warm regards,<br>\nHotel Support Team<br>\n📞 +XX-XXXX-XXXX<br>\n🌐 <a href=\"http://www.yourhotel.com\">www.yourhotel.com</a></p>\n\n<p>By Gemini_3_Flash_Preview</p>\n<p>Public API</p>\n\nAfter getting File Search results:\n- Rephrase the answer in natural, warm, professional sentences\n- Translate the rephrased answer to the customer's language\n- Do NOT copy word for word\n- Do NOT add any extra information not in the File Search results\n- Do NOT use phrases like \"We are pleased to inform you\" or \"I am happy to inform you\"\n- Keep each answer to 1-2 sentences per question\n\nSTEP 3 - DETECTING EMAIL FORMAT:\n- If customer sends a SINGLE question or writes in PARAGRAPH form → use single answer format, no colour changes\n- If customer sends MULTIPLE questions in POINT FORM (numbered list, bullet points, or each question on a new line) → use point form format with blue bold questions\n\nFOR SINGLE QUESTION OR PARAGRAPH:\n<p>Dear [guest name or \"Valued Guest\"],</p>\n\n<p>Thank you for reaching out to us.</p>\n\n<p>[Rephrased answer translated to customer's language]</p>\n\n<p>If you have any further questions, please don't hesitate to reach out.</p>\n\n<p>Warm regards,<br>\nHotel Support Team<br>\n📞 +XX-XXXX-XXXX<br>\n🌐 <a href=\"http://www.yourhotel.com\">www.yourhotel.com</a></p>\n\n<p>By Gemini_3_Flash_Preview</p>\n<p>Public API</p>\n\nFOR POINT FORM (multiple questions only):\n<p>Dear [guest name or \"Valued Guest\"],</p>\n\n<p>Thank you for reaching out to us. Please find the answers to your questions below:</p>\n\n<p><strong style=\"color:#1a73e8;\">1. [Repeat customer question in customer's language]</strong><br>\n[Answer translated to customer's language]</p>\n\n<p><strong style=\"color:#1a73e8;\">2. [Repeat customer question in customer's language]</strong><br>\n[Answer translated to customer's language]</p>\n\n<p><strong style=\"color:#1a73e8;\">3. [Repeat customer question in customer's language]</strong><br>\n[Answer translated to customer's language]</p>\n\n<p>If you have any further questions, please don't hesitate to reach out.</p>\n\n<p>Warm regards,<br>\nHotel Support Team<br>\n📞 +XX-XXXX-XXXX<br>\n🌐 <a href=\"http://www.yourhotel.com\">www.yourhotel.com</a></p>\n\n<p>By Gemini_3_Flash_Preview</p>\n<p>Public API</p>",
+              "role": "model"
+            }
+          ]
+        },
+        "builtInTools": {
+          "fileSearch": {
+            "fileSearchStoreNames": "[\"fileSearchStores/hotelcustomersupport-alagzxro9jne\"]"
+          }
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.googleGemini",
+      "typeVersion": 1.1,
+      "position": [
+        1648,
+        2704
+      ],
+      "id": "9f5485f8-a87e-4af7-a9eb-c2cd4b5ff019",
+      "name": "Message a model1",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "JotYgsTc9JLNcYun",
+          "name": "Google Gemini(PaLM) Api - Gemini File Search"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Sending a Reply",
+        "height": 240,
+        "width": 224,
+        "color": 4
+      },
+      "id": "3b528bc5-0001-4fbc-9b87-c95aa5f9de42",
+      "name": "Sticky Note7",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        2144,
+        3600
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "operation": "reply",
+        "messageId": "={{ $('Receive Email from Gmail').item.json.id }}",
+        "message": "={{ $('Message a model2').item.json.content.parts[1].text }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        2208,
+        3664
+      ],
+      "id": "663edf8e-7362-4f38-b52a-ea9158f315c7",
+      "name": "Reply to the email2",
+      "webhookId": "6fa4fc4e-9b2e-4812-bf7a-bfb1c861578a",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "PxWNojtMdxyKEMQe",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "models/gemini-3-pro-preview",
+          "mode": "list",
+          "cachedResultName": "models/gemini-3-pro-preview"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=Customer Email Subject: {{ $('Receive Email from Gmail').item.json.subject }}\nCustomer Name: {{ $('Receive Email from Gmail').item.json.from }}\nCustomer Message: {{ $('Receive Email from Gmail').item.json.text }}"
+            },
+            {
+              "content": "You are a professional hotel customer support representative.\n\nSTRICT RULES - YOU MUST FOLLOW:\n1. ALWAYS use the File Search tool to find answers first\n2. ONLY use facts returned by the File Search tool - nothing else\n3. NEVER use your own knowledge or training data to answer\n4. NEVER guess or assume any hotel policies, prices, or details\n5. If you are about to answer without using File Search - STOP and search first\n\nLANGUAGE DETECTION:\n- Detect the language of the customer's email\n- ALWAYS reply in the SAME language the customer used\n- The knowledge base is in English — search it in English,\n  but translate your reply to match the customer's language\n- You must support ALL languages including but not limited to:\n  English, Malay, Chinese (Simplified & Traditional), Thai,\n  Arabic, Japanese, Korean, French, German, Spanish, Italian,\n  Portuguese, Hindi, Tamil, Vietnamese, Indonesian, Tagalog,\n  Russian, Turkish, Dutch, and any other language detected\n- NEVER default to English unless the customer writes in English\n  or the language cannot be determined\n- Translate the full HTML reply naturally including\n  \"Dear\", \"Thank you for reaching out\", \"Warm regards\" etc.\n\nMIXED LANGUAGE EMAILS:\n- If the customer mixes two languages (e.g. English + Chinese,\n  English + Malay), identify which language the QUESTION is written in\n- Reply in the language used for the QUESTION part\n- Example: \"i like to ask 酒店有没有早餐?\" → question is in Chinese → reply in Chinese\n- Example: \"Hi, boleh tanya pasal breakfast?\" → question is in Malay → reply in Malay\n- If truly unclear which language to use → default to English\n\nSTEP 1 - CHECK IF QUESTION IS HOTEL-RELATED:\nBefore searching, determine if the question is related to hotel services.\n\nHotel-related topics include:\n- Reservations, booking, cancellation\n- Check-in, check-out\n- Room types, amenities, facilities\n- Billing, payment, invoices\n- Hotel services (spa, pool, gym, restaurant)\n- Special requests, accessibility\n- Lost and found\n- Nearby attractions, restaurants, shopping recommendations\n- Local transportation and directions\n- Things to do near the hotel\n- Any question about the hotel or stay experience\n\nIf the question is NOT hotel-related, do NOT use File Search.\nReply ONLY with this HTML (translated to customer's language):\n\n<p>Dear [guest name or \"Valued Guest\"],</p>\n\n<p>Thank you for reaching out to us.</p>\n\n<p>We are only able to assist with inquiries related to our hotel services.\nFor other matters, we recommend seeking the appropriate resources.</p>\n\n<p>If you have any hotel-related questions, please don't hesitate to contact us.</p>\n\n<p>Warm regards,<br>\nHotel Support Team<br>\n📞 +XX-XXXX-XXXX<br>\n🌐 <a href=\"http://www.yourhotel.com\">www.yourhotel.com</a></p>\n\n<p>By Gemini_Flash_Lite_Latest</p>\n<p>Public API</p>\n\nSTEP 2 - IF HOTEL-RELATED, USE FILE SEARCH:\n- Use the File Search tool with the customer's question in ENGLISH\n- If File Search returns no results, reply ONLY with this HTML\n  (translated to customer's language):\n\n<p>Dear [guest name or \"Valued Guest\"],</p>\n\n<p>Thank you for your inquiry. Our team will follow up with you shortly.</p>\n\n<p>Warm regards,<br>\nHotel Support Team<br>\n📞 +XX-XXXX-XXXX<br>\n🌐 <a href=\"http://www.yourhotel.com\">www.yourhotel.com</a></p>\n\n<p>By Gemini_Flash_Lite_Latest</p>\n<p>Public API</p>\n\nAfter getting File Search results:\n- Rephrase the answer in natural, warm, professional sentences\n- Translate the rephrased answer to the customer's language\n- Do NOT copy word for word\n- Do NOT add any extra information not in the File Search results\n- Do NOT use phrases like \"We are pleased to inform you\" or \"I am happy to inform you\"\n- Keep each answer to 1-2 sentences per question\n\nSTEP 3 - DETECTING EMAIL FORMAT:\n- If customer sends a SINGLE question or writes in PARAGRAPH form → use single answer format, no colour changes\n- If customer sends MULTIPLE questions in POINT FORM (numbered list, bullet points, or each question on a new line) → use point form format with blue bold questions\n\nFOR SINGLE QUESTION OR PARAGRAPH:\n<p>Dear [guest name or \"Valued Guest\"],</p>\n\n<p>Thank you for reaching out to us.</p>\n\n<p>[Rephrased answer translated to customer's language]</p>\n\n<p>If you have any further questions, please don't hesitate to reach out.</p>\n\n<p>Warm regards,<br>\nHotel Support Team<br>\n📞 +XX-XXXX-XXXX<br>\n🌐 <a href=\"http://www.yourhotel.com\">www.yourhotel.com</a></p>\n\n<p>By Gemini_Flash_Lite_Latest</p>\n<p>Public API</p>\n\nFOR POINT FORM (multiple questions only):\n<p>Dear [guest name or \"Valued Guest\"],</p>\n\n<p>Thank you for reaching out to us. Please find the answers to your questions below:</p>\n\n<p><strong style=\"color:#1a73e8;\">1. [Repeat customer question in customer's language]</strong><br>\n[Answer translated to customer's language]</p>\n\n<p><strong style=\"color:#1a73e8;\">2. [Repeat customer question in customer's language]</strong><br>\n[Answer translated to customer's language]</p>\n\n<p><strong style=\"color:#1a73e8;\">3. [Repeat customer question in customer's language]</strong><br>\n[Answer translated to customer's language]</p>\n\n<p>If you have any further questions, please don't hesitate to reach out.</p>\n\n<p>Warm regards,<br>\nHotel Support Team<br>\n📞 +XX-XXXX-XXXX<br>\n🌐 <a href=\"http://www.yourhotel.com\">www.yourhotel.com</a></p>\n\n<p>By Gemini_Flash_Lite_Latest</p>\n<p>Public API</p>",
+              "role": "model"
+            }
+          ]
+        },
+        "builtInTools": {
+          "fileSearch": {
+            "fileSearchStoreNames": "[\"fileSearchStores/hotelcustomersupport-alagzxro9jne\"]"
+          }
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.googleGemini",
+      "typeVersion": 1.1,
+      "position": [
+        1760,
+        3744
+      ],
+      "id": "3c000037-57ea-41b7-9023-78e59df31587",
+      "name": "Message a model2",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "JotYgsTc9JLNcYun",
+          "name": "Google Gemini(PaLM) Api - Gemini File Search"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Receive Email from Gmail": {
+      "main": [
+        [
+          {
+            "node": "Assess if message needs a reply",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Assess if message needs a reply1",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Assess if message needs a reply2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "JSON Parser1": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Assess if message needs a reply",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Assess if message needs a reply",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Assess if message needs a reply": {
+      "main": [
+        [
+          {
+            "node": "If Needs Reply",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If Needs Reply": {
+      "main": [
+        [
+          {
+            "node": "Message a model",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model2": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "JSON Parser1",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "JSON Parser": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Assess if message needs a reply1",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model3": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Assess if message needs a reply1",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Assess if message needs a reply1": {
+      "main": [
+        [
+          {
+            "node": "If Needs Reply1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If Needs Reply1": {
+      "main": [
+        [
+          {
+            "node": "Message a model1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model5": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "JSON Parser",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "JSON Parser2": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Assess if message needs a reply2",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model6": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Assess if message needs a reply2",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Assess if message needs a reply2": {
+      "main": [
+        [
+          {
+            "node": "If Needs Reply2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If Needs Reply2": {
+      "main": [
+        [
+          {
+            "node": "Message a model2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model8": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "JSON Parser2",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Message a model": {
+      "main": [
+        [
+          {
+            "node": "Reply to the email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Message a model1": {
+      "main": [
+        [
+          {
+            "node": "Reply to the email1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Message a model2": {
+      "main": [
+        [
+          {
+            "node": "Reply to the email2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "staticData": {
+    "node:Receive Email from Gmail": {
+      "lastTimeChecked": 1772179199,
+      "possibleDuplicates": [
+        "19c9e1caef816143"
+      ]
+    }
+  },
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "fe5e513b-094e-46e9-8578-17576005c43c",
+  "activeVersionId": "fe5e513b-094e-46e9-8578-17576005c43c",
+  "triggerCount": 1,
+  "shared": [
+    {
+      "updatedAt": "2026-03-02T06:07:08.171Z",
+      "createdAt": "2026-03-02T06:07:08.171Z",
+      "role": "workflow:owner",
+      "workflowId": "k1a0lfZAbAIoRdZF",
+      "projectId": "jEyFJXtUUwEM8iYb"
+    }
+  ],
+  "activeVersion": {
+    "updatedAt": "2026-03-02T07:45:29.686Z",
+    "createdAt": "2026-03-02T07:45:04.339Z",
+    "versionId": "fe5e513b-094e-46e9-8578-17576005c43c",
+    "workflowId": "k1a0lfZAbAIoRdZF",
+    "nodes": [
+      {
+        "parameters": {
+          "jsonSchema": "{\n  \"type\": \"object\",\n  \"properties\": {\n    \"needsReply\": { \"type\": \"boolean\" },\n    \"reason\": { \"type\": \"string\" },\n    \"category\": { \"type\": \"string\" },\n    \"urgency\": { \"type\": \"string\" }\n  },\n  \"required\": [\"needsReply\"]\n}",
+          "autoFix": true
+        },
+        "id": "54f3c044-49b9-42e4-9ee8-d8aa1f803353",
+        "name": "JSON Parser1",
+        "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+        "position": [
+          768,
+          1904
+        ],
+        "typeVersion": 1
+      },
+      {
+        "parameters": {
+          "content": "## Selecting only the mails that need a reply",
+          "height": 272,
+          "width": 352,
+          "color": 3
+        },
+        "id": "4a449f7d-3296-4c78-92c7-2d1551f516d6",
+        "name": "Sticky Note2",
+        "type": "n8n-nodes-base.stickyNote",
+        "position": [
+          1168,
+          1680
+        ],
+        "typeVersion": 1
+      },
+      {
+        "parameters": {
+          "content": "## Sending a Reply",
+          "height": 240,
+          "width": 224,
+          "color": 4
+        },
+        "id": "750d75b3-320f-4c81-87e3-08c390eaf516",
+        "name": "Sticky Note5",
+        "type": "n8n-nodes-base.stickyNote",
+        "position": [
+          2032,
+          1584
+        ],
+        "typeVersion": 1
+      },
+      {
+        "parameters": {
+          "pollTimes": {
+            "item": [
+              {
+                "mode": "everyMinute"
+              }
+            ]
+          },
+          "simple": false,
+          "filters": {
+            "q": "-from:me"
+          },
+          "options": {}
+        },
+        "id": "1614821b-193f-4df9-a8a4-14846eed7923",
+        "name": "Receive Email from Gmail",
+        "type": "n8n-nodes-base.gmailTrigger",
+        "position": [
+          -416,
+          2480
+        ],
+        "typeVersion": 1,
+        "credentials": {
+          "gmailOAuth2": {
+            "id": "PxWNojtMdxyKEMQe",
+            "name": "Gmail account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "operation": "reply",
+          "messageId": "={{ $('Receive Email from Gmail').item.json.id }}",
+          "message": "={{ $('Message a model').item.json.content.parts[1].text }}",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.gmail",
+        "typeVersion": 2.2,
+        "position": [
+          2096,
+          1648
+        ],
+        "id": "9eac4945-f953-4e31-97e4-09923dba0643",
+        "name": "Reply to the email",
+        "webhookId": "6fa4fc4e-9b2e-4812-bf7a-bfb1c861578a",
+        "credentials": {
+          "gmailOAuth2": {
+            "id": "PxWNojtMdxyKEMQe",
+            "name": "Gmail account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "modelName": "models/gemini-3-pro-preview",
+          "options": {}
+        },
+        "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+        "typeVersion": 1,
+        "position": [
+          576,
+          1888
+        ],
+        "id": "fa57e0e6-cf2e-4650-9186-0e60091534fe",
+        "name": "Google Gemini Chat Model",
+        "credentials": {
+          "googlePalmApi": {
+            "id": "JotYgsTc9JLNcYun",
+            "name": "Google Gemini(PaLM) Api - Gemini File Search"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "prompt": "=You are a hotel customer support email classifier.\nAnalyze the following email and decide if it needs a reply.\n\nEmail Subject: {{ $input.item.json.subject }}\nEmail From: {{ $input.item.json.from }}\nEmail Body: {{ $input.item.json.text }}\n\nReply ONLY with valid JSON, no extra text, no markdown:\n{\n  \"needsReply\": true or false,\n  \"reason\": \"short reason\",\n  \"category\": \"category name\",\n  \"urgency\": \"low/medium/high\"\n}\n\nSet needsReply to FALSE if:\n- Just a thank you (\"Thank you\", \"Thanks!\", \"Great, thanks\", \"Appreciated\", \"Thank you so much\")\n- Customer replying \"thank you\" to a previous support reply\n- Acknowledgement only (\"Got it\", \"Ok noted\", \"Sure\", \"Understood\")\n- Auto-reply, out-of-office, or no-reply sender\n- Newsletter, promotional, or marketing email\n- Spam or irrelevant content\n- Previous reply from our own support team (check if sender is our domain)\n- Any email with no question or request\n\nSet needsReply to TRUE if:\n- Asking about room availability, pricing, or promotions\n- Making, modifying, or cancelling a reservation\n- Complaint or negative feedback requiring resolution\n- Asking about hotel facilities, services, or amenities\n- Check-in or check-out related questions\n- Billing, payment, or invoice questions\n- Special requests (e.g. dietary needs, accessibility, early check-in)\n- Lost and found inquiries\n- Any question needing a specific answer\n\nSet urgency to \"high\" if:\n- Guest is currently checked in with an issue\n- Complaint requiring immediate attention\n- Same-day or next-day arrival question\n\nSet urgency to \"medium\" if:\n- Reservation inquiry within the next 7 days\n- Billing dispute\n\nSet urgency to \"low\" if:\n- General questions\n- Future reservations beyond 7 days\n- General feedback\n\nSet category to one of:\n\"Reservation\", \"Check-in/Check-out\", \"Billing\", \n\"Facilities\", \"Complaint\", \"Special Request\", \"General\""
+        },
+        "id": "98467611-a66a-4293-98b9-0308bff70bbf",
+        "name": "Assess if message needs a reply",
+        "type": "@n8n/n8n-nodes-langchain.chainLlm",
+        "position": [
+          656,
+          1728
+        ],
+        "typeVersion": 1.3
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "version": 1,
+              "leftValue": "",
+              "caseSensitive": true,
+              "typeValidation": "strict"
+            },
+            "conditions": [
+              {
+                "id": "53849246-ad32-4845-9976-9f9688f5a6f2",
+                "operator": {
+                  "type": "boolean",
+                  "operation": "true",
+                  "singleValue": true
+                },
+                "leftValue": "={{ $json.needsReply }}",
+                "rightValue": "true"
+              }
+            ],
+            "combinator": "or"
+          },
+          "options": {}
+        },
+        "id": "3ec3f5ef-924d-463b-a91e-9640de6c05cc",
+        "name": "If Needs Reply",
+        "type": "n8n-nodes-base.if",
+        "position": [
+          1264,
+          1776
+        ],
+        "typeVersion": 2
+      },
+      {
+        "parameters": {
+          "modelName": "models/gemini-3-pro-preview",
+          "options": {}
+        },
+        "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+        "typeVersion": 1,
+        "position": [
+          768,
+          2064
+        ],
+        "id": "67e91fb7-d487-4a1d-bbee-327b257fc2d3",
+        "name": "Google Gemini Chat Model2",
+        "credentials": {
+          "googlePalmApi": {
+            "id": "JotYgsTc9JLNcYun",
+            "name": "Google Gemini(PaLM) Api - Gemini File Search"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "jsonSchema": "{\n  \"type\": \"object\",\n  \"properties\": {\n    \"needsReply\": { \"type\": \"boolean\" },\n    \"reason\": { \"type\": \"string\" },\n    \"category\": { \"type\": \"string\" },\n    \"urgency\": { \"type\": \"string\" }\n  },\n  \"required\": [\"needsReply\"]\n}",
+          "autoFix": true
+        },
+        "id": "a4328f4f-4c17-4395-8693-42b2cbb8384d",
+        "name": "JSON Parser",
+        "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+        "position": [
+          784,
+          2816
+        ],
+        "typeVersion": 1
+      },
+      {
+        "parameters": {
+          "content": "## Assesing whether the mail needs a reply or not",
+          "height": 592,
+          "width": 624,
+          "color": 4
+        },
+        "id": "12489a32-f896-43b1-b2fe-751ece01cc3c",
+        "name": "Sticky Note",
+        "type": "n8n-nodes-base.stickyNote",
+        "position": [
+          480,
+          2528
+        ],
+        "typeVersion": 1
+      },
+      {
+        "parameters": {
+          "content": "## Selecting only the mails that need a reply",
+          "height": 272,
+          "width": 352,
+          "color": 3
+        },
+        "id": "aac83c6c-40ec-4739-9fc5-bb6dd8307e76",
+        "name": "Sticky Note3",
+        "type": "n8n-nodes-base.stickyNote",
+        "position": [
+          1184,
+          2592
+        ],
+        "typeVersion": 1
+      },
+      {
+        "parameters": {
+          "modelName": "models/gemini-3-flash-preview",
+          "options": {}
+        },
+        "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+        "typeVersion": 1,
+        "position": [
+          592,
+          2800
+        ],
+        "id": "4a44ac9d-a489-41f0-9779-71f137c8d63b",
+        "name": "Google Gemini Chat Model3",
+        "credentials": {
+          "googlePalmApi": {
+            "id": "fWa8nrFVTByaSTxH",
+            "name": "Google Gemini(PaLM) Api - PG VGStore"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "prompt": "=You are a hotel customer support email classifier.\nAnalyze the following email and decide if it needs a reply.\n\nEmail Subject: {{ $input.item.json.subject }}\nEmail From: {{ $input.item.json.from }}\nEmail Body: {{ $input.item.json.text }}\n\nReply ONLY with valid JSON, no extra text, no markdown:\n{\n  \"needsReply\": true or false,\n  \"reason\": \"short reason\",\n  \"category\": \"category name\",\n  \"urgency\": \"low/medium/high\"\n}\n\nSet needsReply to FALSE if:\n- Just a thank you (\"Thank you\", \"Thanks!\", \"Great, thanks\", \"Appreciated\", \"Thank you so much\")\n- Customer replying \"thank you\" to a previous support reply\n- Acknowledgement only (\"Got it\", \"Ok noted\", \"Sure\", \"Understood\")\n- Auto-reply, out-of-office, or no-reply sender\n- Newsletter, promotional, or marketing email\n- Spam or irrelevant content\n- Previous reply from our own support team (check if sender is our domain)\n- Any email with no question or request\n\nSet needsReply to TRUE if:\n- Asking about room availability, pricing, or promotions\n- Making, modifying, or cancelling a reservation\n- Complaint or negative feedback requiring resolution\n- Asking about hotel facilities, services, or amenities\n- Check-in or check-out related questions\n- Billing, payment, or invoice questions\n- Special requests (e.g. dietary needs, accessibility, early check-in)\n- Lost and found inquiries\n- Any question needing a specific answer\n\nSet urgency to \"high\" if:\n- Guest is currently checked in with an issue\n- Complaint requiring immediate attention\n- Same-day or next-day arrival question\n\nSet urgency to \"medium\" if:\n- Reservation inquiry within the next 7 days\n- Billing dispute\n\nSet urgency to \"low\" if:\n- General questions\n- Future reservations beyond 7 days\n- General feedback\n\nSet category to one of:\n\"Reservation\", \"Check-in/Check-out\", \"Billing\", \n\"Facilities\", \"Complaint\", \"Special Request\", \"General\""
+        },
+        "id": "6c586bf1-2c46-4530-8a4a-479f1ee71a96",
+        "name": "Assess if message needs a reply1",
+        "type": "@n8n/n8n-nodes-langchain.chainLlm",
+        "position": [
+          672,
+          2640
+        ],
+        "typeVersion": 1.3
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "version": 1,
+              "leftValue": "",
+              "caseSensitive": true,
+              "typeValidation": "strict"
+            },
+            "conditions": [
+              {
+                "id": "53849246-ad32-4845-9976-9f9688f5a6f2",
+                "operator": {
+                  "type": "boolean",
+                  "operation": "true",
+                  "singleValue": true
+                },
+                "leftValue": "={{ $json.needsReply }}",
+                "rightValue": "true"
+              }
+            ],
+            "combinator": "or"
+          },
+          "options": {}
+        },
+        "id": "47da19f7-4bbc-46a5-94cd-bbf1eb59cbc5",
+        "name": "If Needs Reply1",
+        "type": "n8n-nodes-base.if",
+        "position": [
+          1280,
+          2688
+        ],
+        "typeVersion": 2
+      },
+      {
+        "parameters": {
+          "modelName": "models/gemini-3-flash-preview",
+          "options": {}
+        },
+        "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+        "typeVersion": 1,
+        "position": [
+          784,
+          2976
+        ],
+        "id": "a7f18621-7660-41f2-a78d-0d7752f05c29",
+        "name": "Google Gemini Chat Model5",
+        "credentials": {
+          "googlePalmApi": {
+            "id": "fWa8nrFVTByaSTxH",
+            "name": "Google Gemini(PaLM) Api - PG VGStore"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "jsonSchema": "{\n  \"type\": \"object\",\n  \"properties\": {\n    \"needsReply\": { \"type\": \"boolean\" },\n    \"reason\": { \"type\": \"string\" },\n    \"category\": { \"type\": \"string\" },\n    \"urgency\": { \"type\": \"string\" }\n  },\n  \"required\": [\"needsReply\"]\n}",
+          "autoFix": true
+        },
+        "id": "65b74f26-1ada-41c4-8df3-ab798e300740",
+        "name": "JSON Parser2",
+        "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+        "position": [
+          800,
+          3824
+        ],
+        "typeVersion": 1
+      },
+      {
+        "parameters": {
+          "content": "## Assesing whether the mail needs a reply or not",
+          "height": 592,
+          "width": 624,
+          "color": 4
+        },
+        "id": "62fd1fdc-0b8e-45b9-b0dc-73fedc77dfc4",
+        "name": "Sticky Note8",
+        "type": "n8n-nodes-base.stickyNote",
+        "position": [
+          496,
+          3536
+        ],
+        "typeVersion": 1
+      },
+      {
+        "parameters": {
+          "content": "## Selecting only the mails that need a reply",
+          "height": 272,
+          "width": 352,
+          "color": 3
+        },
+        "id": "31ad20c3-e22d-468e-b202-b3210ce1efbe",
+        "name": "Sticky Note9",
+        "type": "n8n-nodes-base.stickyNote",
+        "position": [
+          1200,
+          3600
+        ],
+        "typeVersion": 1
+      },
+      {
+        "parameters": {
+          "modelName": "=models/gemini-flash-lite-latest",
+          "options": {}
+        },
+        "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+        "typeVersion": 1,
+        "position": [
+          608,
+          3808
+        ],
+        "id": "ec017757-2397-4444-bcf5-6487012519de",
+        "name": "Google Gemini Chat Model6",
+        "credentials": {
+          "googlePalmApi": {
+            "id": "fWa8nrFVTByaSTxH",
+            "name": "Google Gemini(PaLM) Api - PG VGStore"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "prompt": "=You are a hotel customer support email classifier.\nAnalyze the following email and decide if it needs a reply.\n\nEmail Subject: {{ $input.item.json.subject }}\nEmail From: {{ $input.item.json.from }}\nEmail Body: {{ $input.item.json.text }}\n\nReply ONLY with valid JSON, no extra text, no markdown:\n{\n  \"needsReply\": true or false,\n  \"reason\": \"short reason\",\n  \"category\": \"category name\",\n  \"urgency\": \"low/medium/high\"\n}\n\nSet needsReply to FALSE if:\n- Just a thank you (\"Thank you\", \"Thanks!\", \"Great, thanks\", \"Appreciated\", \"Thank you so much\")\n- Customer replying \"thank you\" to a previous support reply\n- Acknowledgement only (\"Got it\", \"Ok noted\", \"Sure\", \"Understood\")\n- Auto-reply, out-of-office, or no-reply sender\n- Newsletter, promotional, or marketing email\n- Spam or irrelevant content\n- Previous reply from our own support team (check if sender is our domain)\n- Any email with no question or request\n\nSet needsReply to TRUE if:\n- Asking about room availability, pricing, or promotions\n- Making, modifying, or cancelling a reservation\n- Complaint or negative feedback requiring resolution\n- Asking about hotel facilities, services, or amenities\n- Check-in or check-out related questions\n- Billing, payment, or invoice questions\n- Special requests (e.g. dietary needs, accessibility, early check-in)\n- Lost and found inquiries\n- Any question needing a specific answer\n\nSet urgency to \"high\" if:\n- Guest is currently checked in with an issue\n- Complaint requiring immediate attention\n- Same-day or next-day arrival question\n\nSet urgency to \"medium\" if:\n- Reservation inquiry within the next 7 days\n- Billing dispute\n\nSet urgency to \"low\" if:\n- General questions\n- Future reservations beyond 7 days\n- General feedback\n\nSet category to one of:\n\"Reservation\", \"Check-in/Check-out\", \"Billing\", \n\"Facilities\", \"Complaint\", \"Special Request\", \"General\""
+        },
+        "id": "5630f96d-2da7-4ad2-b42c-e25b41eec08d",
+        "name": "Assess if message needs a reply2",
+        "type": "@n8n/n8n-nodes-langchain.chainLlm",
+        "position": [
+          688,
+          3648
+        ],
+        "typeVersion": 1.3
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "version": 1,
+              "leftValue": "",
+              "caseSensitive": true,
+              "typeValidation": "strict"
+            },
+            "conditions": [
+              {
+                "id": "53849246-ad32-4845-9976-9f9688f5a6f2",
+                "operator": {
+                  "type": "boolean",
+                  "operation": "true",
+                  "singleValue": true
+                },
+                "leftValue": "={{ $json.needsReply }}",
+                "rightValue": "true"
+              }
+            ],
+            "combinator": "or"
+          },
+          "options": {}
+        },
+        "id": "9c821818-9e3b-4f16-adb4-0695f46fa55f",
+        "name": "If Needs Reply2",
+        "type": "n8n-nodes-base.if",
+        "position": [
+          1296,
+          3696
+        ],
+        "typeVersion": 2
+      },
+      {
+        "parameters": {
+          "modelName": "models/gemini-flash-lite-latest",
+          "options": {}
+        },
+        "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+        "typeVersion": 1,
+        "position": [
+          800,
+          3984
+        ],
+        "id": "9b49f410-aef4-4858-ad49-0c4d6781012f",
+        "name": "Google Gemini Chat Model8",
+        "credentials": {
+          "googlePalmApi": {
+            "id": "fWa8nrFVTByaSTxH",
+            "name": "Google Gemini(PaLM) Api - PG VGStore"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "content": "## Assesing whether the mail needs a reply or not",
+          "height": 592,
+          "width": 624,
+          "color": 4
+        },
+        "id": "2e84c6df-2d9d-4296-9e1e-8e505c2dff93",
+        "name": "Sticky Note1",
+        "type": "n8n-nodes-base.stickyNote",
+        "position": [
+          464,
+          1616
+        ],
+        "typeVersion": 1
+      },
+      {
+        "parameters": {
+          "content": "Gemini_3_Pro_Preview",
+          "height": 80,
+          "width": 208,
+          "color": 6
+        },
+        "type": "n8n-nodes-base.stickyNote",
+        "typeVersion": 1,
+        "position": [
+          240,
+          1808
+        ],
+        "id": "1ce116e6-64f8-4215-80eb-24456f04d213",
+        "name": "Sticky Note12"
+      },
+      {
+        "parameters": {
+          "content": "Gemini_3_Flash_Preview",
+          "height": 80,
+          "width": 208,
+          "color": 6
+        },
+        "type": "n8n-nodes-base.stickyNote",
+        "typeVersion": 1,
+        "position": [
+          208,
+          2592
+        ],
+        "id": "e4390a41-4405-4c8a-a2f6-0b2c385c283f",
+        "name": "Sticky Note13"
+      },
+      {
+        "parameters": {
+          "content": "Gemini_Flash_Lite_Latest",
+          "height": 80,
+          "width": 208,
+          "color": 6
+        },
+        "type": "n8n-nodes-base.stickyNote",
+        "typeVersion": 1,
+        "position": [
+          336,
+          3408
+        ],
+        "id": "3e12893c-a423-475f-a356-1df78e5cb2d3",
+        "name": "Sticky Note14"
+      },
+      {
+        "parameters": {
+          "modelId": {
+            "__rl": true,
+            "value": "models/gemini-3-pro-preview",
+            "mode": "list",
+            "cachedResultName": "models/gemini-3-pro-preview"
+          },
+          "messages": {
+            "values": [
+              {
+                "content": "=Customer Email Subject: {{ $('Receive Email from Gmail').item.json.subject }}\nCustomer Name: {{ $('Receive Email from Gmail').item.json.from }}\nCustomer Message: {{ $('Receive Email from Gmail').item.json.text }}"
+              },
+              {
+                "content": "You are a professional hotel customer support representative.\n\nSTRICT RULES - YOU MUST FOLLOW:\n1. ALWAYS use the File Search tool to find answers first\n2. ONLY use facts returned by the File Search tool - nothing else\n3. NEVER use your own knowledge or training data to answer\n4. NEVER guess or assume any hotel policies, prices, or details\n5. If you are about to answer without using File Search - STOP and search first\n\nLANGUAGE DETECTION:\n- Detect the language of the customer's email\n- ALWAYS reply in the SAME language the customer used\n- The knowledge base is in English — search it in English,\n  but translate your reply to match the customer's language\n- You must support ALL languages including but not limited to:\n  English, Malay, Chinese (Simplified & Traditional), Thai,\n  Arabic, Japanese, Korean, French, German, Spanish, Italian,\n  Portuguese, Hindi, Tamil, Vietnamese, Indonesian, Tagalog,\n  Russian, Turkish, Dutch, and any other language detected\n- NEVER default to English unless the customer writes in English\n  or the language cannot be determined\n- Translate the full HTML reply naturally including\n  \"Dear\", \"Thank you for reaching out\", \"Warm regards\" etc.\n\nMIXED LANGUAGE EMAILS:\n- If the customer mixes two languages (e.g. English + Chinese,\n  English + Malay), identify which language the QUESTION is written in\n- Reply in the language used for the QUESTION part\n- Example: \"i like to ask 酒店有没有早餐?\" → question is in Chinese → reply in Chinese\n- Example: \"Hi, boleh tanya pasal breakfast?\" → question is in Malay → reply in Malay\n- If truly unclear which language to use → default to English\n\nSTEP 1 - CHECK IF QUESTION IS HOTEL-RELATED:\nBefore searching, determine if the question is related to hotel services.\n\nHotel-related topics include:\n- Reservations, booking, cancellation\n- Check-in, check-out\n- Room types, amenities, facilities\n- Billing, payment, invoices\n- Hotel services (spa, pool, gym, restaurant)\n- Special requests, accessibility\n- Lost and found\n- Nearby attractions, restaurants, shopping recommendations\n- Local transportation and directions\n- Things to do near the hotel\n- Any question about the hotel or stay experience\n\nIf the question is NOT hotel-related, do NOT use File Search.\nReply ONLY with this HTML (translated to customer's language):\n\n<p>Dear [guest name or \"Valued Guest\"],</p>\n\n<p>Thank you for reaching out to us.</p>\n\n<p>We are only able to assist with inquiries related to our hotel services.\nFor other matters, we recommend seeking the appropriate resources.</p>\n\n<p>If you have any hotel-related questions, please don't hesitate to contact us.</p>\n\n<p>Warm regards,<br>\nHotel Support Team<br>\n📞 +XX-XXXX-XXXX<br>\n🌐 <a href=\"http://www.yourhotel.com\">www.yourhotel.com</a></p>\n\n<p>By Gemini_3_Pro_Preview</p>\n<p>Public API</p>\n\nSTEP 2 - IF HOTEL-RELATED, USE FILE SEARCH:\n- Use the File Search tool with the customer's question in ENGLISH\n- If File Search returns no results, reply ONLY with this HTML\n  (translated to customer's language):\n\n<p>Dear [guest name or \"Valued Guest\"],</p>\n\n<p>Thank you for your inquiry. Our team will follow up with you shortly.</p>\n\n<p>Warm regards,<br>\nHotel Support Team<br>\n📞 +XX-XXXX-XXXX<br>\n🌐 <a href=\"http://www.yourhotel.com\">www.yourhotel.com</a></p>\n\n<p>By Gemini_3_Pro_Preview</p>\n<p>Public API</p>\n\nAfter getting File Search results:\n- Rephrase the answer in natural, warm, professional sentences\n- Translate the rephrased answer to the customer's language\n- Do NOT copy word for word\n- Do NOT add any extra information not in the File Search results\n- Do NOT use phrases like \"We are pleased to inform you\" or \"I am happy to inform you\"\n- Keep each answer to 1-2 sentences per question\n\nSTEP 3 - DETECTING EMAIL FORMAT:\n- If customer sends a SINGLE question or writes in PARAGRAPH form → use single answer format, no colour changes\n- If customer sends MULTIPLE questions in POINT FORM (numbered list, bullet points, or each question on a new line) → use point form format with blue bold questions\n\nFOR SINGLE QUESTION OR PARAGRAPH:\n<p>Dear [guest name or \"Valued Guest\"],</p>\n\n<p>Thank you for reaching out to us.</p>\n\n<p>[Rephrased answer translated to customer's language]</p>\n\n<p>If you have any further questions, please don't hesitate to reach out.</p>\n\n<p>Warm regards,<br>\nHotel Support Team<br>\n📞 +XX-XXXX-XXXX<br>\n🌐 <a href=\"http://www.yourhotel.com\">www.yourhotel.com</a></p>\n\n<p>By Gemini_3_Pro_Preview</p>\n<p>Public API</p>\n\nFOR POINT FORM (multiple questions only):\n<p>Dear [guest name or \"Valued Guest\"],</p>\n\n<p>Thank you for reaching out to us. Please find the answers to your questions below:</p>\n\n<p><strong style=\"color:#1a73e8;\">1. [Repeat customer question in customer's language]</strong><br>\n[Answer translated to customer's language]</p>\n\n<p><strong style=\"color:#1a73e8;\">2. [Repeat customer question in customer's language]</strong><br>\n[Answer translated to customer's language]</p>\n\n<p><strong style=\"color:#1a73e8;\">3. [Repeat customer question in customer's language]</strong><br>\n[Answer translated to customer's language]</p>\n\n<p>If you have any further questions, please don't hesitate to reach out.</p>\n\n<p>Warm regards,<br>\nHotel Support Team<br>\n📞 +XX-XXXX-XXXX<br>\n🌐 <a href=\"http://www.yourhotel.com\">www.yourhotel.com</a></p>\n\n<p>By Gemini_3_Pro_Preview</p>\n<p>Public API</p>",
+                "role": "model"
+              }
+            ]
+          },
+          "builtInTools": {
+            "fileSearch": {
+              "fileSearchStoreNames": "[\"fileSearchStores/hotelcustomersupport-alagzxro9jne\"]"
+            }
+          },
+          "options": {}
+        },
+        "type": "@n8n/n8n-nodes-langchain.googleGemini",
+        "typeVersion": 1.1,
+        "position": [
+          1648,
+          1728
+        ],
+        "id": "8cd7ed88-fa14-4aeb-b2f4-045bb22c56b8",
+        "name": "Message a model",
+        "credentials": {
+          "googlePalmApi": {
+            "id": "JotYgsTc9JLNcYun",
+            "name": "Google Gemini(PaLM) Api - Gemini File Search"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "content": "## Sending a Reply",
+          "height": 240,
+          "width": 224,
+          "color": 4
+        },
+        "id": "b1d8455b-1617-40f8-afb4-74891486188d",
+        "name": "Sticky Note6",
+        "type": "n8n-nodes-base.stickyNote",
+        "position": [
+          2032,
+          2560
+        ],
+        "typeVersion": 1
+      },
+      {
+        "parameters": {
+          "operation": "reply",
+          "messageId": "={{ $('Receive Email from Gmail').item.json.id }}",
+          "message": "={{ $('Message a model1').item.json.content.parts[1].text }}",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.gmail",
+        "typeVersion": 2.2,
+        "position": [
+          2096,
+          2624
+        ],
+        "id": "5e0a5e8a-fcdd-4e04-bb8b-65c953ca3d16",
+        "name": "Reply to the email1",
+        "webhookId": "6fa4fc4e-9b2e-4812-bf7a-bfb1c861578a",
+        "credentials": {
+          "gmailOAuth2": {
+            "id": "PxWNojtMdxyKEMQe",
+            "name": "Gmail account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "modelId": {
+            "__rl": true,
+            "value": "models/gemini-3-pro-preview",
+            "mode": "list",
+            "cachedResultName": "models/gemini-3-pro-preview"
+          },
+          "messages": {
+            "values": [
+              {
+                "content": "=Customer Email Subject: {{ $('Receive Email from Gmail').item.json.subject }}\nCustomer Name: {{ $('Receive Email from Gmail').item.json.from }}\nCustomer Message: {{ $('Receive Email from Gmail').item.json.text }}"
+              },
+              {
+                "content": "You are a professional hotel customer support representative.\n\nSTRICT RULES - YOU MUST FOLLOW:\n1. ALWAYS use the File Search tool to find answers first\n2. ONLY use facts returned by the File Search tool - nothing else\n3. NEVER use your own knowledge or training data to answer\n4. NEVER guess or assume any hotel policies, prices, or details\n5. If you are about to answer without using File Search - STOP and search first\n\nLANGUAGE DETECTION:\n- Detect the language of the customer's email\n- ALWAYS reply in the SAME language the customer used\n- The knowledge base is in English — search it in English,\n  but translate your reply to match the customer's language\n- You must support ALL languages including but not limited to:\n  English, Malay, Chinese (Simplified & Traditional), Thai,\n  Arabic, Japanese, Korean, French, German, Spanish, Italian,\n  Portuguese, Hindi, Tamil, Vietnamese, Indonesian, Tagalog,\n  Russian, Turkish, Dutch, and any other language detected\n- NEVER default to English unless the customer writes in English\n  or the language cannot be determined\n- Translate the full HTML reply naturally including\n  \"Dear\", \"Thank you for reaching out\", \"Warm regards\" etc.\n\nMIXED LANGUAGE EMAILS:\n- If the customer mixes two languages (e.g. English + Chinese,\n  English + Malay), identify which language the QUESTION is written in\n- Reply in the language used for the QUESTION part\n- Example: \"i like to ask 酒店有没有早餐?\" → question is in Chinese → reply in Chinese\n- Example: \"Hi, boleh tanya pasal breakfast?\" → question is in Malay → reply in Malay\n- If truly unclear which language to use → default to English\n\nSTEP 1 - CHECK IF QUESTION IS HOTEL-RELATED:\nBefore searching, determine if the question is related to hotel services.\n\nHotel-related topics include:\n- Reservations, booking, cancellation\n- Check-in, check-out\n- Room types, amenities, facilities\n- Billing, payment, invoices\n- Hotel services (spa, pool, gym, restaurant)\n- Special requests, accessibility\n- Lost and found\n- Nearby attractions, restaurants, shopping recommendations\n- Local transportation and directions\n- Things to do near the hotel\n- Any question about the hotel or stay experience\n\nIf the question is NOT hotel-related, do NOT use File Search.\nReply ONLY with this HTML (translated to customer's language):\n\n<p>Dear [guest name or \"Valued Guest\"],</p>\n\n<p>Thank you for reaching out to us.</p>\n\n<p>We are only able to assist with inquiries related to our hotel services.\nFor other matters, we recommend seeking the appropriate resources.</p>\n\n<p>If you have any hotel-related questions, please don't hesitate to contact us.</p>\n\n<p>Warm regards,<br>\nHotel Support Team<br>\n📞 +XX-XXXX-XXXX<br>\n🌐 <a href=\"http://www.yourhotel.com\">www.yourhotel.com</a></p>\n\n<p>By Gemini_3_Pro_Preview</p>\n<p>Public API</p>\n\nSTEP 2 - IF HOTEL-RELATED, USE FILE SEARCH:\n- Use the File Search tool with the customer's question in ENGLISH\n- If File Search returns no results, reply ONLY with this HTML\n  (translated to customer's language):\n\n<p>Dear [guest name or \"Valued Guest\"],</p>\n\n<p>Thank you for your inquiry. Our team will follow up with you shortly.</p>\n\n<p>Warm regards,<br>\nHotel Support Team<br>\n📞 +XX-XXXX-XXXX<br>\n🌐 <a href=\"http://www.yourhotel.com\">www.yourhotel.com</a></p>\n\n<p>By Gemini_3_Flash_Preview</p>\n<p>Public API</p>\n\nAfter getting File Search results:\n- Rephrase the answer in natural, warm, professional sentences\n- Translate the rephrased answer to the customer's language\n- Do NOT copy word for word\n- Do NOT add any extra information not in the File Search results\n- Do NOT use phrases like \"We are pleased to inform you\" or \"I am happy to inform you\"\n- Keep each answer to 1-2 sentences per question\n\nSTEP 3 - DETECTING EMAIL FORMAT:\n- If customer sends a SINGLE question or writes in PARAGRAPH form → use single answer format, no colour changes\n- If customer sends MULTIPLE questions in POINT FORM (numbered list, bullet points, or each question on a new line) → use point form format with blue bold questions\n\nFOR SINGLE QUESTION OR PARAGRAPH:\n<p>Dear [guest name or \"Valued Guest\"],</p>\n\n<p>Thank you for reaching out to us.</p>\n\n<p>[Rephrased answer translated to customer's language]</p>\n\n<p>If you have any further questions, please don't hesitate to reach out.</p>\n\n<p>Warm regards,<br>\nHotel Support Team<br>\n📞 +XX-XXXX-XXXX<br>\n🌐 <a href=\"http://www.yourhotel.com\">www.yourhotel.com</a></p>\n\n<p>By Gemini_3_Flash_Preview</p>\n<p>Public API</p>\n\nFOR POINT FORM (multiple questions only):\n<p>Dear [guest name or \"Valued Guest\"],</p>\n\n<p>Thank you for reaching out to us. Please find the answers to your questions below:</p>\n\n<p><strong style=\"color:#1a73e8;\">1. [Repeat customer question in customer's language]</strong><br>\n[Answer translated to customer's language]</p>\n\n<p><strong style=\"color:#1a73e8;\">2. [Repeat customer question in customer's language]</strong><br>\n[Answer translated to customer's language]</p>\n\n<p><strong style=\"color:#1a73e8;\">3. [Repeat customer question in customer's language]</strong><br>\n[Answer translated to customer's language]</p>\n\n<p>If you have any further questions, please don't hesitate to reach out.</p>\n\n<p>Warm regards,<br>\nHotel Support Team<br>\n📞 +XX-XXXX-XXXX<br>\n🌐 <a href=\"http://www.yourhotel.com\">www.yourhotel.com</a></p>\n\n<p>By Gemini_3_Flash_Preview</p>\n<p>Public API</p>",
+                "role": "model"
+              }
+            ]
+          },
+          "builtInTools": {
+            "fileSearch": {
+              "fileSearchStoreNames": "[\"fileSearchStores/hotelcustomersupport-alagzxro9jne\"]"
+            }
+          },
+          "options": {}
+        },
+        "type": "@n8n/n8n-nodes-langchain.googleGemini",
+        "typeVersion": 1.1,
+        "position": [
+          1648,
+          2704
+        ],
+        "id": "9f5485f8-a87e-4af7-a9eb-c2cd4b5ff019",
+        "name": "Message a model1",
+        "credentials": {
+          "googlePalmApi": {
+            "id": "JotYgsTc9JLNcYun",
+            "name": "Google Gemini(PaLM) Api - Gemini File Search"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "content": "## Sending a Reply",
+          "height": 240,
+          "width": 224,
+          "color": 4
+        },
+        "id": "3b528bc5-0001-4fbc-9b87-c95aa5f9de42",
+        "name": "Sticky Note7",
+        "type": "n8n-nodes-base.stickyNote",
+        "position": [
+          2144,
+          3600
+        ],
+        "typeVersion": 1
+      },
+      {
+        "parameters": {
+          "operation": "reply",
+          "messageId": "={{ $('Receive Email from Gmail').item.json.id }}",
+          "message": "={{ $('Message a model2').item.json.content.parts[1].text }}",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.gmail",
+        "typeVersion": 2.2,
+        "position": [
+          2208,
+          3664
+        ],
+        "id": "663edf8e-7362-4f38-b52a-ea9158f315c7",
+        "name": "Reply to the email2",
+        "webhookId": "6fa4fc4e-9b2e-4812-bf7a-bfb1c861578a",
+        "credentials": {
+          "gmailOAuth2": {
+            "id": "PxWNojtMdxyKEMQe",
+            "name": "Gmail account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "modelId": {
+            "__rl": true,
+            "value": "models/gemini-3-pro-preview",
+            "mode": "list",
+            "cachedResultName": "models/gemini-3-pro-preview"
+          },
+          "messages": {
+            "values": [
+              {
+                "content": "=Customer Email Subject: {{ $('Receive Email from Gmail').item.json.subject }}\nCustomer Name: {{ $('Receive Email from Gmail').item.json.from }}\nCustomer Message: {{ $('Receive Email from Gmail').item.json.text }}"
+              },
+              {
+                "content": "You are a professional hotel customer support representative.\n\nSTRICT RULES - YOU MUST FOLLOW:\n1. ALWAYS use the File Search tool to find answers first\n2. ONLY use facts returned by the File Search tool - nothing else\n3. NEVER use your own knowledge or training data to answer\n4. NEVER guess or assume any hotel policies, prices, or details\n5. If you are about to answer without using File Search - STOP and search first\n\nLANGUAGE DETECTION:\n- Detect the language of the customer's email\n- ALWAYS reply in the SAME language the customer used\n- The knowledge base is in English — search it in English,\n  but translate your reply to match the customer's language\n- You must support ALL languages including but not limited to:\n  English, Malay, Chinese (Simplified & Traditional), Thai,\n  Arabic, Japanese, Korean, French, German, Spanish, Italian,\n  Portuguese, Hindi, Tamil, Vietnamese, Indonesian, Tagalog,\n  Russian, Turkish, Dutch, and any other language detected\n- NEVER default to English unless the customer writes in English\n  or the language cannot be determined\n- Translate the full HTML reply naturally including\n  \"Dear\", \"Thank you for reaching out\", \"Warm regards\" etc.\n\nMIXED LANGUAGE EMAILS:\n- If the customer mixes two languages (e.g. English + Chinese,\n  English + Malay), identify which language the QUESTION is written in\n- Reply in the language used for the QUESTION part\n- Example: \"i like to ask 酒店有没有早餐?\" → question is in Chinese → reply in Chinese\n- Example: \"Hi, boleh tanya pasal breakfast?\" → question is in Malay → reply in Malay\n- If truly unclear which language to use → default to English\n\nSTEP 1 - CHECK IF QUESTION IS HOTEL-RELATED:\nBefore searching, determine if the question is related to hotel services.\n\nHotel-related topics include:\n- Reservations, booking, cancellation\n- Check-in, check-out\n- Room types, amenities, facilities\n- Billing, payment, invoices\n- Hotel services (spa, pool, gym, restaurant)\n- Special requests, accessibility\n- Lost and found\n- Nearby attractions, restaurants, shopping recommendations\n- Local transportation and directions\n- Things to do near the hotel\n- Any question about the hotel or stay experience\n\nIf the question is NOT hotel-related, do NOT use File Search.\nReply ONLY with this HTML (translated to customer's language):\n\n<p>Dear [guest name or \"Valued Guest\"],</p>\n\n<p>Thank you for reaching out to us.</p>\n\n<p>We are only able to assist with inquiries related to our hotel services.\nFor other matters, we recommend seeking the appropriate resources.</p>\n\n<p>If you have any hotel-related questions, please don't hesitate to contact us.</p>\n\n<p>Warm regards,<br>\nHotel Support Team<br>\n📞 +XX-XXXX-XXXX<br>\n🌐 <a href=\"http://www.yourhotel.com\">www.yourhotel.com</a></p>\n\n<p>By Gemini_Flash_Lite_Latest</p>\n<p>Public API</p>\n\nSTEP 2 - IF HOTEL-RELATED, USE FILE SEARCH:\n- Use the File Search tool with the customer's question in ENGLISH\n- If File Search returns no results, reply ONLY with this HTML\n  (translated to customer's language):\n\n<p>Dear [guest name or \"Valued Guest\"],</p>\n\n<p>Thank you for your inquiry. Our team will follow up with you shortly.</p>\n\n<p>Warm regards,<br>\nHotel Support Team<br>\n📞 +XX-XXXX-XXXX<br>\n🌐 <a href=\"http://www.yourhotel.com\">www.yourhotel.com</a></p>\n\n<p>By Gemini_Flash_Lite_Latest</p>\n<p>Public API</p>\n\nAfter getting File Search results:\n- Rephrase the answer in natural, warm, professional sentences\n- Translate the rephrased answer to the customer's language\n- Do NOT copy word for word\n- Do NOT add any extra information not in the File Search results\n- Do NOT use phrases like \"We are pleased to inform you\" or \"I am happy to inform you\"\n- Keep each answer to 1-2 sentences per question\n\nSTEP 3 - DETECTING EMAIL FORMAT:\n- If customer sends a SINGLE question or writes in PARAGRAPH form → use single answer format, no colour changes\n- If customer sends MULTIPLE questions in POINT FORM (numbered list, bullet points, or each question on a new line) → use point form format with blue bold questions\n\nFOR SINGLE QUESTION OR PARAGRAPH:\n<p>Dear [guest name or \"Valued Guest\"],</p>\n\n<p>Thank you for reaching out to us.</p>\n\n<p>[Rephrased answer translated to customer's language]</p>\n\n<p>If you have any further questions, please don't hesitate to reach out.</p>\n\n<p>Warm regards,<br>\nHotel Support Team<br>\n📞 +XX-XXXX-XXXX<br>\n🌐 <a href=\"http://www.yourhotel.com\">www.yourhotel.com</a></p>\n\n<p>By Gemini_Flash_Lite_Latest</p>\n<p>Public API</p>\n\nFOR POINT FORM (multiple questions only):\n<p>Dear [guest name or \"Valued Guest\"],</p>\n\n<p>Thank you for reaching out to us. Please find the answers to your questions below:</p>\n\n<p><strong style=\"color:#1a73e8;\">1. [Repeat customer question in customer's language]</strong><br>\n[Answer translated to customer's language]</p>\n\n<p><strong style=\"color:#1a73e8;\">2. [Repeat customer question in customer's language]</strong><br>\n[Answer translated to customer's language]</p>\n\n<p><strong style=\"color:#1a73e8;\">3. [Repeat customer question in customer's language]</strong><br>\n[Answer translated to customer's language]</p>\n\n<p>If you have any further questions, please don't hesitate to reach out.</p>\n\n<p>Warm regards,<br>\nHotel Support Team<br>\n📞 +XX-XXXX-XXXX<br>\n🌐 <a href=\"http://www.yourhotel.com\">www.yourhotel.com</a></p>\n\n<p>By Gemini_Flash_Lite_Latest</p>\n<p>Public API</p>",
+                "role": "model"
+              }
+            ]
+          },
+          "builtInTools": {
+            "fileSearch": {
+              "fileSearchStoreNames": "[\"fileSearchStores/hotelcustomersupport-alagzxro9jne\"]"
+            }
+          },
+          "options": {}
+        },
+        "type": "@n8n/n8n-nodes-langchain.googleGemini",
+        "typeVersion": 1.1,
+        "position": [
+          1760,
+          3744
+        ],
+        "id": "3c000037-57ea-41b7-9023-78e59df31587",
+        "name": "Message a model2",
+        "credentials": {
+          "googlePalmApi": {
+            "id": "JotYgsTc9JLNcYun",
+            "name": "Google Gemini(PaLM) Api - Gemini File Search"
+          }
+        }
+      }
+    ],
+    "connections": {
+      "Receive Email from Gmail": {
+        "main": [
+          [
+            {
+              "node": "Assess if message needs a reply",
+              "type": "main",
+              "index": 0
+            },
+            {
+              "node": "Assess if message needs a reply1",
+              "type": "main",
+              "index": 0
+            },
+            {
+              "node": "Assess if message needs a reply2",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "JSON Parser1": {
+        "ai_outputParser": [
+          [
+            {
+              "node": "Assess if message needs a reply",
+              "type": "ai_outputParser",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Google Gemini Chat Model": {
+        "ai_languageModel": [
+          [
+            {
+              "node": "Assess if message needs a reply",
+              "type": "ai_languageModel",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Assess if message needs a reply": {
+        "main": [
+          [
+            {
+              "node": "If Needs Reply",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "If Needs Reply": {
+        "main": [
+          [
+            {
+              "node": "Message a model",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Google Gemini Chat Model2": {
+        "ai_languageModel": [
+          [
+            {
+              "node": "JSON Parser1",
+              "type": "ai_languageModel",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "JSON Parser": {
+        "ai_outputParser": [
+          [
+            {
+              "node": "Assess if message needs a reply1",
+              "type": "ai_outputParser",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Google Gemini Chat Model3": {
+        "ai_languageModel": [
+          [
+            {
+              "node": "Assess if message needs a reply1",
+              "type": "ai_languageModel",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Assess if message needs a reply1": {
+        "main": [
+          [
+            {
+              "node": "If Needs Reply1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "If Needs Reply1": {
+        "main": [
+          [
+            {
+              "node": "Message a model1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Google Gemini Chat Model5": {
+        "ai_languageModel": [
+          [
+            {
+              "node": "JSON Parser",
+              "type": "ai_languageModel",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "JSON Parser2": {
+        "ai_outputParser": [
+          [
+            {
+              "node": "Assess if message needs a reply2",
+              "type": "ai_outputParser",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Google Gemini Chat Model6": {
+        "ai_languageModel": [
+          [
+            {
+              "node": "Assess if message needs a reply2",
+              "type": "ai_languageModel",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Assess if message needs a reply2": {
+        "main": [
+          [
+            {
+              "node": "If Needs Reply2",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "If Needs Reply2": {
+        "main": [
+          [
+            {
+              "node": "Message a model2",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Google Gemini Chat Model8": {
+        "ai_languageModel": [
+          [
+            {
+              "node": "JSON Parser2",
+              "type": "ai_languageModel",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Message a model": {
+        "main": [
+          [
+            {
+              "node": "Reply to the email",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Message a model1": {
+        "main": [
+          [
+            {
+              "node": "Reply to the email1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Message a model2": {
+        "main": [
+          [
+            {
+              "node": "Reply to the email2",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "authors": "Xin Lin Koh",
+    "name": "Version 1",
+    "description": "Used Google Gemini API instead of PGVector",
+    "autosaved": true
+  },
+  "tags": []
+}
