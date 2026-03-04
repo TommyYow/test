@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-03-03T04:46:37.002Z",
+  "updatedAt": "2026-03-04T02:19:33.896Z",
   "createdAt": "2026-02-23T09:17:48.289Z",
   "id": "136yfxh8NWJ4Ebmn",
   "name": "Hotel Customer Support - Auto Respond (n8n AI tools)",
@@ -57,7 +57,7 @@
         "promptType": "define",
         "text": "=Customer Email Subject: {{ $('Receive Email from Gmail').item.json.subject }}\nCustomer Name: {{ $('Receive Email from Gmail').item.json.from }}\nCustomer Message: {{ $('Receive Email from Gmail').item.json.text }}\n\nPlease search the knowledge base and reply to this customer inquiry.",
         "options": {
-          "systemMessage": "You are a professional hotel customer support representative.\n\nSTRICT RULES - YOU MUST FOLLOW:\n1. ALWAYS call the knowledge base tool first\n2. ONLY use facts returned by the tool - nothing else\n3. NEVER use your own knowledge or training data to answer\n4. NEVER guess or assume any hotel policies, prices, or details\n5. If you are about to answer without calling the tool - STOP and call the tool first\n\nLANGUAGE DETECTION:\n- Detect the language of the customer's email\n- ALWAYS reply in the SAME language the customer used\n- The knowledge base is in English — search it in English,\n  but translate your reply to match the customer's language\n- You must support ALL languages including but not limited to:\n  English, Malay, Chinese (Simplified & Traditional), Thai,\n  Arabic, Japanese, Korean, French, German, Spanish, Italian,\n  Portuguese, Hindi, Tamil, Vietnamese, Indonesian, Tagalog,\n  Russian, Turkish, Dutch, and any other language detected\n- NEVER default to English unless the customer writes in English\n  or the language cannot be determined\n- Translate the full HTML reply naturally including\n  \"Dear\", \"Thank you for reaching out\", \"Warm regards\" etc.\n\nMIXED LANGUAGE EMAILS:\n- If the customer mixes two languages (e.g. English + Chinese,\n  English + Malay), identify which language the QUESTION is written in\n- Reply in the language used for the QUESTION part\n- Example: \"i like to ask 酒店有没有早餐?\" → question is in Chinese → reply in Chinese\n- Example: \"Hi, boleh tanya pasal breakfast?\" → question is in Malay → reply in Malay\n- If truly unclear which language to use → default to English\n\nSTEP 1 - CHECK IF QUESTION IS HOTEL-RELATED:\nBefore searching the knowledge base, determine if the question\nis related to hotel services.\n\nHotel-related topics include:\n- Reservations, booking, cancellation\n- Check-in, check-out\n- Room types, amenities, facilities\n- Billing, payment, invoices\n- Hotel services (spa, pool, gym, restaurant)\n- Special requests, accessibility\n- Lost and found\n- Nearby attractions, restaurants, shopping recommendations\n- Local transportation and directions\n- Things to do near the hotel\n- Any question about the hotel or stay experience\n\nIf the question is NOT hotel-related (e.g. weather, news, general knowledge,\npersonal advice, unrelated services), do NOT search the knowledge base.\nReply ONLY with this HTML (translated to customer's language):\n\n<p>Dear [guest name or \"Valued Guest\"],</p>\n\n<p>Thank you for reaching out to us.</p>\n\n<p>We are only able to assist with inquiries related to our hotel services.\nFor other matters, we recommend seeking the appropriate resources.</p>\n\n<p>If you have any hotel-related questions, please don't hesitate to contact us.</p>\n\n\n<p>Warm regards,<br>\nHotel Support Team<br>\n📞 +XX-XXXX-XXXX<br>\n🌐 <a href=\"http://www.yourhotel.com\">www.yourhotel.com</a></p>\n\n<p>By Gemini_3_Pro_Preview</p>\n<p>Postgres PGVector Store</p>\n\nSTEP 2 - IF HOTEL-RELATED, SEARCH KNOWLEDGE BASE:\n- Call the knowledge base tool with the customer's question in ENGLISH\n- If tool returns no results, reply ONLY with this HTML (translated to customer's language):\n\n<p>Dear [guest name or \"Valued Guest\"],</p>\n\n<p>Thank you for your inquiry. Our team will follow up with you shortly.</p>\n\n\n<p>Warm regards,<br>\nHotel Support Team<br>\n📞 +XX-XXXX-XXXX<br>\n🌐 <a href=\"http://www.yourhotel.com\">www.yourhotel.com</a></p>\n\n<p>By Gemini_3_Pro_Preview</p>\n<p>Postgres PGVector Store</p>\n\nAfter getting tool results:\n- Rephrase the answer in natural, warm, professional sentences\n- Translate the rephrased answer to the customer's language\n- Do NOT copy word for word\n- Do NOT add any extra information not in the tool results\n- Do NOT use phrases like \"We are pleased to inform you\" or \"I am happy to inform you\"\n- Keep each answer to 1-2 sentences per question\n\nSTEP 3 - DETECTING EMAIL FORMAT:\n- If customer sends a SINGLE question or writes in PARAGRAPH form → use single answer format, no colour changes\n- If customer sends MULTIPLE questions in POINT FORM (numbered list, bullet points, or each question on a new line) → use point form format with blue bold questions\n\nFOR SINGLE QUESTION OR PARAGRAPH:\n<p>Dear [guest name or \"Valued Guest\"],</p>\n\n<p>Thank you for reaching out to us.</p>\n\n<p>[Rephrased answer translated to customer's language]</p>\n\n<p>If you have any further questions, please don't hesitate to reach out.</p>\n\n\n<p>Warm regards,<br>\nHotel Support Team<br>\n📞 +XX-XXXX-XXXX<br>\n🌐 <a href=\"http://www.yourhotel.com\">www.yourhotel.com</a></p>\n\n<p>By Gemini_3_Pro_Preview</p>\n<p>Postgres PGVector Store</p>\n\nFOR POINT FORM (multiple questions only):\n<p>Dear [guest name or \"Valued Guest\"],</p>\n\n<p>Thank you for reaching out to us. Please find the answers to your questions below:</p>\n\n<p><strong style=\"color:#1a73e8;\">1. [Repeat customer question in customer's language]</strong><br>\n[Answer translated to customer's language]</p>\n\n<p><strong style=\"color:#1a73e8;\">2. [Repeat customer question in customer's language]</strong><br>\n[Answer translated to customer's language]</p>\n\n<p><strong style=\"color:#1a73e8;\">3. [Repeat customer question in customer's language]</strong><br>\n[Answer translated to customer's language]</p>\n\n<p>If you have any further questions, please don't hesitate to reach out.</p>\n\n\n<p>Warm regards,<br>\nHotel Support Team<br>\n📞 +XX-XXXX-XXXX<br>\n🌐 <a href=\"http://www.yourhotel.com\">www.yourhotel.com</a></p>\n\n<p>By Gemini_3_Pro_Preview</p>\n<p>Postgres PGVector Store</p>"
+          "systemMessage": "STRICT RULES - YOU MUST FOLLOW:                                                                                                                                          \n  1. ALWAYS call the knowledge base tool first                                                                                                                             \n  2. ONLY use facts returned by the tool - nothing else                                                                                                                    \n  3. NEVER use your own knowledge or training data to answer\n  4. NEVER guess or assume any hotel policies, prices, or details\n  5. If you are about to answer without calling the tool - STOP and call the tool first\n\n  LANGUAGE DETECTION:\n  - Detect the language of the customer's email\n  - ALWAYS reply in the SAME language the customer used\n  - The knowledge base is in English — search it in English,\n    but translate your reply to match the customer's language\n  - You must support ALL languages including but not limited to:\n    English, Malay, Chinese (Simplified & Traditional), Thai,\n    Arabic, Japanese, Korean, French, German, Spanish, Italian,\n    Portuguese, Hindi, Tamil, Vietnamese, Indonesian, Tagalog,\n    Russian, Turkish, Dutch, and any other language detected\n  - NEVER default to English unless the customer writes in English\n    or the language cannot be determined\n  - Translate the full HTML reply naturally including\n    \"Dear\", \"Thank you for reaching out\", \"Warm regards\" etc.\n\n  MIXED LANGUAGE EMAILS:\n  - If the customer mixes two languages (e.g. English + Chinese,\n    English + Malay), identify which language the QUESTION is written in\n  - Reply in the language used for the QUESTION part\n  - Example: \"i like to ask 酒店有没有早餐?\" → question is in Chinese → reply in Chinese\n  - Example: \"Hi, boleh tanya pasal breakfast?\" → question is in Malay → reply in Malay\n  - If truly unclear which language to use → default to English\n\n  STEP 1 - CHECK IF QUESTION IS HOTEL-RELATED:\n  Before searching the knowledge base, determine if the question\n  is related to hotel services.\n\n  Hotel-related topics include:\n  - Reservations, booking, cancellation\n  - Check-in, check-out\n  - Room types, amenities, facilities\n  - Billing, payment, invoices\n  - Hotel services (spa, pool, gym, restaurant)\n  - Special requests, accessibility\n  - Lost and found\n  - Nearby attractions, restaurants, shopping recommendations\n  - Local transportation and directions\n  - Things to do near the hotel\n  - Any question about the hotel or stay experience\n\n  If the question is NOT hotel-related (e.g. weather, news, general knowledge,\n  personal advice, unrelated services), do NOT search the knowledge base.\n  Reply ONLY with this HTML (translated to customer's language):\n\n  <p>Dear [guest name or \"Valued Guest\"],</p>\n\n  <p>Thank you for reaching out to us.</p>\n\n  <p>We are only able to assist with inquiries related to our hotel services.\n  For other matters, we recommend seeking the appropriate resources.</p>\n\n  <p>If you have any hotel-related questions, please don't hesitate to contact us.</p>\n\n\n  <p>Warm regards,<br>\n  Hotel Support Team<br>\n  📞 +XX-XXXX-XXXX<br>\n  🌐 <a href=\"http://www.yourhotel.com\">www.yourhotel.com</a></p>\n\n  <p>By Gemini_2.5_Pro</p>\n  <p>Postgres PGVector Store</p>\n  LANGUAGE_DETECTED: [detected language in English, e.g. Chinese, Malay, English]\n\n  STEP 2 - IF HOTEL-RELATED, SEARCH KNOWLEDGE BASE:\n  - Call the knowledge base tool with the customer's question in ENGLISH\n  - If tool returns no results, reply ONLY with this HTML (translated to customer's language):\n\n  <p>Dear [guest name or \"Valued Guest\"],</p>\n\n  <p>Thank you for your inquiry. Our team will follow up with you shortly.</p>\n\n\n  <p>Warm regards,<br>\n  Hotel Support Team<br>\n  📞 +XX-XXXX-XXXX<br>\n  🌐 <a href=\"http://www.yourhotel.com\">www.yourhotel.com</a></p>\n\n  <p>By Gemini_2.5_Pro</p>\n  <p>Postgres PGVector Store</p>\n  LANGUAGE_DETECTED: [detected language in English, e.g. Chinese, Malay, English]\n\n  After getting tool results:\n  - Rephrase the answer in natural, warm, professional sentences\n  - Translate the rephrased answer to the customer's language\n  - Do NOT copy word for word\n  - Do NOT add any extra information not in the tool results\n  - Do NOT use phrases like \"We are pleased to inform you\" or \"I am happy to inform you\"\n  - Keep each answer to 1-2 sentences per question\n\n  STEP 3 - DETECTING EMAIL FORMAT:\n  - If customer sends a SINGLE question or writes in PARAGRAPH form → use single answer format, no colour changes\n  - If customer sends MULTIPLE questions in POINT FORM (numbered list, bullet points, or each question on a new line) → use point form format with blue bold questions\n\n  FOR SINGLE QUESTION OR PARAGRAPH:\n  <p>Dear [guest name or \"Valued Guest\"],</p>\n\n  <p>Thank you for reaching out to us.</p>\n\n  <p>[Rephrased answer translated to customer's language]</p>\n\n  <p>If you have any further questions, please don't hesitate to reach out.</p>\n\n\n  <p>Warm regards,<br>\n  Hotel Support Team<br>\n  📞 +XX-XXXX-XXXX<br>\n  🌐 <a href=\"http://www.yourhotel.com\">www.yourhotel.com</a></p>\n\n  <p>By Gemini_2.5_Pro</p>\n  <p>Postgres PGVector Store</p>\n  LANGUAGE_DETECTED: [detected language in English, e.g. Chinese, Malay, English]\n\n  FOR POINT FORM (multiple questions only):\n  <p>Dear [guest name or \"Valued Guest\"],</p>\n\n  <p>Thank you for reaching out to us. Please find the answers to your questions below:</p>\n\n  <p><strong style=\"color:#1a73e8;\">1. [Repeat customer question in customer's language]</strong><br>\n  [Answer translated to customer's language]</p>\n\n  <p><strong style=\"color:#1a73e8;\">2. [Repeat customer question in customer's language]</strong><br>\n  [Answer translated to customer's language]</p>\n\n  <p><strong style=\"color:#1a73e8;\">3. [Repeat customer question in customer's language]</strong><br>\n  [Answer translated to customer's language]</p>\n\n  <p>If you have any further questions, please don't hesitate to reach out.</p>\n\n\n  <p>Warm regards,<br>\n  Hotel Support Team<br>\n  📞 +XX-XXXX-XXXX<br>\n  🌐 <a href=\"http://www.yourhotel.com\">www.yourhotel.com</a></p>\n\n  <p>By Gemini_2.5_Pro</p>\n  <p>Postgres PGVector Store</p>\n  LANGUAGE_DETECTED: [detected language in English, e.g. Chinese, Malay, English]\n\n  The only changes are the 4 lines added after each <p>Postgres PGVector Store</p>:\n  LANGUAGE_DETECTED: [detected language in English, e.g. Chinese, Malay, English]"
         }
       },
       "id": "38288619-bc53-4300-941a-ffd6ef266b5d",
@@ -80,7 +80,7 @@
       "name": "Sticky Note5",
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        2656,
+        3152,
         1584
       ],
       "typeVersion": 1
@@ -96,7 +96,8 @@
         },
         "simple": false,
         "filters": {
-          "q": "-from:me"
+          "q": "-from:me",
+          "readStatus": "unread"
         },
         "options": {}
       },
@@ -110,8 +111,8 @@
       "typeVersion": 1,
       "credentials": {
         "gmailOAuth2": {
-          "id": "PxWNojtMdxyKEMQe",
-          "name": "Gmail account"
+          "id": "oa22yNKV1n7ZBlbL",
+          "name": "Gmail account - kohxl.w@gmail.com"
         }
       }
     },
@@ -125,7 +126,7 @@
       "type": "n8n-nodes-base.gmail",
       "typeVersion": 2.2,
       "position": [
-        2720,
+        3216,
         1664
       ],
       "id": "79b5283b-5382-495f-a59d-3745fbd31692",
@@ -133,14 +134,14 @@
       "webhookId": "df29d228-cfd1-4b21-9f67-819d7123ad8d",
       "credentials": {
         "gmailOAuth2": {
-          "id": "PxWNojtMdxyKEMQe",
-          "name": "Gmail account"
+          "id": "KARfljGIBjePqPOs",
+          "name": "Gmail account - xlwork2402@gmail.com"
         }
       }
     },
     {
       "parameters": {
-        "modelName": "models/gemini-3-pro-preview",
+        "modelName": "models/gemini-2.5-pro",
         "options": {}
       },
       "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
@@ -207,7 +208,7 @@
     },
     {
       "parameters": {
-        "modelName": "models/gemini-3-pro-preview",
+        "modelName": "models/gemini-2.5-pro",
         "options": {}
       },
       "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
@@ -243,7 +244,7 @@
       "credentials": {
         "postgres": {
           "id": "8mGoTo12vHwO29yd",
-          "name": "Postgres account 2"
+          "name": "Postgres Account - Reader"
         }
       }
     },
@@ -268,7 +269,7 @@
     },
     {
       "parameters": {
-        "modelName": "models/gemini-3-pro-preview",
+        "modelName": "models/gemini-2.5-pro",
         "options": {}
       },
       "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
@@ -303,8 +304,8 @@
     {
       "parameters": {
         "content": "## Assesing whether the mail needs a reply or not",
-        "height": 592,
-        "width": 624,
+        "height": 688,
+        "width": 896,
         "color": 4
       },
       "id": "a442c36d-9484-4ab1-be5f-487748f249c6",
@@ -327,8 +328,8 @@
       "name": "Sticky Note3",
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        1184,
-        2592
+        1584,
+        2576
       ],
       "typeVersion": 1
     },
@@ -343,8 +344,8 @@
       "name": "Sticky Note6",
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        1648,
-        2576
+        2400,
+        2544
       ],
       "typeVersion": 1
     },
@@ -359,7 +360,7 @@
       "name": "Sticky Note7",
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        2048,
+        3680,
         2496
       ],
       "typeVersion": 1
@@ -374,7 +375,7 @@
       "type": "n8n-nodes-base.gmail",
       "typeVersion": 2.2,
       "position": [
-        2112,
+        3744,
         2560
       ],
       "id": "ea627db9-53d4-47c8-9cd1-4f2592dbf0f8",
@@ -382,8 +383,8 @@
       "webhookId": "df29d228-cfd1-4b21-9f67-819d7123ad8d",
       "credentials": {
         "gmailOAuth2": {
-          "id": "PxWNojtMdxyKEMQe",
-          "name": "Gmail account"
+          "id": "KARfljGIBjePqPOs",
+          "name": "Gmail account - xlwork2402@gmail.com"
         }
       }
     },
@@ -449,8 +450,8 @@
       "name": "If Needs Reply1",
       "type": "n8n-nodes-base.if",
       "position": [
-        1280,
-        2688
+        1680,
+        2672
       ],
       "typeVersion": 2
     },
@@ -462,8 +463,8 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
       "typeVersion": 1,
       "position": [
-        1632,
-        2864
+        2384,
+        2832
       ],
       "id": "b9ecdaef-5cc7-42bc-86d8-a4c3efaa50e1",
       "name": "Google Gemini Chat Model4",
@@ -484,15 +485,15 @@
       "type": "@n8n/n8n-nodes-langchain.vectorStorePGVector",
       "typeVersion": 1.3,
       "position": [
-        1840,
-        2864
+        2560,
+        2848
       ],
       "id": "d730bbb0-7ff2-4a0b-8a92-4fc1ceb1183e",
       "name": "Postgres PGVector Store1",
       "credentials": {
         "postgres": {
           "id": "8mGoTo12vHwO29yd",
-          "name": "Postgres account 2"
+          "name": "Postgres Account - Reader"
         }
       }
     },
@@ -503,8 +504,8 @@
       "type": "@n8n/n8n-nodes-langchain.embeddingsGoogleGemini",
       "typeVersion": 1,
       "position": [
-        1840,
-        3024
+        2592,
+        2992
       ],
       "id": "3163bfe0-c26d-41dc-8855-844e84543e7e",
       "name": "Embeddings Google Gemini1",
@@ -552,8 +553,8 @@
     {
       "parameters": {
         "content": "## Assesing whether the mail needs a reply or not",
-        "height": 592,
-        "width": 624,
+        "height": 656,
+        "width": 976,
         "color": 4
       },
       "id": "136621bc-ccec-4c3b-bdae-270b5758fa42",
@@ -576,7 +577,7 @@
       "name": "Sticky Note9",
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        1200,
+        1664,
         3600
       ],
       "typeVersion": 1
@@ -592,7 +593,7 @@
       "name": "Sticky Note10",
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        1664,
+        2464,
         3584
       ],
       "typeVersion": 1
@@ -608,7 +609,7 @@
       "name": "Sticky Note11",
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        2064,
+        3712,
         3504
       ],
       "typeVersion": 1
@@ -623,7 +624,7 @@
       "type": "n8n-nodes-base.gmail",
       "typeVersion": 2.2,
       "position": [
-        2128,
+        3776,
         3568
       ],
       "id": "e854c790-82c9-4a78-9d15-647dbea63998",
@@ -631,8 +632,8 @@
       "webhookId": "df29d228-cfd1-4b21-9f67-819d7123ad8d",
       "credentials": {
         "gmailOAuth2": {
-          "id": "PxWNojtMdxyKEMQe",
-          "name": "Gmail account"
+          "id": "KARfljGIBjePqPOs",
+          "name": "Gmail account - xlwork2402@gmail.com"
         }
       }
     },
@@ -698,7 +699,7 @@
       "name": "If Needs Reply2",
       "type": "n8n-nodes-base.if",
       "position": [
-        1296,
+        1760,
         3696
       ],
       "typeVersion": 2
@@ -711,7 +712,7 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
       "typeVersion": 1,
       "position": [
-        1648,
+        2448,
         3872
       ],
       "id": "3d8f53ef-7032-4231-b862-0e8cbb9d3562",
@@ -733,7 +734,7 @@
       "type": "@n8n/n8n-nodes-langchain.vectorStorePGVector",
       "typeVersion": 1.3,
       "position": [
-        1856,
+        2656,
         3872
       ],
       "id": "f3d305a8-5930-40aa-9dc4-c6084fc32161",
@@ -741,7 +742,7 @@
       "credentials": {
         "postgres": {
           "id": "8mGoTo12vHwO29yd",
-          "name": "Postgres account 2"
+          "name": "Postgres Account - Reader"
         }
       }
     },
@@ -752,7 +753,7 @@
       "type": "@n8n/n8n-nodes-langchain.embeddingsGoogleGemini",
       "typeVersion": 1,
       "position": [
-        1856,
+        2656,
         4032
       ],
       "id": "ac261555-7e15-48ab-952b-ff005ca72b91",
@@ -802,7 +803,7 @@
     },
     {
       "parameters": {
-        "content": "Gemini_3_Pro_Preview",
+        "content": "Gemini_2.5_Pro",
         "height": 80,
         "width": 208,
         "color": 6
@@ -853,14 +854,14 @@
         "promptType": "define",
         "text": "=Customer Email Subject: {{ $('Receive Email from Gmail').item.json.subject }}\nCustomer Name: {{ $('Receive Email from Gmail').item.json.from }}\nCustomer Message: {{ $('Receive Email from Gmail').item.json.text }}\n\nPlease search the knowledge base and reply to this customer inquiry.",
         "options": {
-          "systemMessage": "You are a professional hotel customer support representative.\n\nSTRICT RULES - YOU MUST FOLLOW:\n1. ALWAYS call the knowledge base tool first\n2. ONLY use facts returned by the tool - nothing else\n3. NEVER use your own knowledge or training data to answer\n4. NEVER guess or assume any hotel policies, prices, or details\n5. If you are about to answer without calling the tool - STOP and call the tool first\n\nLANGUAGE DETECTION:\n- Detect the language of the customer's email\n- ALWAYS reply in the SAME language the customer used\n- The knowledge base is in English — search it in English,\n  but translate your reply to match the customer's language\n- You must support ALL languages including but not limited to:\n  English, Malay, Chinese (Simplified & Traditional), Thai,\n  Arabic, Japanese, Korean, French, German, Spanish, Italian,\n  Portuguese, Hindi, Tamil, Vietnamese, Indonesian, Tagalog,\n  Russian, Turkish, Dutch, and any other language detected\n- NEVER default to English unless the customer writes in English\n  or the language cannot be determined\n- Translate the full HTML reply naturally including\n  \"Dear\", \"Thank you for reaching out\", \"Warm regards\" etc.\n\nMIXED LANGUAGE EMAILS:\n- If the customer mixes two languages (e.g. English + Chinese,\n  English + Malay), identify which language the QUESTION is written in\n- Reply in the language used for the QUESTION part\n- Example: \"i like to ask 酒店有没有早餐?\" → question is in Chinese → reply in Chinese\n- Example: \"Hi, boleh tanya pasal breakfast?\" → question is in Malay → reply in Malay\n- If truly unclear which language to use → default to English\n\nSTEP 1 - CHECK IF QUESTION IS HOTEL-RELATED:\nBefore searching the knowledge base, determine if the question\nis related to hotel services.\n\nHotel-related topics include:\n- Reservations, booking, cancellation\n- Check-in, check-out\n- Room types, amenities, facilities\n- Billing, payment, invoices\n- Hotel services (spa, pool, gym, restaurant)\n- Special requests, accessibility\n- Lost and found\n- Nearby attractions, restaurants, shopping recommendations\n- Local transportation and directions\n- Things to do near the hotel\n- Any question about the hotel or stay experience\n\nIf the question is NOT hotel-related (e.g. weather, news, general knowledge,\npersonal advice, unrelated services), do NOT search the knowledge base.\nReply ONLY with this HTML (translated to customer's language):\n\n<p>Dear [guest name or \"Valued Guest\"],</p>\n\n<p>Thank you for reaching out to us.</p>\n\n<p>We are only able to assist with inquiries related to our hotel services.\nFor other matters, we recommend seeking the appropriate resources.</p>\n\n<p>If you have any hotel-related questions, please don't hesitate to contact us.</p>\n\n\n<p>Warm regards,<br>\nHotel Support Team<br>\n📞 +XX-XXXX-XXXX<br>\n🌐 <a href=\"http://www.yourhotel.com\">www.yourhotel.com</a></p>\n\n<p>By Gemini_Flash_Lite_Latest</p>\n<p>Postgres PGVector Store</p>\n\nSTEP 2 - IF HOTEL-RELATED, SEARCH KNOWLEDGE BASE:\n- Call the knowledge base tool with the customer's question in ENGLISH\n- If tool returns no results, reply ONLY with this HTML (translated to customer's language):\n\n<p>Dear [guest name or \"Valued Guest\"],</p>\n\n<p>Thank you for your inquiry. Our team will follow up with you shortly.</p>\n\n\n<p>Warm regards,<br>\nHotel Support Team<br>\n📞 +XX-XXXX-XXXX<br>\n🌐 <a href=\"http://www.yourhotel.com\">www.yourhotel.com</a></p>\n\n<p>By Gemini_Flash_Lite_Latest</p>\n<p>Postgres PGVector Store</p>\n\nAfter getting tool results:\n- Rephrase the answer in natural, warm, professional sentences\n- Translate the rephrased answer to the customer's language\n- Do NOT copy word for word\n- Do NOT add any extra information not in the tool results\n- Do NOT use phrases like \"We are pleased to inform you\" or \"I am happy to inform you\"\n- Keep each answer to 1-2 sentences per question\n\nSTEP 3 - DETECTING EMAIL FORMAT:\n- If customer sends a SINGLE question or writes in PARAGRAPH form → use single answer format, no colour changes\n- If customer sends MULTIPLE questions in POINT FORM (numbered list, bullet points, or each question on a new line) → use point form format with blue bold questions\n\nFOR SINGLE QUESTION OR PARAGRAPH:\n<p>Dear [guest name or \"Valued Guest\"],</p>\n\n<p>Thank you for reaching out to us.</p>\n\n<p>[Rephrased answer translated to customer's language]</p>\n\n<p>If you have any further questions, please don't hesitate to reach out.</p>\n\n\n<p>Warm regards,<br>\nHotel Support Team<br>\n📞 +XX-XXXX-XXXX<br>\n🌐 <a href=\"http://www.yourhotel.com\">www.yourhotel.com</a></p>\n\n<p>By Gemini_Flash_Lite_Latest</p>\n<p>Postgres PGVector Store</p>\n\nFOR POINT FORM (multiple questions only):\n<p>Dear [guest name or \"Valued Guest\"],</p>\n\n<p>Thank you for reaching out to us. Please find the answers to your questions below:</p>\n\n<p><strong style=\"color:#1a73e8;\">1. [Repeat customer question in customer's language]</strong><br>\n[Answer translated to customer's language]</p>\n\n<p><strong style=\"color:#1a73e8;\">2. [Repeat customer question in customer's language]</strong><br>\n[Answer translated to customer's language]</p>\n\n<p><strong style=\"color:#1a73e8;\">3. [Repeat customer question in customer's language]</strong><br>\n[Answer translated to customer's language]</p>\n\n<p>If you have any further questions, please don't hesitate to reach out.</p>\n\n\n<p>Warm regards,<br>\nHotel Support Team<br>\n📞 +XX-XXXX-XXXX<br>\n🌐 <a href=\"http://www.yourhotel.com\">www.yourhotel.com</a></p>\n\n<p>By Gemini_Flash_Lite_Latest</p>\n<p>Postgres PGVector Store</p>"
+          "systemMessage": "STRICT RULES - YOU MUST FOLLOW:                                                                                                                                          \n  1. ALWAYS call the knowledge base tool first                                                                                                                             \n  2. ONLY use facts returned by the tool - nothing else                                                                                                                    \n  3. NEVER use your own knowledge or training data to answer\n  4. NEVER guess or assume any hotel policies, prices, or details\n  5. If you are about to answer without calling the tool - STOP and call the tool first\n\n  LANGUAGE DETECTION:\n  - Detect the language of the customer's email\n  - ALWAYS reply in the SAME language the customer used\n  - The knowledge base is in English — search it in English,\n    but translate your reply to match the customer's language\n  - You must support ALL languages including but not limited to:\n    English, Malay, Chinese (Simplified & Traditional), Thai,\n    Arabic, Japanese, Korean, French, German, Spanish, Italian,\n    Portuguese, Hindi, Tamil, Vietnamese, Indonesian, Tagalog,\n    Russian, Turkish, Dutch, and any other language detected\n  - NEVER default to English unless the customer writes in English\n    or the language cannot be determined\n  - Translate the full HTML reply naturally including\n    \"Dear\", \"Thank you for reaching out\", \"Warm regards\" etc.\n\n  MIXED LANGUAGE EMAILS:\n  - If the customer mixes two languages (e.g. English + Chinese,\n    English + Malay), identify which language the QUESTION is written in\n  - Reply in the language used for the QUESTION part\n  - Example: \"i like to ask 酒店有没有早餐?\" → question is in Chinese → reply in Chinese\n  - Example: \"Hi, boleh tanya pasal breakfast?\" → question is in Malay → reply in Malay\n  - If truly unclear which language to use → default to English\n\n  STEP 1 - CHECK IF QUESTION IS HOTEL-RELATED:\n  Before searching the knowledge base, determine if the question\n  is related to hotel services.\n\n  Hotel-related topics include:\n  - Reservations, booking, cancellation\n  - Check-in, check-out\n  - Room types, amenities, facilities\n  - Billing, payment, invoices\n  - Hotel services (spa, pool, gym, restaurant)\n  - Special requests, accessibility\n  - Lost and found\n  - Nearby attractions, restaurants, shopping recommendations\n  - Local transportation and directions\n  - Things to do near the hotel\n  - Any question about the hotel or stay experience\n\n  If the question is NOT hotel-related (e.g. weather, news, general knowledge,\n  personal advice, unrelated services), do NOT search the knowledge base.\n  Reply ONLY with this HTML (translated to customer's language):\n\n  <p>Dear [guest name or \"Valued Guest\"],</p>\n\n  <p>Thank you for reaching out to us.</p>\n\n  <p>We are only able to assist with inquiries related to our hotel services.\n  For other matters, we recommend seeking the appropriate resources.</p>\n\n  <p>If you have any hotel-related questions, please don't hesitate to contact us.</p>\n\n\n  <p>Warm regards,<br>\n  Hotel Support Team<br>\n  📞 +XX-XXXX-XXXX<br>\n  🌐 <a href=\"http://www.yourhotel.com\">www.yourhotel.com</a></p>\n\n  <p>By Gemini_Flash_Lite_Latest</p>\n  <p>Postgres PGVector Store</p>\n  LANGUAGE_DETECTED: [detected language in English, e.g. Chinese, Malay, English]\n\n  STEP 2 - IF HOTEL-RELATED, SEARCH KNOWLEDGE BASE:\n  - Call the knowledge base tool with the customer's question in ENGLISH\n  - If tool returns no results, reply ONLY with this HTML (translated to customer's language):\n\n  <p>Dear [guest name or \"Valued Guest\"],</p>\n\n  <p>Thank you for your inquiry. Our team will follow up with you shortly.</p>\n\n\n  <p>Warm regards,<br>\n  Hotel Support Team<br>\n  📞 +XX-XXXX-XXXX<br>\n  🌐 <a href=\"http://www.yourhotel.com\">www.yourhotel.com</a></p>\n\n  <p>By Gemini_Flash_Lite_Latest</p>\n  <p>Postgres PGVector Store</p>\n  LANGUAGE_DETECTED: [detected language in English, e.g. Chinese, Malay, English]\n\n  After getting tool results:\n  - Rephrase the answer in natural, warm, professional sentences\n  - Translate the rephrased answer to the customer's language\n  - Do NOT copy word for word\n  - Do NOT add any extra information not in the tool results\n  - Do NOT use phrases like \"We are pleased to inform you\" or \"I am happy to inform you\"\n  - Keep each answer to 1-2 sentences per question\n\n  STEP 3 - DETECTING EMAIL FORMAT:\n  - If customer sends a SINGLE question or writes in PARAGRAPH form → use single answer format, no colour changes\n  - If customer sends MULTIPLE questions in POINT FORM (numbered list, bullet points, or each question on a new line) → use point form format with blue bold questions\n\n  FOR SINGLE QUESTION OR PARAGRAPH:\n  <p>Dear [guest name or \"Valued Guest\"],</p>\n\n  <p>Thank you for reaching out to us.</p>\n\n  <p>[Rephrased answer translated to customer's language]</p>\n\n  <p>If you have any further questions, please don't hesitate to reach out.</p>\n\n\n  <p>Warm regards,<br>\n  Hotel Support Team<br>\n  📞 +XX-XXXX-XXXX<br>\n  🌐 <a href=\"http://www.yourhotel.com\">www.yourhotel.com</a></p>\n\n  <p>By Gemini_Flash_Lite_Latest</p>\n  <p>Postgres PGVector Store</p>\n  LANGUAGE_DETECTED: [detected language in English, e.g. Chinese, Malay, English]\n\n  FOR POINT FORM (multiple questions only):\n  <p>Dear [guest name or \"Valued Guest\"],</p>\n\n  <p>Thank you for reaching out to us. Please find the answers to your questions below:</p>\n\n  <p><strong style=\"color:#1a73e8;\">1. [Repeat customer question in customer's language]</strong><br>\n  [Answer translated to customer's language]</p>\n\n  <p><strong style=\"color:#1a73e8;\">2. [Repeat customer question in customer's language]</strong><br>\n  [Answer translated to customer's language]</p>\n\n  <p><strong style=\"color:#1a73e8;\">3. [Repeat customer question in customer's language]</strong><br>\n  [Answer translated to customer's language]</p>\n\n  <p>If you have any further questions, please don't hesitate to reach out.</p>\n\n\n  <p>Warm regards,<br>\n  Hotel Support Team<br>\n  📞 +XX-XXXX-XXXX<br>\n  🌐 <a href=\"http://www.yourhotel.com\">www.yourhotel.com</a></p>\n\n  <p>By Gemini_Flash_Lite_Latest</p>\n  <p>Postgres PGVector Store</p>\n  LANGUAGE_DETECTED: [detected language in English, e.g. Chinese, Malay, English]\n\n  The only changes are the 4 lines added after each <p>Postgres PGVector Store</p>:\n  LANGUAGE_DETECTED: [detected language in English, e.g. Chinese, Malay, English]"
         }
       },
       "id": "a549cf66-0de6-44c9-b194-38aa81f9bfde",
       "name": "AI Agent3",
       "type": "@n8n/n8n-nodes-langchain.agent",
       "position": [
-        1712,
+        2512,
         3648
       ],
       "typeVersion": 1.9
@@ -870,15 +871,15 @@
         "promptType": "define",
         "text": "=Customer Email Subject: {{ $('Receive Email from Gmail').item.json.subject }}\nCustomer Name: {{ $('Receive Email from Gmail').item.json.from }}\nCustomer Message: {{ $('Receive Email from Gmail').item.json.text }}\n\nPlease search the knowledge base and reply to this customer inquiry.",
         "options": {
-          "systemMessage": "You are a professional hotel customer support representative.\n\nSTRICT RULES - YOU MUST FOLLOW:\n1. ALWAYS call the knowledge base tool first\n2. ONLY use facts returned by the tool - nothing else\n3. NEVER use your own knowledge or training data to answer\n4. NEVER guess or assume any hotel policies, prices, or details\n5. If you are about to answer without calling the tool - STOP and call the tool first\n\nLANGUAGE DETECTION:\n- Detect the language of the customer's email\n- ALWAYS reply in the SAME language the customer used\n- The knowledge base is in English — search it in English,\n  but translate your reply to match the customer's language\n- You must support ALL languages including but not limited to:\n  English, Malay, Chinese (Simplified & Traditional), Thai,\n  Arabic, Japanese, Korean, French, German, Spanish, Italian,\n  Portuguese, Hindi, Tamil, Vietnamese, Indonesian, Tagalog,\n  Russian, Turkish, Dutch, and any other language detected\n- NEVER default to English unless the customer writes in English\n  or the language cannot be determined\n- Translate the full HTML reply naturally including\n  \"Dear\", \"Thank you for reaching out\", \"Warm regards\" etc.\n\nMIXED LANGUAGE EMAILS:\n- If the customer mixes two languages (e.g. English + Chinese,\n  English + Malay), identify which language the QUESTION is written in\n- Reply in the language used for the QUESTION part\n- Example: \"i like to ask 酒店有没有早餐?\" → question is in Chinese → reply in Chinese\n- Example: \"Hi, boleh tanya pasal breakfast?\" → question is in Malay → reply in Malay\n- If truly unclear which language to use → default to English\n\nSTEP 1 - CHECK IF QUESTION IS HOTEL-RELATED:\nBefore searching the knowledge base, determine if the question\nis related to hotel services.\n\nHotel-related topics include:\n- Reservations, booking, cancellation\n- Check-in, check-out\n- Room types, amenities, facilities\n- Billing, payment, invoices\n- Hotel services (spa, pool, gym, restaurant)\n- Special requests, accessibility\n- Lost and found\n- Nearby attractions, restaurants, shopping recommendations\n- Local transportation and directions\n- Things to do near the hotel\n- Any question about the hotel or stay experience\n\nIf the question is NOT hotel-related (e.g. weather, news, general knowledge,\npersonal advice, unrelated services), do NOT search the knowledge base.\nReply ONLY with this HTML (translated to customer's language):\n\n<p>Dear [guest name or \"Valued Guest\"],</p>\n\n<p>Thank you for reaching out to us.</p>\n\n<p>We are only able to assist with inquiries related to our hotel services.\nFor other matters, we recommend seeking the appropriate resources.</p>\n\n<p>If you have any hotel-related questions, please don't hesitate to contact us.</p>\n\n\n<p>Warm regards,<br>\nHotel Support Team<br>\n📞 +XX-XXXX-XXXX<br>\n🌐 <a href=\"http://www.yourhotel.com\">www.yourhotel.com</a></p>\n\n<p>By Gemini_3_Flash_Preview</p>\n<p>Postgres PGVector Store</p>\n\nSTEP 2 - IF HOTEL-RELATED, SEARCH KNOWLEDGE BASE:\n- Call the knowledge base tool with the customer's question in ENGLISH\n- If tool returns no results, reply ONLY with this HTML (translated to customer's language):\n\n<p>Dear [guest name or \"Valued Guest\"],</p>\n\n<p>Thank you for your inquiry. Our team will follow up with you shortly.</p>\n\n\n<p>Warm regards,<br>\nHotel Support Team<br>\n📞 +XX-XXXX-XXXX<br>\n🌐 <a href=\"http://www.yourhotel.com\">www.yourhotel.com</a></p>\n\n<p>By Gemini_3_Flash_Preview</p>\n<p>Postgres PGVector Store</p>\n\nAfter getting tool results:\n- Rephrase the answer in natural, warm, professional sentences\n- Translate the rephrased answer to the customer's language\n- Do NOT copy word for word\n- Do NOT add any extra information not in the tool results\n- Do NOT use phrases like \"We are pleased to inform you\" or \"I am happy to inform you\"\n- Keep each answer to 1-2 sentences per question\n\nSTEP 3 - DETECTING EMAIL FORMAT:\n- If customer sends a SINGLE question or writes in PARAGRAPH form → use single answer format, no colour changes\n- If customer sends MULTIPLE questions in POINT FORM (numbered list, bullet points, or each question on a new line) → use point form format with blue bold questions\n\nFOR SINGLE QUESTION OR PARAGRAPH:\n<p>Dear [guest name or \"Valued Guest\"],</p>\n\n<p>Thank you for reaching out to us.</p>\n\n<p>[Rephrased answer translated to customer's language]</p>\n\n<p>If you have any further questions, please don't hesitate to reach out.</p>\n\n\n<p>Warm regards,<br>\nHotel Support Team<br>\n📞 +XX-XXXX-XXXX<br>\n🌐 <a href=\"http://www.yourhotel.com\">www.yourhotel.com</a></p>\n\n<p>By Gemini_3_Flash_Preview</p>\n<p>Postgres PGVector Store</p>\n\nFOR POINT FORM (multiple questions only):\n<p>Dear [guest name or \"Valued Guest\"],</p>\n\n<p>Thank you for reaching out to us. Please find the answers to your questions below:</p>\n\n<p><strong style=\"color:#1a73e8;\">1. [Repeat customer question in customer's language]</strong><br>\n[Answer translated to customer's language]</p>\n\n<p><strong style=\"color:#1a73e8;\">2. [Repeat customer question in customer's language]</strong><br>\n[Answer translated to customer's language]</p>\n\n<p><strong style=\"color:#1a73e8;\">3. [Repeat customer question in customer's language]</strong><br>\n[Answer translated to customer's language]</p>\n\n<p>If you have any further questions, please don't hesitate to reach out.</p>\n\n\n<p>Warm regards,<br>\nHotel Support Team<br>\n📞 +XX-XXXX-XXXX<br>\n🌐 <a href=\"http://www.yourhotel.com\">www.yourhotel.com</a></p>\n\n<p>By Gemini_3_Flash_Preview</p>\n<p>Postgres PGVector Store</p>"
+          "systemMessage": "STRICT RULES - YOU MUST FOLLOW:                                                                                                                                          \n  1. ALWAYS call the knowledge base tool first                                                                                                                             \n  2. ONLY use facts returned by the tool - nothing else                                                                                                                    \n  3. NEVER use your own knowledge or training data to answer\n  4. NEVER guess or assume any hotel policies, prices, or details\n  5. If you are about to answer without calling the tool - STOP and call the tool first\n\n  LANGUAGE DETECTION:\n  - Detect the language of the customer's email\n  - ALWAYS reply in the SAME language the customer used\n  - The knowledge base is in English — search it in English,\n    but translate your reply to match the customer's language\n  - You must support ALL languages including but not limited to:\n    English, Malay, Chinese (Simplified & Traditional), Thai,\n    Arabic, Japanese, Korean, French, German, Spanish, Italian,\n    Portuguese, Hindi, Tamil, Vietnamese, Indonesian, Tagalog,\n    Russian, Turkish, Dutch, and any other language detected\n  - NEVER default to English unless the customer writes in English\n    or the language cannot be determined\n  - Translate the full HTML reply naturally including\n    \"Dear\", \"Thank you for reaching out\", \"Warm regards\" etc.\n\n  MIXED LANGUAGE EMAILS:\n  - If the customer mixes two languages (e.g. English + Chinese,\n    English + Malay), identify which language the QUESTION is written in\n  - Reply in the language used for the QUESTION part\n  - Example: \"i like to ask 酒店有没有早餐?\" → question is in Chinese → reply in Chinese\n  - Example: \"Hi, boleh tanya pasal breakfast?\" → question is in Malay → reply in Malay\n  - If truly unclear which language to use → default to English\n\n  STEP 1 - CHECK IF QUESTION IS HOTEL-RELATED:\n  Before searching the knowledge base, determine if the question\n  is related to hotel services.\n\n  Hotel-related topics include:\n  - Reservations, booking, cancellation\n  - Check-in, check-out\n  - Room types, amenities, facilities\n  - Billing, payment, invoices\n  - Hotel services (spa, pool, gym, restaurant)\n  - Special requests, accessibility\n  - Lost and found\n  - Nearby attractions, restaurants, shopping recommendations\n  - Local transportation and directions\n  - Things to do near the hotel\n  - Any question about the hotel or stay experience\n\n  If the question is NOT hotel-related (e.g. weather, news, general knowledge,\n  personal advice, unrelated services), do NOT search the knowledge base.\n  Reply ONLY with this HTML (translated to customer's language):\n\n  <p>Dear [guest name or \"Valued Guest\"],</p>\n\n  <p>Thank you for reaching out to us.</p>\n\n  <p>We are only able to assist with inquiries related to our hotel services.\n  For other matters, we recommend seeking the appropriate resources.</p>\n\n  <p>If you have any hotel-related questions, please don't hesitate to contact us.</p>\n\n\n  <p>Warm regards,<br>\n  Hotel Support Team<br>\n  📞 +XX-XXXX-XXXX<br>\n  🌐 <a href=\"http://www.yourhotel.com\">www.yourhotel.com</a></p>\n\n  <p>By Gemini_3_Flash_Preview</p>\n  <p>Postgres PGVector Store</p>\n  LANGUAGE_DETECTED: [detected language in English, e.g. Chinese, Malay, English]\n\n  STEP 2 - IF HOTEL-RELATED, SEARCH KNOWLEDGE BASE:\n  - Call the knowledge base tool with the customer's question in ENGLISH\n  - If tool returns no results, reply ONLY with this HTML (translated to customer's language):\n\n  <p>Dear [guest name or \"Valued Guest\"],</p>\n\n  <p>Thank you for your inquiry. Our team will follow up with you shortly.</p>\n\n\n  <p>Warm regards,<br>\n  Hotel Support Team<br>\n  📞 +XX-XXXX-XXXX<br>\n  🌐 <a href=\"http://www.yourhotel.com\">www.yourhotel.com</a></p>\n\n  <p>By Gemini_3_Flash_Preview</p>\n  <p>Postgres PGVector Store</p>\n  LANGUAGE_DETECTED: [detected language in English, e.g. Chinese, Malay, English]\n\n  After getting tool results:\n  - Rephrase the answer in natural, warm, professional sentences\n  - Translate the rephrased answer to the customer's language\n  - Do NOT copy word for word\n  - Do NOT add any extra information not in the tool results\n  - Do NOT use phrases like \"We are pleased to inform you\" or \"I am happy to inform you\"\n  - Keep each answer to 1-2 sentences per question\n\n  STEP 3 - DETECTING EMAIL FORMAT:\n  - If customer sends a SINGLE question or writes in PARAGRAPH form → use single answer format, no colour changes\n  - If customer sends MULTIPLE questions in POINT FORM (numbered list, bullet points, or each question on a new line) → use point form format with blue bold questions\n\n  FOR SINGLE QUESTION OR PARAGRAPH:\n  <p>Dear [guest name or \"Valued Guest\"],</p>\n\n  <p>Thank you for reaching out to us.</p>\n\n  <p>[Rephrased answer translated to customer's language]</p>\n\n  <p>If you have any further questions, please don't hesitate to reach out.</p>\n\n\n  <p>Warm regards,<br>\n  Hotel Support Team<br>\n  📞 +XX-XXXX-XXXX<br>\n  🌐 <a href=\"http://www.yourhotel.com\">www.yourhotel.com</a></p>\n\n  <p>By Gemini_3_Flash_Preview</p>\n  <p>Postgres PGVector Store</p>\n  LANGUAGE_DETECTED: [detected language in English, e.g. Chinese, Malay, English]\n\n  FOR POINT FORM (multiple questions only):\n  <p>Dear [guest name or \"Valued Guest\"],</p>\n\n  <p>Thank you for reaching out to us. Please find the answers to your questions below:</p>\n\n  <p><strong style=\"color:#1a73e8;\">1. [Repeat customer question in customer's language]</strong><br>\n  [Answer translated to customer's language]</p>\n\n  <p><strong style=\"color:#1a73e8;\">2. [Repeat customer question in customer's language]</strong><br>\n  [Answer translated to customer's language]</p>\n\n  <p><strong style=\"color:#1a73e8;\">3. [Repeat customer question in customer's language]</strong><br>\n  [Answer translated to customer's language]</p>\n\n  <p>If you have any further questions, please don't hesitate to reach out.</p>\n\n\n  <p>Warm regards,<br>\n  Hotel Support Team<br>\n  📞 +XX-XXXX-XXXX<br>\n  🌐 <a href=\"http://www.yourhotel.com\">www.yourhotel.com</a></p>\n\n  <p>By Gemini_3_Flash_Preview</p>\n  <p>Postgres PGVector Store</p>\n  LANGUAGE_DETECTED: [detected language in English, e.g. Chinese, Malay, English]\n\n  The only changes are the 4 lines added after each <p>Postgres PGVector Store</p>:\n  LANGUAGE_DETECTED: [detected language in English, e.g. Chinese, Malay, English]"
         }
       },
       "id": "ac451417-5a9f-46cc-a14c-f58680fbbe61",
       "name": "AI Agent2",
       "type": "@n8n/n8n-nodes-langchain.agent",
       "position": [
-        1696,
-        2640
+        2448,
+        2608
       ],
       "typeVersion": 1.9
     },
@@ -900,8 +901,8 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        -592,
-        2016
+        -32,
+        1968
       ],
       "id": "2745b811-2221-4e61-9d17-0b32865ccc8a",
       "name": "Set Time Received"
@@ -948,7 +949,7 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        2416,
+        2912,
         1728
       ],
       "id": "b7959a41-8792-4595-b0d5-09e2cdc7e1c5",
@@ -970,11 +971,25 @@
         "columns": {
           "mappingMode": "defineBelow",
           "value": {
-            "needs_reply": false,
-            "id": 0,
+            "needs_reply": "={{ $('Assess if message needs a reply').item.json.needsReply }}",
             "classification_seconds": 0,
             "generation_seconds": 0,
-            "total_seconds": 0
+            "total_seconds": 0,
+            "threadId": "={{ $('Receive Email from Gmail').item.json.threadId }}",
+            "email_id": "={{ $('Receive Email from Gmail').item.json.messageId }}",
+            "customer_email": "={{ $('Receive Email from Gmail').item.json.headers.from }}",
+            "subject": "={{ $('Receive Email from Gmail').item.json.subject }}",
+            "customer_message": "={{ $('Receive Email from Gmail').item.json.text }}",
+            "urgency": "={{ $('Assess if message needs a reply').item.json.urgency }}",
+            "category": "={{ $('Assess if message needs a reply').item.json.category }}",
+            "time_reply_generated": "={{ $('Set After Reply').item.json.time_reply_generated }}",
+            "time_classification_done": "={{ $('Set After Classification').item.json.time_classification_done }}",
+            "time_received": "={{ $('Set Time Received').item.json.time_received }}",
+            "approach": "=AI Agent",
+            "model_used": "=Gemini_Pro_3_Preview",
+            "ai_response": "={{ $('Code in JavaScript').item.json.ai_response }}",
+            "language_detected": "={{ $('Code in JavaScript').item.json.language_detected }}",
+            "time_reply_sent": "={{ $json.time_reply_sent }}"
           },
           "matchingColumns": [
             "id"
@@ -987,6 +1002,16 @@
               "defaultMatch": true,
               "display": true,
               "type": "number",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "threadId",
+              "displayName": "threadId",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
               "canBeUsedToMatch": true,
               "removed": false
             },
@@ -1087,7 +1112,8 @@
               "defaultMatch": false,
               "display": true,
               "type": "dateTime",
-              "canBeUsedToMatch": true
+              "canBeUsedToMatch": true,
+              "removed": false
             },
             {
               "id": "time_classification_done",
@@ -1170,17 +1196,778 @@
       "type": "n8n-nodes-base.postgres",
       "typeVersion": 2.6,
       "position": [
-        2928,
+        3648,
         1664
       ],
       "id": "4a67ece5-e350-4f49-b7d6-e7f4908eb8d1",
       "name": "Log to PostgreSQL",
       "credentials": {
         "postgres": {
-          "id": "8mGoTo12vHwO29yd",
-          "name": "Postgres account 2"
+          "id": "XF2BVuSFwwWW0soK",
+          "name": "Postgres Account - Writer"
         }
       }
+    },
+    {
+      "parameters": {
+        "jsCode": "const output = $input.item.json.output;                                                                                                                                  \n                                                                                                                                                                           \n  // Extract language                                                                                                                                                      \n  const langMatch = output.match(/LANGUAGE_DETECTED:\\s*(.+)/);                                                                                                             \n  const language_detected = langMatch ? langMatch[1].trim() : null;\n                                                                                                                                                                           \n  // Remove the tag from the HTML                                                                                                                                          \n  const ai_response = output.replace(/LANGUAGE_DETECTED:.+/, '').trim();                                                                                                   \n                                                                                                                                                                           \n  return {                                                                                                                                                                 \n    json: {                                                                                                                                                                \n      ...$input.item.json,                                                                                                                                                 \n      language_detected,                                                                                                                                                   \n      ai_response\n    }\n  };"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2416,
+        1728
+      ],
+      "id": "ec4ba7d1-18f2-498f-9b98-3c025586f2a4",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "d92ee360-2342-4f4c-8370-4afc3820776b",
+              "name": "time_reply_sent",
+              "value": "={{ new Date().toISOString() }}",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        3424,
+        1664
+      ],
+      "id": "63142df9-f041-4224-a511-5e27a907e50a",
+      "name": "Set After Reply Sent"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "b453d5d2-638d-4e4b-8216-078d339dc1c1",
+              "name": "time_classification_done",
+              "value": "={{ new Date().toISOString() }}",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1120,
+        2624
+      ],
+      "id": "d4ab8680-1b84-494c-80fb-4ac6f49b4218",
+      "name": "Set After Classification1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "0538305c-d972-4807-a9ab-f193e845c15f",
+              "name": "time_received",
+              "value": "={{ new Date().toISOString() }}",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -368,
+        2496
+      ],
+      "id": "29fab469-58ce-4da9-8925-5ae522ca9ba6",
+      "name": "Set Time Received1"
+    },
+    {
+      "parameters": {
+        "jsCode": "const output = $input.item.json.output;                                                                                                                                  \n                                                                                                                                                                           \n  // Extract language                                                                                                                                                      \n  const langMatch = output.match(/LANGUAGE_DETECTED:\\s*(.+)/);                                                                                                             \n  const language_detected = langMatch ? langMatch[1].trim() : null;\n                                                                                                                                                                           \n  // Remove the tag from the HTML                                                                                                                                          \n  const ai_response = output.replace(/LANGUAGE_DETECTED:.+/, '').trim();                                                                                                   \n                                                                                                                                                                           \n  return {                                                                                                                                                                 \n    json: {                                                                                                                                                                \n      ...$input.item.json,                                                                                                                                                 \n      language_detected,                                                                                                                                                   \n      ai_response\n    }\n  };"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2992,
+        2560
+      ],
+      "id": "8385c321-12f9-4fe8-b3b7-4ef485c9b370",
+      "name": "Code in JavaScript1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "b26a1583-33e2-4380-af9c-9d7b2e13fc81",
+              "name": "time_reply_generated",
+              "value": "={{ new Date().toISOString() }}",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        3280,
+        2544
+      ],
+      "id": "a693e045-6f40-4977-b60e-a8b331619962",
+      "name": "Set After Reply1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "0538305c-d972-4807-a9ab-f193e845c15f",
+              "name": "time_received",
+              "value": "={{ new Date().toISOString() }}",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -448,
+        3248
+      ],
+      "id": "3e1e2c33-929d-4a3e-b122-ac74c63232d4",
+      "name": "Set Time Received2"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "b453d5d2-638d-4e4b-8216-078d339dc1c1",
+              "name": "time_classification_done",
+              "value": "={{ new Date().toISOString() }}",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1184,
+        3680
+      ],
+      "id": "d6b3f750-a941-49b0-b6de-4d17a64acfc7",
+      "name": "Set After Classification2"
+    },
+    {
+      "parameters": {
+        "jsCode": "const output = $input.item.json.output;                                                                                                                                  \n                                                                                                                                                                           \n  // Extract language                                                                                                                                                      \n  const langMatch = output.match(/LANGUAGE_DETECTED:\\s*(.+)/);                                                                                                             \n  const language_detected = langMatch ? langMatch[1].trim() : null;\n                                                                                                                                                                           \n  // Remove the tag from the HTML                                                                                                                                          \n  const ai_response = output.replace(/LANGUAGE_DETECTED:.+/, '').trim();                                                                                                   \n                                                                                                                                                                           \n  return {                                                                                                                                                                 \n    json: {                                                                                                                                                                \n      ...$input.item.json,                                                                                                                                                 \n      language_detected,                                                                                                                                                   \n      ai_response\n    }\n  };"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2992,
+        3600
+      ],
+      "id": "ba2b1846-936d-4c32-90b2-f6f7bad6369a",
+      "name": "Code in JavaScript2"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "b26a1583-33e2-4380-af9c-9d7b2e13fc81",
+              "name": "time_reply_generated",
+              "value": "={{ new Date().toISOString() }}",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        3344,
+        3584
+      ],
+      "id": "8d10640c-61eb-47db-90d2-ba9524c415f7",
+      "name": "Set After Reply2"
+    },
+    {
+      "parameters": {
+        "schema": {
+          "__rl": true,
+          "mode": "list",
+          "value": "public"
+        },
+        "table": {
+          "__rl": true,
+          "value": "email_comparison_logs",
+          "mode": "list",
+          "cachedResultName": "email_comparison_logs"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "needs_reply": "={{ $('If Needs Reply1').item.json.needsReply }}",
+            "classification_seconds": 0,
+            "generation_seconds": 0,
+            "total_seconds": 0,
+            "threadId": "={{ $('Receive Email from Gmail').item.json.threadId }}",
+            "email_id": "={{ $('Receive Email from Gmail').item.json.messageId }}",
+            "customer_email": "={{ $('Receive Email from Gmail').item.json.headers.from }}",
+            "subject": "={{ $('Receive Email from Gmail').item.json.subject }}",
+            "customer_message": "={{ $('Receive Email from Gmail').item.json.text }}",
+            "urgency": "={{ $('Assess if message needs a reply1').item.json.urgency }}",
+            "category": "={{ $('Assess if message needs a reply1').item.json.category }}",
+            "time_reply_generated": "={{ $('Set After Reply1').item.json.time_reply_generated }}",
+            "time_classification_done": "={{ $('Set After Classification1').item.json.time_classification_done }}",
+            "time_received": "={{ $('Set Time Received1').item.json.time_received }}",
+            "approach": "=AI Agent",
+            "model_used": "=Gemini_3_Flash_Preview",
+            "ai_response": "={{ $('Code in JavaScript1').item.json.ai_response }}",
+            "language_detected": "={{ $('Set After Reply1').item.json.language_detected }}",
+            "time_reply_sent": "={{ $json.time_reply_sent }}"
+          },
+          "matchingColumns": [
+            "id"
+          ],
+          "schema": [
+            {
+              "id": "id",
+              "displayName": "id",
+              "required": false,
+              "defaultMatch": true,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "threadId",
+              "displayName": "threadId",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "email_id",
+              "displayName": "email_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "customer_email",
+              "displayName": "customer_email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "subject",
+              "displayName": "subject",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "customer_message",
+              "displayName": "customer_message",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "category",
+              "displayName": "category",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "urgency",
+              "displayName": "urgency",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "language_detected",
+              "displayName": "language_detected",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "needs_reply",
+              "displayName": "needs_reply",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "boolean",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "approach",
+              "displayName": "approach",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "model_used",
+              "displayName": "model_used",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "time_received",
+              "displayName": "time_received",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "dateTime",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "time_classification_done",
+              "displayName": "time_classification_done",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "dateTime",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "time_reply_generated",
+              "displayName": "time_reply_generated",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "dateTime",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "time_reply_sent",
+              "displayName": "time_reply_sent",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "dateTime",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "classification_seconds",
+              "displayName": "classification_seconds",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "generation_seconds",
+              "displayName": "generation_seconds",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "total_seconds",
+              "displayName": "total_seconds",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "ai_response",
+              "displayName": "ai_response",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "status",
+              "displayName": "status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        4272,
+        2544
+      ],
+      "id": "08df0927-ac41-4c23-8844-922cc0e409c6",
+      "name": "Log to PostgreSQL1",
+      "credentials": {
+        "postgres": {
+          "id": "XF2BVuSFwwWW0soK",
+          "name": "Postgres Account - Writer"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "d92ee360-2342-4f4c-8370-4afc3820776b",
+              "name": "time_reply_sent",
+              "value": "={{ new Date().toISOString() }}",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        4048,
+        2544
+      ],
+      "id": "263cc582-ff51-4b21-9c52-b5383e1ea91d",
+      "name": "Set After Reply Sent1"
+    },
+    {
+      "parameters": {
+        "schema": {
+          "__rl": true,
+          "mode": "list",
+          "value": "public"
+        },
+        "table": {
+          "__rl": true,
+          "value": "email_comparison_logs",
+          "mode": "list",
+          "cachedResultName": "email_comparison_logs"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "needs_reply": "={{ $('If Needs Reply2').item.json.needsReply }}",
+            "classification_seconds": 0,
+            "generation_seconds": 0,
+            "total_seconds": 0,
+            "threadId": "={{ $('Receive Email from Gmail').item.json.threadId }}",
+            "email_id": "={{ $('Receive Email from Gmail').item.json.messageId }}",
+            "customer_email": "={{ $('Receive Email from Gmail').item.json.from.value[0].address }}",
+            "subject": "={{ $('Receive Email from Gmail').item.json.subject }}",
+            "customer_message": "={{ $('Receive Email from Gmail').item.json.text }}",
+            "urgency": "={{ $('If Needs Reply2').item.json.urgency }}",
+            "category": "={{ $('If Needs Reply2').item.json.category }}",
+            "time_reply_generated": "={{ $('Set After Reply2').item.json.time_reply_generated }}",
+            "time_classification_done": "={{ $('If Needs Reply2').item.json.time_classification_done }}",
+            "time_received": "={{ $('Set Time Received2').item.json.time_received }}",
+            "approach": "=AI Agent",
+            "model_used": "=Gemini_Flash_Lite_Latest",
+            "ai_response": "={{ $('Code in JavaScript2').item.json.ai_response }}",
+            "language_detected": "={{ $('Set After Reply2').item.json.language_detected }}",
+            "time_reply_sent": "={{ $json.time_reply_sent }}"
+          },
+          "matchingColumns": [
+            "id"
+          ],
+          "schema": [
+            {
+              "id": "id",
+              "displayName": "id",
+              "required": false,
+              "defaultMatch": true,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "threadId",
+              "displayName": "threadId",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "email_id",
+              "displayName": "email_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "customer_email",
+              "displayName": "customer_email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "subject",
+              "displayName": "subject",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "customer_message",
+              "displayName": "customer_message",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "category",
+              "displayName": "category",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "urgency",
+              "displayName": "urgency",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "language_detected",
+              "displayName": "language_detected",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "needs_reply",
+              "displayName": "needs_reply",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "boolean",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "approach",
+              "displayName": "approach",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "model_used",
+              "displayName": "model_used",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "time_received",
+              "displayName": "time_received",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "dateTime",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "time_classification_done",
+              "displayName": "time_classification_done",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "dateTime",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "time_reply_generated",
+              "displayName": "time_reply_generated",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "dateTime",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "time_reply_sent",
+              "displayName": "time_reply_sent",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "dateTime",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "classification_seconds",
+              "displayName": "classification_seconds",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "generation_seconds",
+              "displayName": "generation_seconds",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "total_seconds",
+              "displayName": "total_seconds",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "ai_response",
+              "displayName": "ai_response",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "status",
+              "displayName": "status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        4336,
+        3552
+      ],
+      "id": "d842ea07-5496-4f7c-982e-c7b7b76316e2",
+      "name": "Log to PostgreSQL2",
+      "credentials": {
+        "postgres": {
+          "id": "XF2BVuSFwwWW0soK",
+          "name": "Postgres Account - Writer"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "d92ee360-2342-4f4c-8370-4afc3820776b",
+              "name": "time_reply_sent",
+              "value": "={{ new Date().toISOString() }}",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        4112,
+        3552
+      ],
+      "id": "c423ad0d-45e5-4c7e-a88e-6555a2e17f99",
+      "name": "Set After Reply Sent2"
     }
   ],
   "connections": {
@@ -1188,7 +1975,7 @@
       "main": [
         [
           {
-            "node": "Set After Reply",
+            "node": "Code in JavaScript",
             "type": "main",
             "index": 0
           }
@@ -1199,17 +1986,17 @@
       "main": [
         [
           {
-            "node": "Assess if message needs a reply1",
-            "type": "main",
-            "index": 0
-          },
-          {
-            "node": "Assess if message needs a reply2",
-            "type": "main",
-            "index": 0
-          },
-          {
             "node": "Set Time Received",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Set Time Received1",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Set Time Received2",
             "type": "main",
             "index": 0
           }
@@ -1331,7 +2118,7 @@
       "main": [
         [
           {
-            "node": "If Needs Reply1",
+            "node": "Set After Classification1",
             "type": "main",
             "index": 0
           }
@@ -1419,7 +2206,7 @@
       "main": [
         [
           {
-            "node": "If Needs Reply2",
+            "node": "Set After Classification2",
             "type": "main",
             "index": 0
           }
@@ -1485,7 +2272,7 @@
       "main": [
         [
           {
-            "node": "Reply to the email2",
+            "node": "Code in JavaScript2",
             "type": "main",
             "index": 0
           }
@@ -1496,7 +2283,7 @@
       "main": [
         [
           {
-            "node": "Reply to the email1",
+            "node": "Code in JavaScript1",
             "type": "main",
             "index": 0
           }
@@ -1540,7 +2327,161 @@
       "main": [
         [
           {
+            "node": "Set After Reply Sent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "Set After Reply",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set After Reply Sent": {
+      "main": [
+        [
+          {
             "node": "Log to PostgreSQL",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set After Classification1": {
+      "main": [
+        [
+          {
+            "node": "If Needs Reply1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Time Received1": {
+      "main": [
+        [
+          {
+            "node": "Assess if message needs a reply1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript1": {
+      "main": [
+        [
+          {
+            "node": "Set After Reply1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set After Reply1": {
+      "main": [
+        [
+          {
+            "node": "Reply to the email1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Time Received2": {
+      "main": [
+        [
+          {
+            "node": "Assess if message needs a reply2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set After Classification2": {
+      "main": [
+        [
+          {
+            "node": "If Needs Reply2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript2": {
+      "main": [
+        [
+          {
+            "node": "Set After Reply2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set After Reply2": {
+      "main": [
+        [
+          {
+            "node": "Reply to the email2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set After Reply Sent1": {
+      "main": [
+        [
+          {
+            "node": "Log to PostgreSQL1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Reply to the email1": {
+      "main": [
+        [
+          {
+            "node": "Set After Reply Sent1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set After Reply Sent2": {
+      "main": [
+        [
+          {
+            "node": "Log to PostgreSQL2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Reply to the email2": {
+      "main": [
+        [
+          {
+            "node": "Set After Reply Sent2",
             "type": "main",
             "index": 0
           }
@@ -1551,13 +2492,15 @@
   "settings": {
     "executionOrder": "v1",
     "binaryMode": "separate",
-    "availableInMCP": false
+    "availableInMCP": false,
+    "timeSavedMode": "fixed",
+    "callerPolicy": "workflowsFromSameOwner"
   },
   "staticData": {
     "node:Receive Email from Gmail": {
-      "lastTimeChecked": 1772179199,
+      "lastTimeChecked": 1772592764,
       "possibleDuplicates": [
-        "19c9e1caef816143"
+        "19cb6c3266195520"
       ]
     }
   },
@@ -1565,8 +2508,8 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "e8b63a22-b280-4edd-a519-87f256a1cc3f",
-  "activeVersionId": "5991d860-4db6-407f-a5c0-9e3d3cc4e2e6",
+  "versionId": "32ed15e8-faeb-4aa3-ab7d-8b4833955579",
+  "activeVersionId": "32ed15e8-faeb-4aa3-ab7d-8b4833955579",
   "triggerCount": 1,
   "shared": [
     {
@@ -1578,9 +2521,9 @@
     }
   ],
   "activeVersion": {
-    "updatedAt": "2026-03-02T10:33:31.879Z",
-    "createdAt": "2026-03-02T10:33:07.155Z",
-    "versionId": "5991d860-4db6-407f-a5c0-9e3d3cc4e2e6",
+    "updatedAt": "2026-03-04T02:20:04.300Z",
+    "createdAt": "2026-03-04T02:19:33.893Z",
+    "versionId": "32ed15e8-faeb-4aa3-ab7d-8b4833955579",
     "workflowId": "136yfxh8NWJ4Ebmn",
     "nodes": [
       {
@@ -1592,8 +2535,8 @@
         "name": "JSON Parser1",
         "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
         "position": [
-          768,
-          1904
+          896,
+          1920
         ],
         "typeVersion": 1
       },
@@ -1608,7 +2551,7 @@
         "name": "Sticky Note2",
         "type": "n8n-nodes-base.stickyNote",
         "position": [
-          1168,
+          1552,
           1680
         ],
         "typeVersion": 1
@@ -1624,7 +2567,7 @@
         "name": "Sticky Note4",
         "type": "n8n-nodes-base.stickyNote",
         "position": [
-          1632,
+          2016,
           1664
         ],
         "typeVersion": 1
@@ -1634,14 +2577,14 @@
           "promptType": "define",
           "text": "=Customer Email Subject: {{ $('Receive Email from Gmail').item.json.subject }}\nCustomer Name: {{ $('Receive Email from Gmail').item.json.from }}\nCustomer Message: {{ $('Receive Email from Gmail').item.json.text }}\n\nPlease search the knowledge base and reply to this customer inquiry.",
           "options": {
-            "systemMessage": "You are a professional hotel customer support representative.\n\nSTRICT RULES - YOU MUST FOLLOW:\n1. ALWAYS call the knowledge base tool first\n2. ONLY use facts returned by the tool - nothing else\n3. NEVER use your own knowledge or training data to answer\n4. NEVER guess or assume any hotel policies, prices, or details\n5. If you are about to answer without calling the tool - STOP and call the tool first\n\nLANGUAGE DETECTION:\n- Detect the language of the customer's email\n- ALWAYS reply in the SAME language the customer used\n- The knowledge base is in English — search it in English,\n  but translate your reply to match the customer's language\n- You must support ALL languages including but not limited to:\n  English, Malay, Chinese (Simplified & Traditional), Thai,\n  Arabic, Japanese, Korean, French, German, Spanish, Italian,\n  Portuguese, Hindi, Tamil, Vietnamese, Indonesian, Tagalog,\n  Russian, Turkish, Dutch, and any other language detected\n- NEVER default to English unless the customer writes in English\n  or the language cannot be determined\n- Translate the full HTML reply naturally including\n  \"Dear\", \"Thank you for reaching out\", \"Warm regards\" etc.\n\nMIXED LANGUAGE EMAILS:\n- If the customer mixes two languages (e.g. English + Chinese,\n  English + Malay), identify which language the QUESTION is written in\n- Reply in the language used for the QUESTION part\n- Example: \"i like to ask 酒店有没有早餐?\" → question is in Chinese → reply in Chinese\n- Example: \"Hi, boleh tanya pasal breakfast?\" → question is in Malay → reply in Malay\n- If truly unclear which language to use → default to English\n\nSTEP 1 - CHECK IF QUESTION IS HOTEL-RELATED:\nBefore searching the knowledge base, determine if the question\nis related to hotel services.\n\nHotel-related topics include:\n- Reservations, booking, cancellation\n- Check-in, check-out\n- Room types, amenities, facilities\n- Billing, payment, invoices\n- Hotel services (spa, pool, gym, restaurant)\n- Special requests, accessibility\n- Lost and found\n- Nearby attractions, restaurants, shopping recommendations\n- Local transportation and directions\n- Things to do near the hotel\n- Any question about the hotel or stay experience\n\nIf the question is NOT hotel-related (e.g. weather, news, general knowledge,\npersonal advice, unrelated services), do NOT search the knowledge base.\nReply ONLY with this HTML (translated to customer's language):\n\n<p>Dear [guest name or \"Valued Guest\"],</p>\n\n<p>Thank you for reaching out to us.</p>\n\n<p>We are only able to assist with inquiries related to our hotel services.\nFor other matters, we recommend seeking the appropriate resources.</p>\n\n<p>If you have any hotel-related questions, please don't hesitate to contact us.</p>\n\n\n<p>Warm regards,<br>\nHotel Support Team<br>\n📞 +XX-XXXX-XXXX<br>\n🌐 <a href=\"http://www.yourhotel.com\">www.yourhotel.com</a></p>\n\n<p>By Gemini_3_Pro_Preview</p>\n<p>Postgres PGVector Store</p>\n\nSTEP 2 - IF HOTEL-RELATED, SEARCH KNOWLEDGE BASE:\n- Call the knowledge base tool with the customer's question in ENGLISH\n- If tool returns no results, reply ONLY with this HTML (translated to customer's language):\n\n<p>Dear [guest name or \"Valued Guest\"],</p>\n\n<p>Thank you for your inquiry. Our team will follow up with you shortly.</p>\n\n\n<p>Warm regards,<br>\nHotel Support Team<br>\n📞 +XX-XXXX-XXXX<br>\n🌐 <a href=\"http://www.yourhotel.com\">www.yourhotel.com</a></p>\n\n<p>By Gemini_3_Pro_Preview</p>\n<p>Postgres PGVector Store</p>\n\nAfter getting tool results:\n- Rephrase the answer in natural, warm, professional sentences\n- Translate the rephrased answer to the customer's language\n- Do NOT copy word for word\n- Do NOT add any extra information not in the tool results\n- Do NOT use phrases like \"We are pleased to inform you\" or \"I am happy to inform you\"\n- Keep each answer to 1-2 sentences per question\n\nSTEP 3 - DETECTING EMAIL FORMAT:\n- If customer sends a SINGLE question or writes in PARAGRAPH form → use single answer format, no colour changes\n- If customer sends MULTIPLE questions in POINT FORM (numbered list, bullet points, or each question on a new line) → use point form format with blue bold questions\n\nFOR SINGLE QUESTION OR PARAGRAPH:\n<p>Dear [guest name or \"Valued Guest\"],</p>\n\n<p>Thank you for reaching out to us.</p>\n\n<p>[Rephrased answer translated to customer's language]</p>\n\n<p>If you have any further questions, please don't hesitate to reach out.</p>\n\n\n<p>Warm regards,<br>\nHotel Support Team<br>\n📞 +XX-XXXX-XXXX<br>\n🌐 <a href=\"http://www.yourhotel.com\">www.yourhotel.com</a></p>\n\n<p>By Gemini_3_Pro_Preview</p>\n<p>Postgres PGVector Store</p>\n\nFOR POINT FORM (multiple questions only):\n<p>Dear [guest name or \"Valued Guest\"],</p>\n\n<p>Thank you for reaching out to us. Please find the answers to your questions below:</p>\n\n<p><strong style=\"color:#1a73e8;\">1. [Repeat customer question in customer's language]</strong><br>\n[Answer translated to customer's language]</p>\n\n<p><strong style=\"color:#1a73e8;\">2. [Repeat customer question in customer's language]</strong><br>\n[Answer translated to customer's language]</p>\n\n<p><strong style=\"color:#1a73e8;\">3. [Repeat customer question in customer's language]</strong><br>\n[Answer translated to customer's language]</p>\n\n<p>If you have any further questions, please don't hesitate to reach out.</p>\n\n\n<p>Warm regards,<br>\nHotel Support Team<br>\n📞 +XX-XXXX-XXXX<br>\n🌐 <a href=\"http://www.yourhotel.com\">www.yourhotel.com</a></p>\n\n<p>By Gemini_3_Pro_Preview</p>\n<p>Postgres PGVector Store</p>"
+            "systemMessage": "STRICT RULES - YOU MUST FOLLOW:                                                                                                                                          \n  1. ALWAYS call the knowledge base tool first                                                                                                                             \n  2. ONLY use facts returned by the tool - nothing else                                                                                                                    \n  3. NEVER use your own knowledge or training data to answer\n  4. NEVER guess or assume any hotel policies, prices, or details\n  5. If you are about to answer without calling the tool - STOP and call the tool first\n\n  LANGUAGE DETECTION:\n  - Detect the language of the customer's email\n  - ALWAYS reply in the SAME language the customer used\n  - The knowledge base is in English — search it in English,\n    but translate your reply to match the customer's language\n  - You must support ALL languages including but not limited to:\n    English, Malay, Chinese (Simplified & Traditional), Thai,\n    Arabic, Japanese, Korean, French, German, Spanish, Italian,\n    Portuguese, Hindi, Tamil, Vietnamese, Indonesian, Tagalog,\n    Russian, Turkish, Dutch, and any other language detected\n  - NEVER default to English unless the customer writes in English\n    or the language cannot be determined\n  - Translate the full HTML reply naturally including\n    \"Dear\", \"Thank you for reaching out\", \"Warm regards\" etc.\n\n  MIXED LANGUAGE EMAILS:\n  - If the customer mixes two languages (e.g. English + Chinese,\n    English + Malay), identify which language the QUESTION is written in\n  - Reply in the language used for the QUESTION part\n  - Example: \"i like to ask 酒店有没有早餐?\" → question is in Chinese → reply in Chinese\n  - Example: \"Hi, boleh tanya pasal breakfast?\" → question is in Malay → reply in Malay\n  - If truly unclear which language to use → default to English\n\n  STEP 1 - CHECK IF QUESTION IS HOTEL-RELATED:\n  Before searching the knowledge base, determine if the question\n  is related to hotel services.\n\n  Hotel-related topics include:\n  - Reservations, booking, cancellation\n  - Check-in, check-out\n  - Room types, amenities, facilities\n  - Billing, payment, invoices\n  - Hotel services (spa, pool, gym, restaurant)\n  - Special requests, accessibility\n  - Lost and found\n  - Nearby attractions, restaurants, shopping recommendations\n  - Local transportation and directions\n  - Things to do near the hotel\n  - Any question about the hotel or stay experience\n\n  If the question is NOT hotel-related (e.g. weather, news, general knowledge,\n  personal advice, unrelated services), do NOT search the knowledge base.\n  Reply ONLY with this HTML (translated to customer's language):\n\n  <p>Dear [guest name or \"Valued Guest\"],</p>\n\n  <p>Thank you for reaching out to us.</p>\n\n  <p>We are only able to assist with inquiries related to our hotel services.\n  For other matters, we recommend seeking the appropriate resources.</p>\n\n  <p>If you have any hotel-related questions, please don't hesitate to contact us.</p>\n\n\n  <p>Warm regards,<br>\n  Hotel Support Team<br>\n  📞 +XX-XXXX-XXXX<br>\n  🌐 <a href=\"http://www.yourhotel.com\">www.yourhotel.com</a></p>\n\n  <p>By Gemini_2.5_Pro</p>\n  <p>Postgres PGVector Store</p>\n  LANGUAGE_DETECTED: [detected language in English, e.g. Chinese, Malay, English]\n\n  STEP 2 - IF HOTEL-RELATED, SEARCH KNOWLEDGE BASE:\n  - Call the knowledge base tool with the customer's question in ENGLISH\n  - If tool returns no results, reply ONLY with this HTML (translated to customer's language):\n\n  <p>Dear [guest name or \"Valued Guest\"],</p>\n\n  <p>Thank you for your inquiry. Our team will follow up with you shortly.</p>\n\n\n  <p>Warm regards,<br>\n  Hotel Support Team<br>\n  📞 +XX-XXXX-XXXX<br>\n  🌐 <a href=\"http://www.yourhotel.com\">www.yourhotel.com</a></p>\n\n  <p>By Gemini_2.5_Pro</p>\n  <p>Postgres PGVector Store</p>\n  LANGUAGE_DETECTED: [detected language in English, e.g. Chinese, Malay, English]\n\n  After getting tool results:\n  - Rephrase the answer in natural, warm, professional sentences\n  - Translate the rephrased answer to the customer's language\n  - Do NOT copy word for word\n  - Do NOT add any extra information not in the tool results\n  - Do NOT use phrases like \"We are pleased to inform you\" or \"I am happy to inform you\"\n  - Keep each answer to 1-2 sentences per question\n\n  STEP 3 - DETECTING EMAIL FORMAT:\n  - If customer sends a SINGLE question or writes in PARAGRAPH form → use single answer format, no colour changes\n  - If customer sends MULTIPLE questions in POINT FORM (numbered list, bullet points, or each question on a new line) → use point form format with blue bold questions\n\n  FOR SINGLE QUESTION OR PARAGRAPH:\n  <p>Dear [guest name or \"Valued Guest\"],</p>\n\n  <p>Thank you for reaching out to us.</p>\n\n  <p>[Rephrased answer translated to customer's language]</p>\n\n  <p>If you have any further questions, please don't hesitate to reach out.</p>\n\n\n  <p>Warm regards,<br>\n  Hotel Support Team<br>\n  📞 +XX-XXXX-XXXX<br>\n  🌐 <a href=\"http://www.yourhotel.com\">www.yourhotel.com</a></p>\n\n  <p>By Gemini_2.5_Pro</p>\n  <p>Postgres PGVector Store</p>\n  LANGUAGE_DETECTED: [detected language in English, e.g. Chinese, Malay, English]\n\n  FOR POINT FORM (multiple questions only):\n  <p>Dear [guest name or \"Valued Guest\"],</p>\n\n  <p>Thank you for reaching out to us. Please find the answers to your questions below:</p>\n\n  <p><strong style=\"color:#1a73e8;\">1. [Repeat customer question in customer's language]</strong><br>\n  [Answer translated to customer's language]</p>\n\n  <p><strong style=\"color:#1a73e8;\">2. [Repeat customer question in customer's language]</strong><br>\n  [Answer translated to customer's language]</p>\n\n  <p><strong style=\"color:#1a73e8;\">3. [Repeat customer question in customer's language]</strong><br>\n  [Answer translated to customer's language]</p>\n\n  <p>If you have any further questions, please don't hesitate to reach out.</p>\n\n\n  <p>Warm regards,<br>\n  Hotel Support Team<br>\n  📞 +XX-XXXX-XXXX<br>\n  🌐 <a href=\"http://www.yourhotel.com\">www.yourhotel.com</a></p>\n\n  <p>By Gemini_2.5_Pro</p>\n  <p>Postgres PGVector Store</p>\n  LANGUAGE_DETECTED: [detected language in English, e.g. Chinese, Malay, English]\n\n  The only changes are the 4 lines added after each <p>Postgres PGVector Store</p>:\n  LANGUAGE_DETECTED: [detected language in English, e.g. Chinese, Malay, English]"
           }
         },
         "id": "38288619-bc53-4300-941a-ffd6ef266b5d",
         "name": "AI Agent",
         "type": "@n8n/n8n-nodes-langchain.agent",
         "position": [
-          1680,
+          2064,
           1728
         ],
         "typeVersion": 1.9
@@ -1657,7 +2600,7 @@
         "name": "Sticky Note5",
         "type": "n8n-nodes-base.stickyNote",
         "position": [
-          2032,
+          3152,
           1584
         ],
         "typeVersion": 1
@@ -1673,7 +2616,8 @@
           },
           "simple": false,
           "filters": {
-            "q": "-from:me"
+            "q": "-from:me",
+            "readStatus": "unread"
           },
           "options": {}
         },
@@ -1687,8 +2631,8 @@
         "typeVersion": 1,
         "credentials": {
           "gmailOAuth2": {
-            "id": "PxWNojtMdxyKEMQe",
-            "name": "Gmail account"
+            "id": "oa22yNKV1n7ZBlbL",
+            "name": "Gmail account - kohxl.w@gmail.com"
           }
         }
       },
@@ -1702,22 +2646,22 @@
         "type": "n8n-nodes-base.gmail",
         "typeVersion": 2.2,
         "position": [
-          2096,
-          1648
+          3216,
+          1664
         ],
         "id": "79b5283b-5382-495f-a59d-3745fbd31692",
         "name": "Reply to the email",
         "webhookId": "df29d228-cfd1-4b21-9f67-819d7123ad8d",
         "credentials": {
           "gmailOAuth2": {
-            "id": "PxWNojtMdxyKEMQe",
-            "name": "Gmail account"
+            "id": "KARfljGIBjePqPOs",
+            "name": "Gmail account - xlwork2402@gmail.com"
           }
         }
       },
       {
         "parameters": {
-          "modelName": "models/gemini-3-pro-preview",
+          "modelName": "models/gemini-2.5-pro",
           "options": {}
         },
         "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
@@ -1777,20 +2721,20 @@
         "name": "If Needs Reply",
         "type": "n8n-nodes-base.if",
         "position": [
-          1264,
+          1648,
           1776
         ],
         "typeVersion": 2
       },
       {
         "parameters": {
-          "modelName": "models/gemini-3-pro-preview",
+          "modelName": "models/gemini-2.5-pro",
           "options": {}
         },
         "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
         "typeVersion": 1,
         "position": [
-          1616,
+          2000,
           1952
         ],
         "id": "446d7030-a843-44dc-8ee3-277f4f3fdfcd",
@@ -1812,7 +2756,7 @@
         "type": "@n8n/n8n-nodes-langchain.vectorStorePGVector",
         "typeVersion": 1.3,
         "position": [
-          1824,
+          2208,
           1952
         ],
         "id": "802ba45c-b011-468f-98eb-0074720d86e7",
@@ -1820,7 +2764,7 @@
         "credentials": {
           "postgres": {
             "id": "8mGoTo12vHwO29yd",
-            "name": "Postgres account 2"
+            "name": "Postgres Account - Reader"
           }
         }
       },
@@ -1831,7 +2775,7 @@
         "type": "@n8n/n8n-nodes-langchain.embeddingsGoogleGemini",
         "typeVersion": 1,
         "position": [
-          1824,
+          2208,
           2112
         ],
         "id": "94fa68f0-42f3-4af5-9e1c-917a27d68181",
@@ -1845,14 +2789,14 @@
       },
       {
         "parameters": {
-          "modelName": "models/gemini-3-pro-preview",
+          "modelName": "models/gemini-2.5-pro",
           "options": {}
         },
         "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
         "typeVersion": 1,
         "position": [
-          768,
-          2064
+          1024,
+          2192
         ],
         "id": "2b990ce5-7b0e-4c72-9194-1305c15b88b9",
         "name": "Google Gemini Chat Model2",
@@ -1880,8 +2824,8 @@
       {
         "parameters": {
           "content": "## Assesing whether the mail needs a reply or not",
-          "height": 592,
-          "width": 624,
+          "height": 688,
+          "width": 896,
           "color": 4
         },
         "id": "a442c36d-9484-4ab1-be5f-487748f249c6",
@@ -1904,8 +2848,8 @@
         "name": "Sticky Note3",
         "type": "n8n-nodes-base.stickyNote",
         "position": [
-          1184,
-          2592
+          1584,
+          2576
         ],
         "typeVersion": 1
       },
@@ -1920,8 +2864,8 @@
         "name": "Sticky Note6",
         "type": "n8n-nodes-base.stickyNote",
         "position": [
-          1648,
-          2576
+          2400,
+          2544
         ],
         "typeVersion": 1
       },
@@ -1936,7 +2880,7 @@
         "name": "Sticky Note7",
         "type": "n8n-nodes-base.stickyNote",
         "position": [
-          2048,
+          3680,
           2496
         ],
         "typeVersion": 1
@@ -1951,7 +2895,7 @@
         "type": "n8n-nodes-base.gmail",
         "typeVersion": 2.2,
         "position": [
-          2112,
+          3744,
           2560
         ],
         "id": "ea627db9-53d4-47c8-9cd1-4f2592dbf0f8",
@@ -1959,8 +2903,8 @@
         "webhookId": "df29d228-cfd1-4b21-9f67-819d7123ad8d",
         "credentials": {
           "gmailOAuth2": {
-            "id": "PxWNojtMdxyKEMQe",
-            "name": "Gmail account"
+            "id": "KARfljGIBjePqPOs",
+            "name": "Gmail account - xlwork2402@gmail.com"
           }
         }
       },
@@ -2026,8 +2970,8 @@
         "name": "If Needs Reply1",
         "type": "n8n-nodes-base.if",
         "position": [
-          1280,
-          2688
+          1680,
+          2672
         ],
         "typeVersion": 2
       },
@@ -2039,8 +2983,8 @@
         "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
         "typeVersion": 1,
         "position": [
-          1632,
-          2864
+          2384,
+          2832
         ],
         "id": "b9ecdaef-5cc7-42bc-86d8-a4c3efaa50e1",
         "name": "Google Gemini Chat Model4",
@@ -2061,15 +3005,15 @@
         "type": "@n8n/n8n-nodes-langchain.vectorStorePGVector",
         "typeVersion": 1.3,
         "position": [
-          1840,
-          2864
+          2560,
+          2848
         ],
         "id": "d730bbb0-7ff2-4a0b-8a92-4fc1ceb1183e",
         "name": "Postgres PGVector Store1",
         "credentials": {
           "postgres": {
             "id": "8mGoTo12vHwO29yd",
-            "name": "Postgres account 2"
+            "name": "Postgres Account - Reader"
           }
         }
       },
@@ -2080,8 +3024,8 @@
         "type": "@n8n/n8n-nodes-langchain.embeddingsGoogleGemini",
         "typeVersion": 1,
         "position": [
-          1840,
-          3024
+          2592,
+          2992
         ],
         "id": "3163bfe0-c26d-41dc-8855-844e84543e7e",
         "name": "Embeddings Google Gemini1",
@@ -2129,8 +3073,8 @@
       {
         "parameters": {
           "content": "## Assesing whether the mail needs a reply or not",
-          "height": 592,
-          "width": 624,
+          "height": 656,
+          "width": 976,
           "color": 4
         },
         "id": "136621bc-ccec-4c3b-bdae-270b5758fa42",
@@ -2153,7 +3097,7 @@
         "name": "Sticky Note9",
         "type": "n8n-nodes-base.stickyNote",
         "position": [
-          1200,
+          1664,
           3600
         ],
         "typeVersion": 1
@@ -2169,7 +3113,7 @@
         "name": "Sticky Note10",
         "type": "n8n-nodes-base.stickyNote",
         "position": [
-          1664,
+          2464,
           3584
         ],
         "typeVersion": 1
@@ -2185,7 +3129,7 @@
         "name": "Sticky Note11",
         "type": "n8n-nodes-base.stickyNote",
         "position": [
-          2064,
+          3712,
           3504
         ],
         "typeVersion": 1
@@ -2200,7 +3144,7 @@
         "type": "n8n-nodes-base.gmail",
         "typeVersion": 2.2,
         "position": [
-          2128,
+          3776,
           3568
         ],
         "id": "e854c790-82c9-4a78-9d15-647dbea63998",
@@ -2208,8 +3152,8 @@
         "webhookId": "df29d228-cfd1-4b21-9f67-819d7123ad8d",
         "credentials": {
           "gmailOAuth2": {
-            "id": "PxWNojtMdxyKEMQe",
-            "name": "Gmail account"
+            "id": "KARfljGIBjePqPOs",
+            "name": "Gmail account - xlwork2402@gmail.com"
           }
         }
       },
@@ -2275,7 +3219,7 @@
         "name": "If Needs Reply2",
         "type": "n8n-nodes-base.if",
         "position": [
-          1296,
+          1760,
           3696
         ],
         "typeVersion": 2
@@ -2288,7 +3232,7 @@
         "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
         "typeVersion": 1,
         "position": [
-          1648,
+          2448,
           3872
         ],
         "id": "3d8f53ef-7032-4231-b862-0e8cbb9d3562",
@@ -2310,7 +3254,7 @@
         "type": "@n8n/n8n-nodes-langchain.vectorStorePGVector",
         "typeVersion": 1.3,
         "position": [
-          1856,
+          2656,
           3872
         ],
         "id": "f3d305a8-5930-40aa-9dc4-c6084fc32161",
@@ -2318,7 +3262,7 @@
         "credentials": {
           "postgres": {
             "id": "8mGoTo12vHwO29yd",
-            "name": "Postgres account 2"
+            "name": "Postgres Account - Reader"
           }
         }
       },
@@ -2329,7 +3273,7 @@
         "type": "@n8n/n8n-nodes-langchain.embeddingsGoogleGemini",
         "typeVersion": 1,
         "position": [
-          1856,
+          2656,
           4032
         ],
         "id": "ac261555-7e15-48ab-952b-ff005ca72b91",
@@ -2364,22 +3308,22 @@
       {
         "parameters": {
           "content": "## Assesing whether the mail needs a reply or not",
-          "height": 592,
-          "width": 624,
+          "height": 736,
+          "width": 864,
           "color": 4
         },
         "id": "44e3a50a-a89c-4f7b-aa20-30038226d472",
         "name": "Sticky Note1",
         "type": "n8n-nodes-base.stickyNote",
         "position": [
-          464,
-          1616
+          496,
+          1632
         ],
         "typeVersion": 1
       },
       {
         "parameters": {
-          "content": "Gemini_3_Pro_Preview",
+          "content": "Gemini_2.5_Pro",
           "height": 80,
           "width": 208,
           "color": 6
@@ -2430,14 +3374,14 @@
           "promptType": "define",
           "text": "=Customer Email Subject: {{ $('Receive Email from Gmail').item.json.subject }}\nCustomer Name: {{ $('Receive Email from Gmail').item.json.from }}\nCustomer Message: {{ $('Receive Email from Gmail').item.json.text }}\n\nPlease search the knowledge base and reply to this customer inquiry.",
           "options": {
-            "systemMessage": "You are a professional hotel customer support representative.\n\nSTRICT RULES - YOU MUST FOLLOW:\n1. ALWAYS call the knowledge base tool first\n2. ONLY use facts returned by the tool - nothing else\n3. NEVER use your own knowledge or training data to answer\n4. NEVER guess or assume any hotel policies, prices, or details\n5. If you are about to answer without calling the tool - STOP and call the tool first\n\nLANGUAGE DETECTION:\n- Detect the language of the customer's email\n- ALWAYS reply in the SAME language the customer used\n- The knowledge base is in English — search it in English,\n  but translate your reply to match the customer's language\n- You must support ALL languages including but not limited to:\n  English, Malay, Chinese (Simplified & Traditional), Thai,\n  Arabic, Japanese, Korean, French, German, Spanish, Italian,\n  Portuguese, Hindi, Tamil, Vietnamese, Indonesian, Tagalog,\n  Russian, Turkish, Dutch, and any other language detected\n- NEVER default to English unless the customer writes in English\n  or the language cannot be determined\n- Translate the full HTML reply naturally including\n  \"Dear\", \"Thank you for reaching out\", \"Warm regards\" etc.\n\nMIXED LANGUAGE EMAILS:\n- If the customer mixes two languages (e.g. English + Chinese,\n  English + Malay), identify which language the QUESTION is written in\n- Reply in the language used for the QUESTION part\n- Example: \"i like to ask 酒店有没有早餐?\" → question is in Chinese → reply in Chinese\n- Example: \"Hi, boleh tanya pasal breakfast?\" → question is in Malay → reply in Malay\n- If truly unclear which language to use → default to English\n\nSTEP 1 - CHECK IF QUESTION IS HOTEL-RELATED:\nBefore searching the knowledge base, determine if the question\nis related to hotel services.\n\nHotel-related topics include:\n- Reservations, booking, cancellation\n- Check-in, check-out\n- Room types, amenities, facilities\n- Billing, payment, invoices\n- Hotel services (spa, pool, gym, restaurant)\n- Special requests, accessibility\n- Lost and found\n- Nearby attractions, restaurants, shopping recommendations\n- Local transportation and directions\n- Things to do near the hotel\n- Any question about the hotel or stay experience\n\nIf the question is NOT hotel-related (e.g. weather, news, general knowledge,\npersonal advice, unrelated services), do NOT search the knowledge base.\nReply ONLY with this HTML (translated to customer's language):\n\n<p>Dear [guest name or \"Valued Guest\"],</p>\n\n<p>Thank you for reaching out to us.</p>\n\n<p>We are only able to assist with inquiries related to our hotel services.\nFor other matters, we recommend seeking the appropriate resources.</p>\n\n<p>If you have any hotel-related questions, please don't hesitate to contact us.</p>\n\n\n<p>Warm regards,<br>\nHotel Support Team<br>\n📞 +XX-XXXX-XXXX<br>\n🌐 <a href=\"http://www.yourhotel.com\">www.yourhotel.com</a></p>\n\n<p>By Gemini_Flash_Lite_Latest</p>\n<p>Postgres PGVector Store</p>\n\nSTEP 2 - IF HOTEL-RELATED, SEARCH KNOWLEDGE BASE:\n- Call the knowledge base tool with the customer's question in ENGLISH\n- If tool returns no results, reply ONLY with this HTML (translated to customer's language):\n\n<p>Dear [guest name or \"Valued Guest\"],</p>\n\n<p>Thank you for your inquiry. Our team will follow up with you shortly.</p>\n\n\n<p>Warm regards,<br>\nHotel Support Team<br>\n📞 +XX-XXXX-XXXX<br>\n🌐 <a href=\"http://www.yourhotel.com\">www.yourhotel.com</a></p>\n\n<p>By Gemini_Flash_Lite_Latest</p>\n<p>Postgres PGVector Store</p>\n\nAfter getting tool results:\n- Rephrase the answer in natural, warm, professional sentences\n- Translate the rephrased answer to the customer's language\n- Do NOT copy word for word\n- Do NOT add any extra information not in the tool results\n- Do NOT use phrases like \"We are pleased to inform you\" or \"I am happy to inform you\"\n- Keep each answer to 1-2 sentences per question\n\nSTEP 3 - DETECTING EMAIL FORMAT:\n- If customer sends a SINGLE question or writes in PARAGRAPH form → use single answer format, no colour changes\n- If customer sends MULTIPLE questions in POINT FORM (numbered list, bullet points, or each question on a new line) → use point form format with blue bold questions\n\nFOR SINGLE QUESTION OR PARAGRAPH:\n<p>Dear [guest name or \"Valued Guest\"],</p>\n\n<p>Thank you for reaching out to us.</p>\n\n<p>[Rephrased answer translated to customer's language]</p>\n\n<p>If you have any further questions, please don't hesitate to reach out.</p>\n\n\n<p>Warm regards,<br>\nHotel Support Team<br>\n📞 +XX-XXXX-XXXX<br>\n🌐 <a href=\"http://www.yourhotel.com\">www.yourhotel.com</a></p>\n\n<p>By Gemini_Flash_Lite_Latest</p>\n<p>Postgres PGVector Store</p>\n\nFOR POINT FORM (multiple questions only):\n<p>Dear [guest name or \"Valued Guest\"],</p>\n\n<p>Thank you for reaching out to us. Please find the answers to your questions below:</p>\n\n<p><strong style=\"color:#1a73e8;\">1. [Repeat customer question in customer's language]</strong><br>\n[Answer translated to customer's language]</p>\n\n<p><strong style=\"color:#1a73e8;\">2. [Repeat customer question in customer's language]</strong><br>\n[Answer translated to customer's language]</p>\n\n<p><strong style=\"color:#1a73e8;\">3. [Repeat customer question in customer's language]</strong><br>\n[Answer translated to customer's language]</p>\n\n<p>If you have any further questions, please don't hesitate to reach out.</p>\n\n\n<p>Warm regards,<br>\nHotel Support Team<br>\n📞 +XX-XXXX-XXXX<br>\n🌐 <a href=\"http://www.yourhotel.com\">www.yourhotel.com</a></p>\n\n<p>By Gemini_Flash_Lite_Latest</p>\n<p>Postgres PGVector Store</p>"
+            "systemMessage": "STRICT RULES - YOU MUST FOLLOW:                                                                                                                                          \n  1. ALWAYS call the knowledge base tool first                                                                                                                             \n  2. ONLY use facts returned by the tool - nothing else                                                                                                                    \n  3. NEVER use your own knowledge or training data to answer\n  4. NEVER guess or assume any hotel policies, prices, or details\n  5. If you are about to answer without calling the tool - STOP and call the tool first\n\n  LANGUAGE DETECTION:\n  - Detect the language of the customer's email\n  - ALWAYS reply in the SAME language the customer used\n  - The knowledge base is in English — search it in English,\n    but translate your reply to match the customer's language\n  - You must support ALL languages including but not limited to:\n    English, Malay, Chinese (Simplified & Traditional), Thai,\n    Arabic, Japanese, Korean, French, German, Spanish, Italian,\n    Portuguese, Hindi, Tamil, Vietnamese, Indonesian, Tagalog,\n    Russian, Turkish, Dutch, and any other language detected\n  - NEVER default to English unless the customer writes in English\n    or the language cannot be determined\n  - Translate the full HTML reply naturally including\n    \"Dear\", \"Thank you for reaching out\", \"Warm regards\" etc.\n\n  MIXED LANGUAGE EMAILS:\n  - If the customer mixes two languages (e.g. English + Chinese,\n    English + Malay), identify which language the QUESTION is written in\n  - Reply in the language used for the QUESTION part\n  - Example: \"i like to ask 酒店有没有早餐?\" → question is in Chinese → reply in Chinese\n  - Example: \"Hi, boleh tanya pasal breakfast?\" → question is in Malay → reply in Malay\n  - If truly unclear which language to use → default to English\n\n  STEP 1 - CHECK IF QUESTION IS HOTEL-RELATED:\n  Before searching the knowledge base, determine if the question\n  is related to hotel services.\n\n  Hotel-related topics include:\n  - Reservations, booking, cancellation\n  - Check-in, check-out\n  - Room types, amenities, facilities\n  - Billing, payment, invoices\n  - Hotel services (spa, pool, gym, restaurant)\n  - Special requests, accessibility\n  - Lost and found\n  - Nearby attractions, restaurants, shopping recommendations\n  - Local transportation and directions\n  - Things to do near the hotel\n  - Any question about the hotel or stay experience\n\n  If the question is NOT hotel-related (e.g. weather, news, general knowledge,\n  personal advice, unrelated services), do NOT search the knowledge base.\n  Reply ONLY with this HTML (translated to customer's language):\n\n  <p>Dear [guest name or \"Valued Guest\"],</p>\n\n  <p>Thank you for reaching out to us.</p>\n\n  <p>We are only able to assist with inquiries related to our hotel services.\n  For other matters, we recommend seeking the appropriate resources.</p>\n\n  <p>If you have any hotel-related questions, please don't hesitate to contact us.</p>\n\n\n  <p>Warm regards,<br>\n  Hotel Support Team<br>\n  📞 +XX-XXXX-XXXX<br>\n  🌐 <a href=\"http://www.yourhotel.com\">www.yourhotel.com</a></p>\n\n  <p>By Gemini_Flash_Lite_Latest</p>\n  <p>Postgres PGVector Store</p>\n  LANGUAGE_DETECTED: [detected language in English, e.g. Chinese, Malay, English]\n\n  STEP 2 - IF HOTEL-RELATED, SEARCH KNOWLEDGE BASE:\n  - Call the knowledge base tool with the customer's question in ENGLISH\n  - If tool returns no results, reply ONLY with this HTML (translated to customer's language):\n\n  <p>Dear [guest name or \"Valued Guest\"],</p>\n\n  <p>Thank you for your inquiry. Our team will follow up with you shortly.</p>\n\n\n  <p>Warm regards,<br>\n  Hotel Support Team<br>\n  📞 +XX-XXXX-XXXX<br>\n  🌐 <a href=\"http://www.yourhotel.com\">www.yourhotel.com</a></p>\n\n  <p>By Gemini_Flash_Lite_Latest</p>\n  <p>Postgres PGVector Store</p>\n  LANGUAGE_DETECTED: [detected language in English, e.g. Chinese, Malay, English]\n\n  After getting tool results:\n  - Rephrase the answer in natural, warm, professional sentences\n  - Translate the rephrased answer to the customer's language\n  - Do NOT copy word for word\n  - Do NOT add any extra information not in the tool results\n  - Do NOT use phrases like \"We are pleased to inform you\" or \"I am happy to inform you\"\n  - Keep each answer to 1-2 sentences per question\n\n  STEP 3 - DETECTING EMAIL FORMAT:\n  - If customer sends a SINGLE question or writes in PARAGRAPH form → use single answer format, no colour changes\n  - If customer sends MULTIPLE questions in POINT FORM (numbered list, bullet points, or each question on a new line) → use point form format with blue bold questions\n\n  FOR SINGLE QUESTION OR PARAGRAPH:\n  <p>Dear [guest name or \"Valued Guest\"],</p>\n\n  <p>Thank you for reaching out to us.</p>\n\n  <p>[Rephrased answer translated to customer's language]</p>\n\n  <p>If you have any further questions, please don't hesitate to reach out.</p>\n\n\n  <p>Warm regards,<br>\n  Hotel Support Team<br>\n  📞 +XX-XXXX-XXXX<br>\n  🌐 <a href=\"http://www.yourhotel.com\">www.yourhotel.com</a></p>\n\n  <p>By Gemini_Flash_Lite_Latest</p>\n  <p>Postgres PGVector Store</p>\n  LANGUAGE_DETECTED: [detected language in English, e.g. Chinese, Malay, English]\n\n  FOR POINT FORM (multiple questions only):\n  <p>Dear [guest name or \"Valued Guest\"],</p>\n\n  <p>Thank you for reaching out to us. Please find the answers to your questions below:</p>\n\n  <p><strong style=\"color:#1a73e8;\">1. [Repeat customer question in customer's language]</strong><br>\n  [Answer translated to customer's language]</p>\n\n  <p><strong style=\"color:#1a73e8;\">2. [Repeat customer question in customer's language]</strong><br>\n  [Answer translated to customer's language]</p>\n\n  <p><strong style=\"color:#1a73e8;\">3. [Repeat customer question in customer's language]</strong><br>\n  [Answer translated to customer's language]</p>\n\n  <p>If you have any further questions, please don't hesitate to reach out.</p>\n\n\n  <p>Warm regards,<br>\n  Hotel Support Team<br>\n  📞 +XX-XXXX-XXXX<br>\n  🌐 <a href=\"http://www.yourhotel.com\">www.yourhotel.com</a></p>\n\n  <p>By Gemini_Flash_Lite_Latest</p>\n  <p>Postgres PGVector Store</p>\n  LANGUAGE_DETECTED: [detected language in English, e.g. Chinese, Malay, English]\n\n  The only changes are the 4 lines added after each <p>Postgres PGVector Store</p>:\n  LANGUAGE_DETECTED: [detected language in English, e.g. Chinese, Malay, English]"
           }
         },
         "id": "a549cf66-0de6-44c9-b194-38aa81f9bfde",
         "name": "AI Agent3",
         "type": "@n8n/n8n-nodes-langchain.agent",
         "position": [
-          1712,
+          2512,
           3648
         ],
         "typeVersion": 1.9
@@ -2447,17 +3391,1103 @@
           "promptType": "define",
           "text": "=Customer Email Subject: {{ $('Receive Email from Gmail').item.json.subject }}\nCustomer Name: {{ $('Receive Email from Gmail').item.json.from }}\nCustomer Message: {{ $('Receive Email from Gmail').item.json.text }}\n\nPlease search the knowledge base and reply to this customer inquiry.",
           "options": {
-            "systemMessage": "You are a professional hotel customer support representative.\n\nSTRICT RULES - YOU MUST FOLLOW:\n1. ALWAYS call the knowledge base tool first\n2. ONLY use facts returned by the tool - nothing else\n3. NEVER use your own knowledge or training data to answer\n4. NEVER guess or assume any hotel policies, prices, or details\n5. If you are about to answer without calling the tool - STOP and call the tool first\n\nLANGUAGE DETECTION:\n- Detect the language of the customer's email\n- ALWAYS reply in the SAME language the customer used\n- The knowledge base is in English — search it in English,\n  but translate your reply to match the customer's language\n- You must support ALL languages including but not limited to:\n  English, Malay, Chinese (Simplified & Traditional), Thai,\n  Arabic, Japanese, Korean, French, German, Spanish, Italian,\n  Portuguese, Hindi, Tamil, Vietnamese, Indonesian, Tagalog,\n  Russian, Turkish, Dutch, and any other language detected\n- NEVER default to English unless the customer writes in English\n  or the language cannot be determined\n- Translate the full HTML reply naturally including\n  \"Dear\", \"Thank you for reaching out\", \"Warm regards\" etc.\n\nMIXED LANGUAGE EMAILS:\n- If the customer mixes two languages (e.g. English + Chinese,\n  English + Malay), identify which language the QUESTION is written in\n- Reply in the language used for the QUESTION part\n- Example: \"i like to ask 酒店有没有早餐?\" → question is in Chinese → reply in Chinese\n- Example: \"Hi, boleh tanya pasal breakfast?\" → question is in Malay → reply in Malay\n- If truly unclear which language to use → default to English\n\nSTEP 1 - CHECK IF QUESTION IS HOTEL-RELATED:\nBefore searching the knowledge base, determine if the question\nis related to hotel services.\n\nHotel-related topics include:\n- Reservations, booking, cancellation\n- Check-in, check-out\n- Room types, amenities, facilities\n- Billing, payment, invoices\n- Hotel services (spa, pool, gym, restaurant)\n- Special requests, accessibility\n- Lost and found\n- Nearby attractions, restaurants, shopping recommendations\n- Local transportation and directions\n- Things to do near the hotel\n- Any question about the hotel or stay experience\n\nIf the question is NOT hotel-related (e.g. weather, news, general knowledge,\npersonal advice, unrelated services), do NOT search the knowledge base.\nReply ONLY with this HTML (translated to customer's language):\n\n<p>Dear [guest name or \"Valued Guest\"],</p>\n\n<p>Thank you for reaching out to us.</p>\n\n<p>We are only able to assist with inquiries related to our hotel services.\nFor other matters, we recommend seeking the appropriate resources.</p>\n\n<p>If you have any hotel-related questions, please don't hesitate to contact us.</p>\n\n\n<p>Warm regards,<br>\nHotel Support Team<br>\n📞 +XX-XXXX-XXXX<br>\n🌐 <a href=\"http://www.yourhotel.com\">www.yourhotel.com</a></p>\n\n<p>By Gemini_3_Flash_Preview</p>\n<p>Postgres PGVector Store</p>\n\nSTEP 2 - IF HOTEL-RELATED, SEARCH KNOWLEDGE BASE:\n- Call the knowledge base tool with the customer's question in ENGLISH\n- If tool returns no results, reply ONLY with this HTML (translated to customer's language):\n\n<p>Dear [guest name or \"Valued Guest\"],</p>\n\n<p>Thank you for your inquiry. Our team will follow up with you shortly.</p>\n\n\n<p>Warm regards,<br>\nHotel Support Team<br>\n📞 +XX-XXXX-XXXX<br>\n🌐 <a href=\"http://www.yourhotel.com\">www.yourhotel.com</a></p>\n\n<p>By Gemini_3_Flash_Preview</p>\n<p>Postgres PGVector Store</p>\n\nAfter getting tool results:\n- Rephrase the answer in natural, warm, professional sentences\n- Translate the rephrased answer to the customer's language\n- Do NOT copy word for word\n- Do NOT add any extra information not in the tool results\n- Do NOT use phrases like \"We are pleased to inform you\" or \"I am happy to inform you\"\n- Keep each answer to 1-2 sentences per question\n\nSTEP 3 - DETECTING EMAIL FORMAT:\n- If customer sends a SINGLE question or writes in PARAGRAPH form → use single answer format, no colour changes\n- If customer sends MULTIPLE questions in POINT FORM (numbered list, bullet points, or each question on a new line) → use point form format with blue bold questions\n\nFOR SINGLE QUESTION OR PARAGRAPH:\n<p>Dear [guest name or \"Valued Guest\"],</p>\n\n<p>Thank you for reaching out to us.</p>\n\n<p>[Rephrased answer translated to customer's language]</p>\n\n<p>If you have any further questions, please don't hesitate to reach out.</p>\n\n\n<p>Warm regards,<br>\nHotel Support Team<br>\n📞 +XX-XXXX-XXXX<br>\n🌐 <a href=\"http://www.yourhotel.com\">www.yourhotel.com</a></p>\n\n<p>By Gemini_3_Flash_Preview</p>\n<p>Postgres PGVector Store</p>\n\nFOR POINT FORM (multiple questions only):\n<p>Dear [guest name or \"Valued Guest\"],</p>\n\n<p>Thank you for reaching out to us. Please find the answers to your questions below:</p>\n\n<p><strong style=\"color:#1a73e8;\">1. [Repeat customer question in customer's language]</strong><br>\n[Answer translated to customer's language]</p>\n\n<p><strong style=\"color:#1a73e8;\">2. [Repeat customer question in customer's language]</strong><br>\n[Answer translated to customer's language]</p>\n\n<p><strong style=\"color:#1a73e8;\">3. [Repeat customer question in customer's language]</strong><br>\n[Answer translated to customer's language]</p>\n\n<p>If you have any further questions, please don't hesitate to reach out.</p>\n\n\n<p>Warm regards,<br>\nHotel Support Team<br>\n📞 +XX-XXXX-XXXX<br>\n🌐 <a href=\"http://www.yourhotel.com\">www.yourhotel.com</a></p>\n\n<p>By Gemini_3_Flash_Preview</p>\n<p>Postgres PGVector Store</p>"
+            "systemMessage": "STRICT RULES - YOU MUST FOLLOW:                                                                                                                                          \n  1. ALWAYS call the knowledge base tool first                                                                                                                             \n  2. ONLY use facts returned by the tool - nothing else                                                                                                                    \n  3. NEVER use your own knowledge or training data to answer\n  4. NEVER guess or assume any hotel policies, prices, or details\n  5. If you are about to answer without calling the tool - STOP and call the tool first\n\n  LANGUAGE DETECTION:\n  - Detect the language of the customer's email\n  - ALWAYS reply in the SAME language the customer used\n  - The knowledge base is in English — search it in English,\n    but translate your reply to match the customer's language\n  - You must support ALL languages including but not limited to:\n    English, Malay, Chinese (Simplified & Traditional), Thai,\n    Arabic, Japanese, Korean, French, German, Spanish, Italian,\n    Portuguese, Hindi, Tamil, Vietnamese, Indonesian, Tagalog,\n    Russian, Turkish, Dutch, and any other language detected\n  - NEVER default to English unless the customer writes in English\n    or the language cannot be determined\n  - Translate the full HTML reply naturally including\n    \"Dear\", \"Thank you for reaching out\", \"Warm regards\" etc.\n\n  MIXED LANGUAGE EMAILS:\n  - If the customer mixes two languages (e.g. English + Chinese,\n    English + Malay), identify which language the QUESTION is written in\n  - Reply in the language used for the QUESTION part\n  - Example: \"i like to ask 酒店有没有早餐?\" → question is in Chinese → reply in Chinese\n  - Example: \"Hi, boleh tanya pasal breakfast?\" → question is in Malay → reply in Malay\n  - If truly unclear which language to use → default to English\n\n  STEP 1 - CHECK IF QUESTION IS HOTEL-RELATED:\n  Before searching the knowledge base, determine if the question\n  is related to hotel services.\n\n  Hotel-related topics include:\n  - Reservations, booking, cancellation\n  - Check-in, check-out\n  - Room types, amenities, facilities\n  - Billing, payment, invoices\n  - Hotel services (spa, pool, gym, restaurant)\n  - Special requests, accessibility\n  - Lost and found\n  - Nearby attractions, restaurants, shopping recommendations\n  - Local transportation and directions\n  - Things to do near the hotel\n  - Any question about the hotel or stay experience\n\n  If the question is NOT hotel-related (e.g. weather, news, general knowledge,\n  personal advice, unrelated services), do NOT search the knowledge base.\n  Reply ONLY with this HTML (translated to customer's language):\n\n  <p>Dear [guest name or \"Valued Guest\"],</p>\n\n  <p>Thank you for reaching out to us.</p>\n\n  <p>We are only able to assist with inquiries related to our hotel services.\n  For other matters, we recommend seeking the appropriate resources.</p>\n\n  <p>If you have any hotel-related questions, please don't hesitate to contact us.</p>\n\n\n  <p>Warm regards,<br>\n  Hotel Support Team<br>\n  📞 +XX-XXXX-XXXX<br>\n  🌐 <a href=\"http://www.yourhotel.com\">www.yourhotel.com</a></p>\n\n  <p>By Gemini_3_Flash_Preview</p>\n  <p>Postgres PGVector Store</p>\n  LANGUAGE_DETECTED: [detected language in English, e.g. Chinese, Malay, English]\n\n  STEP 2 - IF HOTEL-RELATED, SEARCH KNOWLEDGE BASE:\n  - Call the knowledge base tool with the customer's question in ENGLISH\n  - If tool returns no results, reply ONLY with this HTML (translated to customer's language):\n\n  <p>Dear [guest name or \"Valued Guest\"],</p>\n\n  <p>Thank you for your inquiry. Our team will follow up with you shortly.</p>\n\n\n  <p>Warm regards,<br>\n  Hotel Support Team<br>\n  📞 +XX-XXXX-XXXX<br>\n  🌐 <a href=\"http://www.yourhotel.com\">www.yourhotel.com</a></p>\n\n  <p>By Gemini_3_Flash_Preview</p>\n  <p>Postgres PGVector Store</p>\n  LANGUAGE_DETECTED: [detected language in English, e.g. Chinese, Malay, English]\n\n  After getting tool results:\n  - Rephrase the answer in natural, warm, professional sentences\n  - Translate the rephrased answer to the customer's language\n  - Do NOT copy word for word\n  - Do NOT add any extra information not in the tool results\n  - Do NOT use phrases like \"We are pleased to inform you\" or \"I am happy to inform you\"\n  - Keep each answer to 1-2 sentences per question\n\n  STEP 3 - DETECTING EMAIL FORMAT:\n  - If customer sends a SINGLE question or writes in PARAGRAPH form → use single answer format, no colour changes\n  - If customer sends MULTIPLE questions in POINT FORM (numbered list, bullet points, or each question on a new line) → use point form format with blue bold questions\n\n  FOR SINGLE QUESTION OR PARAGRAPH:\n  <p>Dear [guest name or \"Valued Guest\"],</p>\n\n  <p>Thank you for reaching out to us.</p>\n\n  <p>[Rephrased answer translated to customer's language]</p>\n\n  <p>If you have any further questions, please don't hesitate to reach out.</p>\n\n\n  <p>Warm regards,<br>\n  Hotel Support Team<br>\n  📞 +XX-XXXX-XXXX<br>\n  🌐 <a href=\"http://www.yourhotel.com\">www.yourhotel.com</a></p>\n\n  <p>By Gemini_3_Flash_Preview</p>\n  <p>Postgres PGVector Store</p>\n  LANGUAGE_DETECTED: [detected language in English, e.g. Chinese, Malay, English]\n\n  FOR POINT FORM (multiple questions only):\n  <p>Dear [guest name or \"Valued Guest\"],</p>\n\n  <p>Thank you for reaching out to us. Please find the answers to your questions below:</p>\n\n  <p><strong style=\"color:#1a73e8;\">1. [Repeat customer question in customer's language]</strong><br>\n  [Answer translated to customer's language]</p>\n\n  <p><strong style=\"color:#1a73e8;\">2. [Repeat customer question in customer's language]</strong><br>\n  [Answer translated to customer's language]</p>\n\n  <p><strong style=\"color:#1a73e8;\">3. [Repeat customer question in customer's language]</strong><br>\n  [Answer translated to customer's language]</p>\n\n  <p>If you have any further questions, please don't hesitate to reach out.</p>\n\n\n  <p>Warm regards,<br>\n  Hotel Support Team<br>\n  📞 +XX-XXXX-XXXX<br>\n  🌐 <a href=\"http://www.yourhotel.com\">www.yourhotel.com</a></p>\n\n  <p>By Gemini_3_Flash_Preview</p>\n  <p>Postgres PGVector Store</p>\n  LANGUAGE_DETECTED: [detected language in English, e.g. Chinese, Malay, English]\n\n  The only changes are the 4 lines added after each <p>Postgres PGVector Store</p>:\n  LANGUAGE_DETECTED: [detected language in English, e.g. Chinese, Malay, English]"
           }
         },
         "id": "ac451417-5a9f-46cc-a14c-f58680fbbe61",
         "name": "AI Agent2",
         "type": "@n8n/n8n-nodes-langchain.agent",
         "position": [
-          1696,
-          2640
+          2448,
+          2608
         ],
         "typeVersion": 1.9
+      },
+      {
+        "parameters": {
+          "assignments": {
+            "assignments": [
+              {
+                "id": "0538305c-d972-4807-a9ab-f193e845c15f",
+                "name": "time_received",
+                "value": "={{ new Date().toISOString() }}",
+                "type": "string"
+              }
+            ]
+          },
+          "includeOtherFields": true,
+          "options": {}
+        },
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 3.4,
+        "position": [
+          -32,
+          1968
+        ],
+        "id": "2745b811-2221-4e61-9d17-0b32865ccc8a",
+        "name": "Set Time Received"
+      },
+      {
+        "parameters": {
+          "assignments": {
+            "assignments": [
+              {
+                "id": "b453d5d2-638d-4e4b-8216-078d339dc1c1",
+                "name": "time_classification_done",
+                "value": "={{ new Date().toISOString() }}",
+                "type": "string"
+              }
+            ]
+          },
+          "includeOtherFields": true,
+          "options": {}
+        },
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 3.4,
+        "position": [
+          1008,
+          1728
+        ],
+        "id": "842853b5-10ab-4051-a92c-46037a2d6aa5",
+        "name": "Set After Classification"
+      },
+      {
+        "parameters": {
+          "assignments": {
+            "assignments": [
+              {
+                "id": "b26a1583-33e2-4380-af9c-9d7b2e13fc81",
+                "name": "time_reply_generated",
+                "value": "={{ new Date().toISOString() }}",
+                "type": "string"
+              }
+            ]
+          },
+          "includeOtherFields": true,
+          "options": {}
+        },
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 3.4,
+        "position": [
+          2912,
+          1728
+        ],
+        "id": "b7959a41-8792-4595-b0d5-09e2cdc7e1c5",
+        "name": "Set After Reply"
+      },
+      {
+        "parameters": {
+          "schema": {
+            "__rl": true,
+            "mode": "list",
+            "value": "public"
+          },
+          "table": {
+            "__rl": true,
+            "value": "email_comparison_logs",
+            "mode": "list",
+            "cachedResultName": "email_comparison_logs"
+          },
+          "columns": {
+            "mappingMode": "defineBelow",
+            "value": {
+              "needs_reply": "={{ $('Assess if message needs a reply').item.json.needsReply }}",
+              "classification_seconds": 0,
+              "generation_seconds": 0,
+              "total_seconds": 0,
+              "threadId": "={{ $('Receive Email from Gmail').item.json.threadId }}",
+              "email_id": "={{ $('Receive Email from Gmail').item.json.messageId }}",
+              "customer_email": "={{ $('Receive Email from Gmail').item.json.headers.from }}",
+              "subject": "={{ $('Receive Email from Gmail').item.json.subject }}",
+              "customer_message": "={{ $('Receive Email from Gmail').item.json.text }}",
+              "urgency": "={{ $('Assess if message needs a reply').item.json.urgency }}",
+              "category": "={{ $('Assess if message needs a reply').item.json.category }}",
+              "time_reply_generated": "={{ $('Set After Reply').item.json.time_reply_generated }}",
+              "time_classification_done": "={{ $('Set After Classification').item.json.time_classification_done }}",
+              "time_received": "={{ $('Set Time Received').item.json.time_received }}",
+              "approach": "=AI Agent",
+              "model_used": "=Gemini_Pro_3_Preview",
+              "ai_response": "={{ $('Code in JavaScript').item.json.ai_response }}",
+              "language_detected": "={{ $('Code in JavaScript').item.json.language_detected }}",
+              "time_reply_sent": "={{ $json.time_reply_sent }}"
+            },
+            "matchingColumns": [
+              "id"
+            ],
+            "schema": [
+              {
+                "id": "id",
+                "displayName": "id",
+                "required": false,
+                "defaultMatch": true,
+                "display": true,
+                "type": "number",
+                "canBeUsedToMatch": true,
+                "removed": true
+              },
+              {
+                "id": "threadId",
+                "displayName": "threadId",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true,
+                "removed": false
+              },
+              {
+                "id": "email_id",
+                "displayName": "email_id",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "customer_email",
+                "displayName": "customer_email",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "subject",
+                "displayName": "subject",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "customer_message",
+                "displayName": "customer_message",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "category",
+                "displayName": "category",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "urgency",
+                "displayName": "urgency",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "language_detected",
+                "displayName": "language_detected",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "needs_reply",
+                "displayName": "needs_reply",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "boolean",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "approach",
+                "displayName": "approach",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "model_used",
+                "displayName": "model_used",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "time_received",
+                "displayName": "time_received",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "dateTime",
+                "canBeUsedToMatch": true,
+                "removed": false
+              },
+              {
+                "id": "time_classification_done",
+                "displayName": "time_classification_done",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "dateTime",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "time_reply_generated",
+                "displayName": "time_reply_generated",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "dateTime",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "time_reply_sent",
+                "displayName": "time_reply_sent",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "dateTime",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "classification_seconds",
+                "displayName": "classification_seconds",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "number",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "generation_seconds",
+                "displayName": "generation_seconds",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "number",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "total_seconds",
+                "displayName": "total_seconds",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "number",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "ai_response",
+                "displayName": "ai_response",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "status",
+                "displayName": "status",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              }
+            ],
+            "attemptToConvertTypes": false,
+            "convertFieldsToString": false
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.postgres",
+        "typeVersion": 2.6,
+        "position": [
+          3648,
+          1664
+        ],
+        "id": "4a67ece5-e350-4f49-b7d6-e7f4908eb8d1",
+        "name": "Log to PostgreSQL",
+        "credentials": {
+          "postgres": {
+            "id": "XF2BVuSFwwWW0soK",
+            "name": "Postgres Account - Writer"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "jsCode": "const output = $input.item.json.output;                                                                                                                                  \n                                                                                                                                                                           \n  // Extract language                                                                                                                                                      \n  const langMatch = output.match(/LANGUAGE_DETECTED:\\s*(.+)/);                                                                                                             \n  const language_detected = langMatch ? langMatch[1].trim() : null;\n                                                                                                                                                                           \n  // Remove the tag from the HTML                                                                                                                                          \n  const ai_response = output.replace(/LANGUAGE_DETECTED:.+/, '').trim();                                                                                                   \n                                                                                                                                                                           \n  return {                                                                                                                                                                 \n    json: {                                                                                                                                                                \n      ...$input.item.json,                                                                                                                                                 \n      language_detected,                                                                                                                                                   \n      ai_response\n    }\n  };"
+        },
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          2416,
+          1728
+        ],
+        "id": "ec4ba7d1-18f2-498f-9b98-3c025586f2a4",
+        "name": "Code in JavaScript"
+      },
+      {
+        "parameters": {
+          "assignments": {
+            "assignments": [
+              {
+                "id": "d92ee360-2342-4f4c-8370-4afc3820776b",
+                "name": "time_reply_sent",
+                "value": "={{ new Date().toISOString() }}",
+                "type": "string"
+              }
+            ]
+          },
+          "includeOtherFields": true,
+          "options": {}
+        },
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 3.4,
+        "position": [
+          3424,
+          1664
+        ],
+        "id": "63142df9-f041-4224-a511-5e27a907e50a",
+        "name": "Set After Reply Sent"
+      },
+      {
+        "parameters": {
+          "assignments": {
+            "assignments": [
+              {
+                "id": "b453d5d2-638d-4e4b-8216-078d339dc1c1",
+                "name": "time_classification_done",
+                "value": "={{ new Date().toISOString() }}",
+                "type": "string"
+              }
+            ]
+          },
+          "includeOtherFields": true,
+          "options": {}
+        },
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 3.4,
+        "position": [
+          1120,
+          2624
+        ],
+        "id": "d4ab8680-1b84-494c-80fb-4ac6f49b4218",
+        "name": "Set After Classification1"
+      },
+      {
+        "parameters": {
+          "assignments": {
+            "assignments": [
+              {
+                "id": "0538305c-d972-4807-a9ab-f193e845c15f",
+                "name": "time_received",
+                "value": "={{ new Date().toISOString() }}",
+                "type": "string"
+              }
+            ]
+          },
+          "includeOtherFields": true,
+          "options": {}
+        },
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 3.4,
+        "position": [
+          -368,
+          2496
+        ],
+        "id": "29fab469-58ce-4da9-8925-5ae522ca9ba6",
+        "name": "Set Time Received1"
+      },
+      {
+        "parameters": {
+          "jsCode": "const output = $input.item.json.output;                                                                                                                                  \n                                                                                                                                                                           \n  // Extract language                                                                                                                                                      \n  const langMatch = output.match(/LANGUAGE_DETECTED:\\s*(.+)/);                                                                                                             \n  const language_detected = langMatch ? langMatch[1].trim() : null;\n                                                                                                                                                                           \n  // Remove the tag from the HTML                                                                                                                                          \n  const ai_response = output.replace(/LANGUAGE_DETECTED:.+/, '').trim();                                                                                                   \n                                                                                                                                                                           \n  return {                                                                                                                                                                 \n    json: {                                                                                                                                                                \n      ...$input.item.json,                                                                                                                                                 \n      language_detected,                                                                                                                                                   \n      ai_response\n    }\n  };"
+        },
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          2992,
+          2560
+        ],
+        "id": "8385c321-12f9-4fe8-b3b7-4ef485c9b370",
+        "name": "Code in JavaScript1"
+      },
+      {
+        "parameters": {
+          "assignments": {
+            "assignments": [
+              {
+                "id": "b26a1583-33e2-4380-af9c-9d7b2e13fc81",
+                "name": "time_reply_generated",
+                "value": "={{ new Date().toISOString() }}",
+                "type": "string"
+              }
+            ]
+          },
+          "includeOtherFields": true,
+          "options": {}
+        },
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 3.4,
+        "position": [
+          3280,
+          2544
+        ],
+        "id": "a693e045-6f40-4977-b60e-a8b331619962",
+        "name": "Set After Reply1"
+      },
+      {
+        "parameters": {
+          "assignments": {
+            "assignments": [
+              {
+                "id": "0538305c-d972-4807-a9ab-f193e845c15f",
+                "name": "time_received",
+                "value": "={{ new Date().toISOString() }}",
+                "type": "string"
+              }
+            ]
+          },
+          "includeOtherFields": true,
+          "options": {}
+        },
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 3.4,
+        "position": [
+          -448,
+          3248
+        ],
+        "id": "3e1e2c33-929d-4a3e-b122-ac74c63232d4",
+        "name": "Set Time Received2"
+      },
+      {
+        "parameters": {
+          "assignments": {
+            "assignments": [
+              {
+                "id": "b453d5d2-638d-4e4b-8216-078d339dc1c1",
+                "name": "time_classification_done",
+                "value": "={{ new Date().toISOString() }}",
+                "type": "string"
+              }
+            ]
+          },
+          "includeOtherFields": true,
+          "options": {}
+        },
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 3.4,
+        "position": [
+          1184,
+          3680
+        ],
+        "id": "d6b3f750-a941-49b0-b6de-4d17a64acfc7",
+        "name": "Set After Classification2"
+      },
+      {
+        "parameters": {
+          "jsCode": "const output = $input.item.json.output;                                                                                                                                  \n                                                                                                                                                                           \n  // Extract language                                                                                                                                                      \n  const langMatch = output.match(/LANGUAGE_DETECTED:\\s*(.+)/);                                                                                                             \n  const language_detected = langMatch ? langMatch[1].trim() : null;\n                                                                                                                                                                           \n  // Remove the tag from the HTML                                                                                                                                          \n  const ai_response = output.replace(/LANGUAGE_DETECTED:.+/, '').trim();                                                                                                   \n                                                                                                                                                                           \n  return {                                                                                                                                                                 \n    json: {                                                                                                                                                                \n      ...$input.item.json,                                                                                                                                                 \n      language_detected,                                                                                                                                                   \n      ai_response\n    }\n  };"
+        },
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          2992,
+          3600
+        ],
+        "id": "ba2b1846-936d-4c32-90b2-f6f7bad6369a",
+        "name": "Code in JavaScript2"
+      },
+      {
+        "parameters": {
+          "assignments": {
+            "assignments": [
+              {
+                "id": "b26a1583-33e2-4380-af9c-9d7b2e13fc81",
+                "name": "time_reply_generated",
+                "value": "={{ new Date().toISOString() }}",
+                "type": "string"
+              }
+            ]
+          },
+          "includeOtherFields": true,
+          "options": {}
+        },
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 3.4,
+        "position": [
+          3344,
+          3584
+        ],
+        "id": "8d10640c-61eb-47db-90d2-ba9524c415f7",
+        "name": "Set After Reply2"
+      },
+      {
+        "parameters": {
+          "schema": {
+            "__rl": true,
+            "mode": "list",
+            "value": "public"
+          },
+          "table": {
+            "__rl": true,
+            "value": "email_comparison_logs",
+            "mode": "list",
+            "cachedResultName": "email_comparison_logs"
+          },
+          "columns": {
+            "mappingMode": "defineBelow",
+            "value": {
+              "needs_reply": "={{ $('If Needs Reply1').item.json.needsReply }}",
+              "classification_seconds": 0,
+              "generation_seconds": 0,
+              "total_seconds": 0,
+              "threadId": "={{ $('Receive Email from Gmail').item.json.threadId }}",
+              "email_id": "={{ $('Receive Email from Gmail').item.json.messageId }}",
+              "customer_email": "={{ $('Receive Email from Gmail').item.json.headers.from }}",
+              "subject": "={{ $('Receive Email from Gmail').item.json.subject }}",
+              "customer_message": "={{ $('Receive Email from Gmail').item.json.text }}",
+              "urgency": "={{ $('Assess if message needs a reply1').item.json.urgency }}",
+              "category": "={{ $('Assess if message needs a reply1').item.json.category }}",
+              "time_reply_generated": "={{ $('Set After Reply1').item.json.time_reply_generated }}",
+              "time_classification_done": "={{ $('Set After Classification1').item.json.time_classification_done }}",
+              "time_received": "={{ $('Set Time Received1').item.json.time_received }}",
+              "approach": "=AI Agent",
+              "model_used": "=Gemini_3_Flash_Preview",
+              "ai_response": "={{ $('Code in JavaScript1').item.json.ai_response }}",
+              "language_detected": "={{ $('Set After Reply1').item.json.language_detected }}",
+              "time_reply_sent": "={{ $json.time_reply_sent }}"
+            },
+            "matchingColumns": [
+              "id"
+            ],
+            "schema": [
+              {
+                "id": "id",
+                "displayName": "id",
+                "required": false,
+                "defaultMatch": true,
+                "display": true,
+                "type": "number",
+                "canBeUsedToMatch": true,
+                "removed": true
+              },
+              {
+                "id": "threadId",
+                "displayName": "threadId",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true,
+                "removed": false
+              },
+              {
+                "id": "email_id",
+                "displayName": "email_id",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "customer_email",
+                "displayName": "customer_email",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "subject",
+                "displayName": "subject",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "customer_message",
+                "displayName": "customer_message",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "category",
+                "displayName": "category",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "urgency",
+                "displayName": "urgency",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "language_detected",
+                "displayName": "language_detected",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "needs_reply",
+                "displayName": "needs_reply",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "boolean",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "approach",
+                "displayName": "approach",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "model_used",
+                "displayName": "model_used",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "time_received",
+                "displayName": "time_received",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "dateTime",
+                "canBeUsedToMatch": true,
+                "removed": false
+              },
+              {
+                "id": "time_classification_done",
+                "displayName": "time_classification_done",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "dateTime",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "time_reply_generated",
+                "displayName": "time_reply_generated",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "dateTime",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "time_reply_sent",
+                "displayName": "time_reply_sent",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "dateTime",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "classification_seconds",
+                "displayName": "classification_seconds",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "number",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "generation_seconds",
+                "displayName": "generation_seconds",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "number",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "total_seconds",
+                "displayName": "total_seconds",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "number",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "ai_response",
+                "displayName": "ai_response",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "status",
+                "displayName": "status",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              }
+            ],
+            "attemptToConvertTypes": false,
+            "convertFieldsToString": false
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.postgres",
+        "typeVersion": 2.6,
+        "position": [
+          4272,
+          2544
+        ],
+        "id": "08df0927-ac41-4c23-8844-922cc0e409c6",
+        "name": "Log to PostgreSQL1",
+        "credentials": {
+          "postgres": {
+            "id": "XF2BVuSFwwWW0soK",
+            "name": "Postgres Account - Writer"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "assignments": {
+            "assignments": [
+              {
+                "id": "d92ee360-2342-4f4c-8370-4afc3820776b",
+                "name": "time_reply_sent",
+                "value": "={{ new Date().toISOString() }}",
+                "type": "string"
+              }
+            ]
+          },
+          "includeOtherFields": true,
+          "options": {}
+        },
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 3.4,
+        "position": [
+          4048,
+          2544
+        ],
+        "id": "263cc582-ff51-4b21-9c52-b5383e1ea91d",
+        "name": "Set After Reply Sent1"
+      },
+      {
+        "parameters": {
+          "schema": {
+            "__rl": true,
+            "mode": "list",
+            "value": "public"
+          },
+          "table": {
+            "__rl": true,
+            "value": "email_comparison_logs",
+            "mode": "list",
+            "cachedResultName": "email_comparison_logs"
+          },
+          "columns": {
+            "mappingMode": "defineBelow",
+            "value": {
+              "needs_reply": "={{ $('If Needs Reply2').item.json.needsReply }}",
+              "classification_seconds": 0,
+              "generation_seconds": 0,
+              "total_seconds": 0,
+              "threadId": "={{ $('Receive Email from Gmail').item.json.threadId }}",
+              "email_id": "={{ $('Receive Email from Gmail').item.json.messageId }}",
+              "customer_email": "={{ $('Receive Email from Gmail').item.json.from.value[0].address }}",
+              "subject": "={{ $('Receive Email from Gmail').item.json.subject }}",
+              "customer_message": "={{ $('Receive Email from Gmail').item.json.text }}",
+              "urgency": "={{ $('If Needs Reply2').item.json.urgency }}",
+              "category": "={{ $('If Needs Reply2').item.json.category }}",
+              "time_reply_generated": "={{ $('Set After Reply2').item.json.time_reply_generated }}",
+              "time_classification_done": "={{ $('If Needs Reply2').item.json.time_classification_done }}",
+              "time_received": "={{ $('Set Time Received2').item.json.time_received }}",
+              "approach": "=AI Agent",
+              "model_used": "=Gemini_Flash_Lite_Latest",
+              "ai_response": "={{ $('Code in JavaScript2').item.json.ai_response }}",
+              "language_detected": "={{ $('Set After Reply2').item.json.language_detected }}",
+              "time_reply_sent": "={{ $json.time_reply_sent }}"
+            },
+            "matchingColumns": [
+              "id"
+            ],
+            "schema": [
+              {
+                "id": "id",
+                "displayName": "id",
+                "required": false,
+                "defaultMatch": true,
+                "display": true,
+                "type": "number",
+                "canBeUsedToMatch": true,
+                "removed": true
+              },
+              {
+                "id": "threadId",
+                "displayName": "threadId",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true,
+                "removed": false
+              },
+              {
+                "id": "email_id",
+                "displayName": "email_id",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "customer_email",
+                "displayName": "customer_email",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "subject",
+                "displayName": "subject",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "customer_message",
+                "displayName": "customer_message",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "category",
+                "displayName": "category",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "urgency",
+                "displayName": "urgency",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "language_detected",
+                "displayName": "language_detected",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "needs_reply",
+                "displayName": "needs_reply",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "boolean",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "approach",
+                "displayName": "approach",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "model_used",
+                "displayName": "model_used",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "time_received",
+                "displayName": "time_received",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "dateTime",
+                "canBeUsedToMatch": true,
+                "removed": false
+              },
+              {
+                "id": "time_classification_done",
+                "displayName": "time_classification_done",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "dateTime",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "time_reply_generated",
+                "displayName": "time_reply_generated",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "dateTime",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "time_reply_sent",
+                "displayName": "time_reply_sent",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "dateTime",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "classification_seconds",
+                "displayName": "classification_seconds",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "number",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "generation_seconds",
+                "displayName": "generation_seconds",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "number",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "total_seconds",
+                "displayName": "total_seconds",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "number",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "ai_response",
+                "displayName": "ai_response",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              },
+              {
+                "id": "status",
+                "displayName": "status",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "type": "string",
+                "canBeUsedToMatch": true
+              }
+            ],
+            "attemptToConvertTypes": false,
+            "convertFieldsToString": false
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.postgres",
+        "typeVersion": 2.6,
+        "position": [
+          4336,
+          3552
+        ],
+        "id": "d842ea07-5496-4f7c-982e-c7b7b76316e2",
+        "name": "Log to PostgreSQL2",
+        "credentials": {
+          "postgres": {
+            "id": "XF2BVuSFwwWW0soK",
+            "name": "Postgres Account - Writer"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "assignments": {
+            "assignments": [
+              {
+                "id": "d92ee360-2342-4f4c-8370-4afc3820776b",
+                "name": "time_reply_sent",
+                "value": "={{ new Date().toISOString() }}",
+                "type": "string"
+              }
+            ]
+          },
+          "includeOtherFields": true,
+          "options": {}
+        },
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 3.4,
+        "position": [
+          4112,
+          3552
+        ],
+        "id": "c423ad0d-45e5-4c7e-a88e-6555a2e17f99",
+        "name": "Set After Reply Sent2"
       }
     ],
     "connections": {
@@ -2465,7 +4495,7 @@
         "main": [
           [
             {
-              "node": "Reply to the email",
+              "node": "Code in JavaScript",
               "type": "main",
               "index": 0
             }
@@ -2476,17 +4506,17 @@
         "main": [
           [
             {
-              "node": "Assess if message needs a reply",
+              "node": "Set Time Received",
               "type": "main",
               "index": 0
             },
             {
-              "node": "Assess if message needs a reply1",
+              "node": "Set Time Received1",
               "type": "main",
               "index": 0
             },
             {
-              "node": "Assess if message needs a reply2",
+              "node": "Set Time Received2",
               "type": "main",
               "index": 0
             }
@@ -2519,7 +4549,7 @@
         "main": [
           [
             {
-              "node": "If Needs Reply",
+              "node": "Set After Classification",
               "type": "main",
               "index": 0
             }
@@ -2534,7 +4564,8 @@
               "type": "main",
               "index": 0
             }
-          ]
+          ],
+          []
         ]
       },
       "Google Gemini Chat Model1": {
@@ -2607,7 +4638,7 @@
         "main": [
           [
             {
-              "node": "If Needs Reply1",
+              "node": "Set After Classification1",
               "type": "main",
               "index": 0
             }
@@ -2695,7 +4726,7 @@
         "main": [
           [
             {
-              "node": "If Needs Reply2",
+              "node": "Set After Classification2",
               "type": "main",
               "index": 0
             }
@@ -2761,7 +4792,7 @@
         "main": [
           [
             {
-              "node": "Reply to the email2",
+              "node": "Code in JavaScript2",
               "type": "main",
               "index": 0
             }
@@ -2772,7 +4803,205 @@
         "main": [
           [
             {
+              "node": "Code in JavaScript1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Set Time Received": {
+        "main": [
+          [
+            {
+              "node": "Assess if message needs a reply",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Set After Classification": {
+        "main": [
+          [
+            {
+              "node": "If Needs Reply",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Set After Reply": {
+        "main": [
+          [
+            {
+              "node": "Reply to the email",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Reply to the email": {
+        "main": [
+          [
+            {
+              "node": "Set After Reply Sent",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Code in JavaScript": {
+        "main": [
+          [
+            {
+              "node": "Set After Reply",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Set After Reply Sent": {
+        "main": [
+          [
+            {
+              "node": "Log to PostgreSQL",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Set After Classification1": {
+        "main": [
+          [
+            {
+              "node": "If Needs Reply1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Set Time Received1": {
+        "main": [
+          [
+            {
+              "node": "Assess if message needs a reply1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Code in JavaScript1": {
+        "main": [
+          [
+            {
+              "node": "Set After Reply1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Set After Reply1": {
+        "main": [
+          [
+            {
               "node": "Reply to the email1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Set Time Received2": {
+        "main": [
+          [
+            {
+              "node": "Assess if message needs a reply2",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Set After Classification2": {
+        "main": [
+          [
+            {
+              "node": "If Needs Reply2",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Code in JavaScript2": {
+        "main": [
+          [
+            {
+              "node": "Set After Reply2",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Set After Reply2": {
+        "main": [
+          [
+            {
+              "node": "Reply to the email2",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Set After Reply Sent1": {
+        "main": [
+          [
+            {
+              "node": "Log to PostgreSQL1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Reply to the email1": {
+        "main": [
+          [
+            {
+              "node": "Set After Reply Sent1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Set After Reply Sent2": {
+        "main": [
+          [
+            {
+              "node": "Log to PostgreSQL2",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Reply to the email2": {
+        "main": [
+          [
+            {
+              "node": "Set After Reply Sent2",
               "type": "main",
               "index": 0
             }
@@ -2781,8 +5010,8 @@
       }
     },
     "authors": "Xin Lin Koh",
-    "name": "Version 5",
-    "description": "update system message \nadd '<p>Postgres PGVector Store</p>'",
+    "name": "Version 32ed15e8",
+    "description": "update recipient email to kohxl.w@gmail.com",
     "autosaved": true
   },
   "tags": []
