@@ -1,0 +1,838 @@
+{
+  "updatedAt": "2026-03-05T02:22:09.179Z",
+  "createdAt": "2026-03-04T10:45:29.742Z",
+  "id": "ef8wXe2ClIq4r6ej",
+  "name": "Hotel Customer Support - Auto Respond (Gemini File Search) - Gemini_3.1_Flash_Preview",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "jsonSchema": "{\n  \"type\": \"object\",\n  \"properties\": {\n    \"needsReply\": { \"type\": \"boolean\" },\n    \"reason\": { \"type\": \"string\" },\n    \"category\": { \"type\": \"string\" },\n    \"urgency\": { \"type\": \"string\" }\n  },\n  \"required\": [\"needsReply\"]\n}",
+        "autoFix": true
+      },
+      "id": "3a30577c-72bb-4ce2-ae30-dae2866fd4f2",
+      "name": "JSON Parser",
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "position": [
+        784,
+        2752
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "content": "## Assesing whether the mail needs a reply or not",
+        "height": 592,
+        "width": 624,
+        "color": 4
+      },
+      "id": "65dcd5de-a69c-417a-a1ab-9e77b3369734",
+      "name": "Sticky Note",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        480,
+        2464
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "content": "## Selecting only the mails that need a reply",
+        "height": 272,
+        "width": 352,
+        "color": 3
+      },
+      "id": "12d83c9b-9d14-4ab4-99b1-0491f80e1431",
+      "name": "Sticky Note3",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1456,
+        2512
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-3-flash-preview",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        592,
+        2736
+      ],
+      "id": "ab0bd55b-dc59-4a01-a1d1-8ce6e7fe33e7",
+      "name": "Google Gemini Chat Model3",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "e1yHl6CC9Njzmx2V",
+          "name": "Google Gemini(PaLM) Api - Bulk Email"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "prompt": "=You are a hotel customer support email classifier.\nAnalyze the following email and decide if it needs a reply.\n\nEmail Subject: {{ $input.item.json.Subject }}\nEmail From: {{ $input.item.json.From }}\nEmail Body: {{ $input.item.json.snippet }}\n\nReply ONLY with valid JSON, no extra text, no markdown:\n{\n  \"needsReply\": true or false,\n  \"reason\": \"short reason\",\n  \"category\": \"category name\",\n  \"urgency\": \"low/medium/high\"\n}\n\nSet needsReply to FALSE if:\n- Just a thank you (\"Thank you\", \"Thanks!\", \"Great, thanks\", \"Appreciated\", \"Thank you so much\")\n- Customer replying \"thank you\" to a previous support reply\n- Acknowledgement only (\"Got it\", \"Ok noted\", \"Sure\", \"Understood\")\n- Auto-reply, out-of-office, or no-reply sender\n- Newsletter, promotional, or marketing email\n- Spam or irrelevant content\n- Previous reply from our own support team (check if sender is our domain)\n- Any email with no question or request\n\nSet needsReply to TRUE if:\n- Asking about room availability, pricing, or promotions\n- Making, modifying, or cancelling a reservation\n- Complaint or negative feedback requiring resolution\n- Asking about hotel facilities, services, or amenities\n- Check-in or check-out related questions\n- Billing, payment, or invoice questions\n- Special requests (e.g. dietary needs, accessibility, early check-in)\n- Lost and found inquiries\n- Any question needing a specific answer\n\nSet urgency to \"high\" if:\n- Guest is currently checked in with an issue\n- Complaint requiring immediate attention\n- Same-day or next-day arrival question\n\nSet urgency to \"medium\" if:\n- Reservation inquiry within the next 7 days\n- Billing dispute\n\nSet urgency to \"low\" if:\n- General questions\n- Future reservations beyond 7 days\n- General feedback\n\nSet category to one of:\n\"Reservation\", \"Check-in/Check-out\", \"Billing\", \n\"Facilities\", \"Complaint\", \"Special Request\", \"General\""
+      },
+      "id": "e3eface0-a0ca-4695-9001-682c2251dbd0",
+      "name": "Assess if message needs a reply1",
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "position": [
+        672,
+        2576
+      ],
+      "typeVersion": 1.3
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "version": 1,
+            "leftValue": "",
+            "caseSensitive": true,
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "53849246-ad32-4845-9976-9f9688f5a6f2",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              },
+              "leftValue": "={{ $('Assess if message needs a reply1').item.json.needsReply }}",
+              "rightValue": "true"
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {}
+      },
+      "id": "ee17e711-03e4-43d3-8539-06b08025d479",
+      "name": "If Needs Reply1",
+      "type": "n8n-nodes-base.if",
+      "position": [
+        1552,
+        2608
+      ],
+      "typeVersion": 2
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-3-flash-preview",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        784,
+        2912
+      ],
+      "id": "669a1d8e-73f8-41a6-926a-88522681f420",
+      "name": "Google Gemini Chat Model5",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "e1yHl6CC9Njzmx2V",
+          "name": "Google Gemini(PaLM) Api - Bulk Email"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "Gemini_3_Flash_Preview",
+        "height": 80,
+        "width": 208,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        240,
+        2512
+      ],
+      "id": "aa092ba9-35bd-4e94-ac39-3992461441ca",
+      "name": "Sticky Note13"
+    },
+    {
+      "parameters": {
+        "content": "## Sending a Reply",
+        "height": 240,
+        "width": 224,
+        "color": 4
+      },
+      "id": "cf3eb4b6-aace-465d-bbd0-1a24143e5454",
+      "name": "Sticky Note6",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        2912,
+        2448
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "operation": "reply",
+        "messageId": "={{ $('Get many messages').item.json.id }}",
+        "message": "={{ $('Message a model1').item.json.content.parts[1].text }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        2976,
+        2512
+      ],
+      "id": "1dabb54e-c48d-4a97-b57e-49a3efbec03b",
+      "name": "Reply to the email1",
+      "webhookId": "7e635eab-5e72-49af-874a-6d4e73e4f6a1",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "oa22yNKV1n7ZBlbL",
+          "name": "Gmail account - kohxl.w@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "models/gemini-3-flash-preview",
+          "mode": "list",
+          "cachedResultName": "models/gemini-3-flash-preview"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=Customer Email Subject: {{ $('Get many messages').item.json.Subject }}\nCustomer Name: {{ $('Get many messages').item.json.From }}\nCustomer Message: {{ $('Get many messages').item.json.snippet }}"
+            },
+            {
+              "content": "You are a professional hotel customer support representative.\n\nSTRICT RULES - YOU MUST FOLLOW:\n1. ALWAYS use the File Search tool to find answers first\n2. ONLY use facts returned by the File Search tool - nothing else\n3. NEVER use your own knowledge or training data to answer\n4. NEVER guess or assume any hotel policies, prices, or details\n5. If you are about to answer without using File Search - STOP and search first\n\nLANGUAGE DETECTION:\n- Detect the language of the customer's email\n- ALWAYS reply in the SAME language the customer used\n- The knowledge base is in English — search it in English,\n  but translate your reply to match the customer's language\n- You must support ALL languages including but not limited to:\n  English, Malay, Chinese (Simplified & Traditional), Thai,\n  Arabic, Japanese, Korean, French, German, Spanish, Italian,\n  Portuguese, Hindi, Tamil, Vietnamese, Indonesian, Tagalog,\n  Russian, Turkish, Dutch, and any other language detected\n- NEVER default to English unless the customer writes in English\n  or the language cannot be determined\n- Translate the full HTML reply naturally including\n  \"Dear\", \"Thank you for reaching out\", \"Warm regards\" etc.\n\nMIXED LANGUAGE EMAILS:\n- If the customer mixes two languages (e.g. English + Chinese,\n  English + Malay), identify which language the QUESTION is written in\n- Reply in the language used for the QUESTION part\n- Example: \"i like to ask 酒店有没有早餐?\" → question is in Chinese → reply in Chinese\n- Example: \"Hi, boleh tanya pasal breakfast?\" → question is in Malay → reply in Malay\n- If truly unclear which language to use → default to English\n\nSTEP 1 - CHECK IF QUESTION IS HOTEL-RELATED:\nBefore searching, determine if the question is related to hotel services.\n\nHotel-related topics include:\n- Reservations, booking, cancellation\n- Check-in, check-out\n- Room types, amenities, facilities\n- Billing, payment, invoices\n- Hotel services (spa, pool, gym, restaurant)\n- Special requests, accessibility\n- Lost and found\n- Nearby attractions, restaurants, shopping recommendations\n- Local transportation and directions\n- Things to do near the hotel\n- Any question about the hotel or stay experience\n\nIf the question is NOT hotel-related, do NOT use File Search.\nReply ONLY with this HTML (translated to customer's language):\n\n<p>Dear [guest name or \"Valued Guest\"],</p>\n\n<p>Thank you for reaching out to us.</p>\n\n<p>We are only able to assist with inquiries related to our hotel services.\nFor other matters, we recommend seeking the appropriate resources.</p>\n\n<p>If you have any hotel-related questions, please don't hesitate to contact us.</p>\n\n<p>Warm regards,<br>\nHotel Support Team<br>\n📞 +XX-XXXX-XXXX<br>\n🌐 <a href=\"http://www.yourhotel.com\">www.yourhotel.com</a></p>\n\n<p>By Gemini_3_Flash_Preview</p>\n<p>Gemini File Search</p>\nLANGUAGE_DETECTED: [detected language in English, e.g. Chinese, Malay, English]\n\nSTEP 2 - IF HOTEL-RELATED, USE FILE SEARCH:\n- Use the File Search tool with the customer's question in ENGLISH\n- If File Search returns no results, reply ONLY with this HTML\n  (translated to customer's language):\n\n<p>Dear [guest name or \"Valued Guest\"],</p>\n\n<p>Thank you for your inquiry. Our team will follow up with you shortly.</p>\n\n<p>Warm regards,<br>\n\nHotel Support Team<br>\n📞 +XX-XXXX-XXXX<br>\n🌐 <a href=\"http://www.yourhotel.com\">www.yourhotel.com</a></p>\n\n<p>By Gemini_3_Flash_Preview</p>\n<p>Gemini File Search</p>\nLANGUAGE_DETECTED: [detected language in English, e.g. Chinese, Malay, English]\n\nAfter getting File Search results:\n- Rephrase the answer in natural, warm, professional sentences\n- Translate the rephrased answer to the customer's language\n- Do NOT copy word for word\n- Do NOT add any extra information not in the File Search results\n- Do NOT use phrases like \"We are pleased to inform you\" or \"I am happy to inform you\"\n- Keep each answer to 1-2 sentences per question\n\nSTEP 3 - DETECTING EMAIL FORMAT:\n- If customer sends a SINGLE question or writes in PARAGRAPH form → use single answer format, no colour changes\n- If customer sends MULTIPLE questions in POINT FORM (numbered list, bullet points, or each question on a new line) → use point form format with blue bold questions\n\nFOR SINGLE QUESTION OR PARAGRAPH:\n<p>Dear [guest name or \"Valued Guest\"],</p>\n\n<p>Thank you for reaching out to us.</p>\n\n<p>[Rephrased answer translated to customer's language]</p>\n\n<p>If you have any further questions, please don't hesitate to reach out.</p>\n\n<p>Warm regards,<br>\nHotel Support Team<br>\n📞 +XX-XXXX-XXXX<br>\n🌐 <a href=\"http://www.yourhotel.com\">www.yourhotel.com</a></p>\n\n<p>By Gemini_3_Flash_Preview</p>\n<p>Gemini File Search</p>\nLANGUAGE_DETECTED: [detected language in English, e.g. Chinese, Malay, English]\n\nFOR POINT FORM (multiple questions only):\n<p>Dear [guest name or \"Valued Guest\"],</p>\n\n<p>Thank you for reaching out to us. Please find the answers to your questions below:</p>\n\n<p><strong style=\"color:#1a73e8;\">1. [Repeat customer question in customer's language]</strong><br>\n[Answer translated to customer's language]</p>\n\n<p><strong style=\"color:#1a73e8;\">2. [Repeat customer question in customer's language]</strong><br>\n[Answer translated to customer's language]</p>\n\n<p><strong style=\"color:#1a73e8;\">3. [Repeat customer question in customer's language]</strong><br>\n[Answer translated to customer's language]</p>\n\n<p>If you have any further questions, please don't hesitate to reach out.</p>\n\n<p>Warm regards,<br>\nHotel Support Team<br>\n📞 +XX-XXXX-XXXX<br>\n🌐 <a href=\"http://www.yourhotel.com\">www.yourhotel.com</a></p>\n\n<p>By Gemini_3_Flash_Preview</p>\n<p>Gemini File Search</p>\nLANGUAGE_DETECTED: [detected language in English, e.g. Chinese, Malay, English]",
+              "role": "model"
+            }
+          ]
+        },
+        "builtInTools": {
+          "fileSearch": {
+            "fileSearchStoreNames": "[\"fileSearchStores/hotelcustomersupport-alagzxro9jne\"]"
+          }
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.googleGemini",
+      "typeVersion": 1.1,
+      "position": [
+        1920,
+        2624
+      ],
+      "id": "eeb07cd5-e243-432e-b80c-bd0b5837f1c9",
+      "name": "Message a model1",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "e1yHl6CC9Njzmx2V",
+          "name": "Google Gemini(PaLM) Api - Bulk Email"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "580dbf67-cd1a-4c4a-9d9d-477737e54ef6",
+              "name": "time_received",
+              "value": "={{ new Date().toISOString() }}",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -16,
+        2480
+      ],
+      "id": "b8fe2281-b2dc-4006-aa23-2ff158445d9a",
+      "name": "Set Time Received FS1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "78f81c20-7158-425a-9bd4-fb092388b4e9",
+              "name": "time_classification_done",
+              "value": "={{ new Date().toISOString() }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1200,
+        2576
+      ],
+      "id": "84b3bbb4-20bc-4e88-8050-02f67e12a98a",
+      "name": "Set After Classification FS1"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Get text from File Search output\nconst output = $input.item.json.content.parts[1].text;\n\n// Extract language\nconst langMatch = output.match(/LANGUAGE_DETECTED:\\s*(.+)/);\nconst language_detected = langMatch ? langMatch[1].trim() : 'English';\n\n// Remove the tag from the HTML\nconst ai_response = output.replace(/LANGUAGE_DETECTED:.+/, '').trim();\n\nreturn {\n  json: {\n    ...$input.item.json,\n    language_detected,\n    ai_response\n  }\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2272,
+        2608
+      ],
+      "id": "d05ae789-643f-4abb-94ca-4ebff11dc218",
+      "name": "Code in JavaScript1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "4f667e5d-ee75-448b-b89d-37d1c7539e59",
+              "name": "time_reply_generated",
+              "value": "={{ new Date().toISOString() }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2576,
+        2592
+      ],
+      "id": "548781a9-b295-4b42-99f1-e47b06302ae5",
+      "name": "Set After Reply FS1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "2d3c39a2-0086-4a18-b1c5-0694eba70d91",
+              "name": "time_reply_sent",
+              "value": "={{ new Date().toISOString() }}",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        3264,
+        2528
+      ],
+      "id": "46613ec4-5787-444b-8610-e5e365e2a8fa",
+      "name": "Set After Reply Sent1"
+    },
+    {
+      "parameters": {
+        "schema": {
+          "__rl": true,
+          "mode": "list",
+          "value": "public"
+        },
+        "table": {
+          "__rl": true,
+          "value": "email_comparison_logs",
+          "mode": "list",
+          "cachedResultName": "email_comparison_logs"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "needs_reply": "={{ $('Assess if message needs a reply1').item.json.needsReply }}",
+            "generation_seconds": "={{ (new Date($('Set After Reply FS1').item.json.time_reply_generated) - new Date($('Set After Classification FS1').item.json.time_classification_done)) / 1000 }}",
+            "total_seconds": "={{ (new Date() - new Date($('Set Time Received FS1').item.json.time_received)) / 1000 }}",
+            "category": "={{ $('Assess if message needs a reply1').item.json.category }}",
+            "urgency": "={{ $('Assess if message needs a reply1').item.json.urgency }}",
+            "threadId": "={{ $('Get many messages').item.json.threadId }}",
+            "email_id": "={{ $('Get many messages').item.json.id }}",
+            "customer_email": "={{ $('Get many messages').item.json.From }}",
+            "subject": "={{ $('Get many messages').item.json.Subject }}",
+            "customer_message": "={{ $('Get many messages').item.json.snippet }}",
+            "approach": "Gemini File Search",
+            "time_received": "={{ $('Set Time Received FS1').item.json.time_received }}",
+            "time_classification_done": "={{ $('Set After Classification FS1').item.json.time_classification_done }}",
+            "language_detected": "={{ $('Code in JavaScript1').item.json.language_detected }}",
+            "model_used": "Gemini_3_Flash_Preview",
+            "time_reply_generated": "={{ $('Set After Reply FS1').item.json.time_reply_generated }}",
+            "classification_seconds": "={{ (new Date($('Set After Classification FS1').item.json.time_classification_done) - new Date($('Set Time Received FS1').item.json.time_received)) / 1000 }}",
+            "ai_response": "={{ $('Code in JavaScript1').item.json.ai_response }}",
+            "time_reply_sent": "={{ $json.time_reply_sent }}"
+          },
+          "matchingColumns": [
+            "id"
+          ],
+          "schema": [
+            {
+              "id": "id",
+              "displayName": "id",
+              "required": false,
+              "defaultMatch": true,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "threadId",
+              "displayName": "threadId",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "email_id",
+              "displayName": "email_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "customer_email",
+              "displayName": "customer_email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "subject",
+              "displayName": "subject",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "customer_message",
+              "displayName": "customer_message",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "category",
+              "displayName": "category",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "urgency",
+              "displayName": "urgency",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "language_detected",
+              "displayName": "language_detected",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "needs_reply",
+              "displayName": "needs_reply",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "boolean",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "approach",
+              "displayName": "approach",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "model_used",
+              "displayName": "model_used",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "time_received",
+              "displayName": "time_received",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "dateTime",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "time_classification_done",
+              "displayName": "time_classification_done",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "dateTime",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "time_reply_generated",
+              "displayName": "time_reply_generated",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "dateTime",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "time_reply_sent",
+              "displayName": "time_reply_sent",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "dateTime",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "classification_seconds",
+              "displayName": "classification_seconds",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "generation_seconds",
+              "displayName": "generation_seconds",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "total_seconds",
+              "displayName": "total_seconds",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "ai_response",
+              "displayName": "ai_response",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "status",
+              "displayName": "status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        3504,
+        2528
+      ],
+      "id": "2e7ae803-248f-4f9d-b154-85cfc022ae07",
+      "name": "Postgres Log - FS1",
+      "credentials": {
+        "postgres": {
+          "id": "XF2BVuSFwwWW0soK",
+          "name": "Postgres Account - Writer"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "limit": 500,
+        "filters": {
+          "readStatus": "unread"
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        -384,
+        2480
+      ],
+      "id": "53f675bd-0aa3-4a8b-afd3-859efe4b8586",
+      "name": "Get many messages",
+      "webhookId": "04f7d53d-589a-422b-8838-9a0f245992cc",
+      "alwaysOutputData": true,
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "oa22yNKV1n7ZBlbL",
+          "name": "Gmail account - kohxl.w@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "minutes",
+              "minutesInterval": 1
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        -784,
+        2480
+      ],
+      "id": "636c91f1-e39a-4ba0-ac4f-350b9ff40b79",
+      "name": "Schedule Trigger",
+      "alwaysOutputData": true
+    }
+  ],
+  "connections": {
+    "JSON Parser": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Assess if message needs a reply1",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model3": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Assess if message needs a reply1",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Assess if message needs a reply1": {
+      "main": [
+        [
+          {
+            "node": "Set After Classification FS1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If Needs Reply1": {
+      "main": [
+        [
+          {
+            "node": "Message a model1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model5": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "JSON Parser",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Message a model1": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Time Received FS1": {
+      "main": [
+        [
+          {
+            "node": "Assess if message needs a reply1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set After Classification FS1": {
+      "main": [
+        [
+          {
+            "node": "If Needs Reply1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Reply to the email1": {
+      "main": [
+        [
+          {
+            "node": "Set After Reply Sent1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript1": {
+      "main": [
+        [
+          {
+            "node": "Set After Reply FS1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set After Reply FS1": {
+      "main": [
+        [
+          {
+            "node": "Reply to the email1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set After Reply Sent1": {
+      "main": [
+        [
+          {
+            "node": "Postgres Log - FS1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get many messages": {
+      "main": [
+        [
+          {
+            "node": "Set Time Received FS1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Get many messages",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false,
+    "timeSavedMode": "fixed",
+    "timezone": "Asia/Kuala_Lumpur",
+    "callerPolicy": "workflowsFromSameOwner",
+    "timeSavedPerExecution": 0
+  },
+  "staticData": {
+    "node:Receive Email from Gmail": {
+      "lastTimeChecked": 1772605721,
+      "possibleDuplicates": [
+        "19cb788dc57551da",
+        "19cb6c3266195520"
+      ]
+    },
+    "node:Schedule Trigger": {
+      "recurrenceRules": []
+    }
+  },
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "503fd005-ab17-4e44-b878-602e7233f680",
+  "activeVersionId": null,
+  "triggerCount": 1,
+  "shared": [
+    {
+      "updatedAt": "2026-03-04T10:45:29.742Z",
+      "createdAt": "2026-03-04T10:45:29.742Z",
+      "role": "workflow:owner",
+      "workflowId": "ef8wXe2ClIq4r6ej",
+      "projectId": "jEyFJXtUUwEM8iYb"
+    }
+  ],
+  "activeVersion": null,
+  "tags": []
+}
