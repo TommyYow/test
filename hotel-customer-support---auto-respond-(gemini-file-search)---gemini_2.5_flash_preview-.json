@@ -1,0 +1,1008 @@
+{
+  "updatedAt": "2026-03-06T03:57:30.790Z",
+  "createdAt": "2026-03-04T10:45:29.742Z",
+  "id": "ef8wXe2ClIq4r6ej",
+  "name": "Hotel Customer Support - Auto Respond (Gemini File Search) - Gemini_2.5_Flash_Preview",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "content": "## Assesing whether the mail needs a reply or not",
+        "height": 592,
+        "width": 624,
+        "color": 4
+      },
+      "id": "65dcd5de-a69c-417a-a1ab-9e77b3369734",
+      "name": "Sticky Note",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        64,
+        2304
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "content": "## Selecting only the mails that need a reply",
+        "height": 384,
+        "width": 496,
+        "color": 3
+      },
+      "id": "12d83c9b-9d14-4ab4-99b1-0491f80e1431",
+      "name": "Sticky Note3",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1072,
+        2480
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "version": 1,
+            "leftValue": "",
+            "caseSensitive": true,
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "53849246-ad32-4845-9976-9f9688f5a6f2",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              },
+              "leftValue": "={{ $('Assess if message needs a reply - Gemini FS').item.json.needsReply }}",
+              "rightValue": "true"
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {}
+      },
+      "id": "ee17e711-03e4-43d3-8539-06b08025d479",
+      "name": "If Needs Reply1",
+      "type": "n8n-nodes-base.if",
+      "position": [
+        1168,
+        2576
+      ],
+      "typeVersion": 2,
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "content": "Gemini-2.5-Flash",
+        "height": 80,
+        "width": 224,
+        "color": "#F1E2F9"
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -1120,
+        2496
+      ],
+      "id": "aa092ba9-35bd-4e94-ac39-3992461441ca",
+      "name": "Sticky Note13"
+    },
+    {
+      "parameters": {
+        "content": "## Sending a Reply",
+        "height": 256,
+        "color": 4
+      },
+      "id": "cf3eb4b6-aace-465d-bbd0-1a24143e5454",
+      "name": "Sticky Note6",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        2624,
+        1952
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "78f81c20-7158-425a-9bd4-fb092388b4e9",
+              "name": "time_classification_done",
+              "value": "={{ new Date().toISOString() }}",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        800,
+        2480
+      ],
+      "id": "84b3bbb4-20bc-4e88-8050-02f67e12a98a",
+      "name": "Set After Classification FS1",
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "operation": "markAsRead",
+        "messageId": "={{ $('Get Many Messages - Gemini FS').item.json.id }}"
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        1344,
+        2704
+      ],
+      "id": "c22e35e7-d4fa-4693-b8f4-01428c7b7fc1",
+      "name": "Mark a message as read",
+      "webhookId": "6e701d3f-5645-4aa0-912a-15edc5879030",
+      "alwaysOutputData": true,
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "oa22yNKV1n7ZBlbL",
+          "name": "Gmail account - kohxl.w@gmail.com"
+        }
+      },
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "minutes",
+              "minutesInterval": 30
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        -784,
+        2480
+      ],
+      "id": "636c91f1-e39a-4ba0-ac4f-350b9ff40b79",
+      "name": "Schedule Trigger Gmail - Gemini FS",
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "limit": 500,
+        "filters": {
+          "readStatus": "unread"
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        -528,
+        2480
+      ],
+      "id": "53f675bd-0aa3-4a8b-afd3-859efe4b8586",
+      "name": "Get Many Messages - Gemini FS",
+      "webhookId": "04f7d53d-589a-422b-8838-9a0f245992cc",
+      "alwaysOutputData": false,
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "oa22yNKV1n7ZBlbL",
+          "name": "Gmail account - kohxl.w@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "580dbf67-cd1a-4c4a-9d9d-477737e54ef6",
+              "name": "time_received",
+              "value": "={{ new Date().toISOString() }}",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -288,
+        2480
+      ],
+      "id": "b8fe2281-b2dc-4006-aa23-2ff158445d9a",
+      "name": "Set Time Received - Gemini FS",
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-3-flash-preview",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        144,
+        2592
+      ],
+      "id": "ab0bd55b-dc59-4a01-a1d1-8ce6e7fe33e7",
+      "name": "Google Gemini Chat Model - Gemini FS",
+      "alwaysOutputData": true,
+      "retryOnFail": false,
+      "notesInFlow": true,
+      "credentials": {
+        "googlePalmApi": {
+          "id": "JotYgsTc9JLNcYun",
+          "name": "Google Gemini(PaLM) Api - Testing Before Bulk Email"
+        }
+      },
+      "onError": "continueErrorOutput",
+      "notes": "LLM that runs the classification prompt — it reads the email and decides needsReply, category, urgency, etc"
+    },
+    {
+      "parameters": {
+        "prompt": "=You are a hotel customer support email classifier.\nAnalyze the following email and decide if it needs a reply.\n\nEmail Subject: {{ $input.item.json.Subject }}\nEmail From: {{ $input.item.json.From }}\nEmail Body: {{ $input.item.json.snippet }}\n\nReply ONLY with valid JSON, no extra text, no markdown:\n{\n  \"needsReply\": true or false,\n  \"reason\": \"short reason\",\n  \"category\": \"category name\",\n  \"urgency\": \"low/medium/high\"\n}\n\nSet needsReply to FALSE if:\n- Just a thank you (\"Thank you\", \"Thanks!\", \"Great, thanks\", \"Appreciated\", \"Thank you so much\")\n- Customer replying \"thank you\" to a previous support reply\n- Acknowledgement only (\"Got it\", \"Ok noted\", \"Sure\", \"Understood\")\n- Auto-reply, out-of-office, or no-reply sender\n- Newsletter, promotional, or marketing email\n- Spam or irrelevant content\n- Previous reply from our own support team (check if sender is our domain)\n- Any email with no question or request\n\nSet needsReply to TRUE if:\n- Asking about room availability, pricing, or promotions\n- Making, modifying, or cancelling a reservation\n- Complaint or negative feedback requiring resolution\n- Asking about hotel facilities, services, or amenities\n- Check-in or check-out related questions\n- Billing, payment, or invoice questions\n- Special requests (e.g. dietary needs, accessibility, early check-in)\n- Lost and found inquiries\n- Any question needing a specific answer\n\nSet urgency to \"high\" if:\n- Guest is currently checked in with an issue\n- Complaint requiring immediate attention\n- Same-day or next-day arrival question\n\nSet urgency to \"medium\" if:\n- Reservation inquiry within the next 7 days\n- Billing dispute\n\nSet urgency to \"low\" if:\n- General questions\n- Future reservations beyond 7 days\n- General feedback\n\nSet category to one of:\n\"Reservation\", \"Check-in/Check-out\", \"Billing\", \n\"Facilities\", \"Complaint\", \"Special Request\", \"General\""
+      },
+      "id": "e3eface0-a0ca-4695-9001-682c2251dbd0",
+      "name": "Assess if message needs a reply - Gemini FS",
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "position": [
+        240,
+        2384
+      ],
+      "typeVersion": 1.3,
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-3-flash-preview",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        400,
+        2736
+      ],
+      "id": "669a1d8e-73f8-41a6-926a-88522681f420",
+      "name": "Google Gemini Chat Model - Gemini FS1",
+      "alwaysOutputData": true,
+      "notesInFlow": true,
+      "credentials": {
+        "googlePalmApi": {
+          "id": "JotYgsTc9JLNcYun",
+          "name": "Google Gemini(PaLM) Api - Testing Before Bulk Email"
+        }
+      },
+      "notes": "LLM that powers the autoFix feature in the JSON Parser — if Gemini FS returns malformed JSON (e.g. wrapped in markdown, extra text), this model is called to clean and reparse it into valid JSON"
+    },
+    {
+      "parameters": {
+        "jsonSchema": "{\n  \"type\": \"object\",\n  \"properties\": {\n    \"needsReply\": { \"type\": \"boolean\" },\n    \"reason\": { \"type\": \"string\" },\n    \"category\": { \"type\": \"string\" },\n    \"urgency\": { \"type\": \"string\" }\n  },\n  \"required\": [\"needsReply\"]\n}",
+        "autoFix": true
+      },
+      "id": "3a30577c-72bb-4ce2-ae30-dae2866fd4f2",
+      "name": "JSON Parser - Gemini FS",
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "position": [
+        400,
+        2576
+      ],
+      "typeVersion": 1,
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "models/gemini-3-flash-preview",
+          "mode": "list",
+          "cachedResultName": "models/gemini-3-flash-preview"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=A customer has sent the following email. Follow your instructions and reply now.\n\nSubject: {{ $('Get Many Messages - Gemini FS').item.json.Subject }}\nFrom: {{ $('Get Many Messages - Gemini FS').item.json.From }}\nMessage: {{ $('Get Many Messages - Gemini FS').item.json.snippet }}"
+            },
+            {
+              "content": "RESPOND IMMEDIATELY. Do not think out loud. Do not repeat instructions.\nCall File Search once, then write the final HTML reply only. No reasoning, no commentary.\n\nYou are a professional hotel customer support representative.\n\nSTRICT RULES:\n1. ALWAYS use the File Search tool to find answers first\n2. ONLY use facts returned by the File Search tool\n3. NEVER use your own knowledge or training data\n4. NEVER guess or assume any hotel policies, prices, or details\n\nLANGUAGE DETECTION:\n- Detect the language of the customer's email\n- ALWAYS reply in the SAME language the customer used\n- The knowledge base is in English — search it in English, but translate your reply\n- NEVER default to English unless the customer writes in English\n- Translate everything including \"Dear\", \"Thank you\", \"Warm regards\"\n\nMIXED LANGUAGE EMAILS:\n- Identify which language the QUESTION is written in and reply in that language\n- If truly unclear → default to English\n\nSTEP 1 - CHECK IF QUESTION IS HOTEL-RELATED:\nHotel-related topics: reservations, check-in/out, room types, billing, facilities, special requests, lost and found, nearby attractions, transport, anything about the hotel stay.\n\nIf NOT hotel-related, reply ONLY with this HTML:\n<p>Dear [guest name or \"Valued Guest\"],</p>\n\n<p>Thank you for reaching out to us.</p>\n\n<p>We are only able to assist with inquiries related to our hotel services. For other matters, we recommend seeking the appropriate resources.</p>\n\n<p>If you have any hotel-related questions, please don't hesitate to contact us.</p>\n\n<p>Warm regards,<br>\nHotel Support Team<br>\n📞 +XX-XXXX-XXXX<br>\n🌐 <a href=\"http://www.yourhotel.com\">www.yourhotel.com</a></p>\n\n<p>By Gemini_2.5_Flash</p>\n<p>Gemini File Search</p>\nLANGUAGE_DETECTED: [language name]\n\nSTEP 2 - IF HOTEL-RELATED, USE FILE SEARCH:\n- Search using the customer's question in ENGLISH\n- If no results found, reply ONLY with this HTML:\n<p>Dear [guest name or \"Valued Guest\"],</p>\n\n<p>Thank you for your inquiry. Our team will follow up with you shortly.</p>\n\n<p>Warm regards,<br>\nHotel Support Team<br>\n📞 +XX-XXXX-XXXX<br>\n🌐 <a href=\"http://www.yourhotel.com\">www.yourhotel.com</a></p>\n\n<p>By Gemini_2.5_Flash</p>\n<p>Gemini File Search</p>\nLANGUAGE_DETECTED: [language name]\n\nAfter getting results:\n- Rephrase naturally, do NOT copy word for word\n- Do NOT add information not in File Search results\n- Do NOT use \"We are pleased to inform you\" or \"I am happy to inform you\"\n- Keep answers to 1-2 sentences per question\n\nSTEP 3 - DETECT EMAIL FORMAT:\n- Single question or paragraph → use single answer format\n- Multiple questions in point form → use numbered format with blue bold questions\n\nSINGLE QUESTION FORMAT:\n<p>Dear [guest name or \"Valued Guest\"],</p>\n\n<p>Thank you for reaching out to us.</p>\n\n<p>[Answer]</p>\n\n<p>If you have any further questions, please don't hesitate to reach out.</p>\n\n<p>Warm regards,<br>\nHotel Support Team<br>\n📞 +XX-XXXX-XXXX<br>\n🌐 <a href=\"http://www.yourhotel.com\">www.yourhotel.com</a></p>\n\n<p>By Gemini_2.5_Flash</p>\n<p>Gemini File Search</p>\nLANGUAGE_DETECTED: [language name]\n\nMULTIPLE QUESTIONS FORMAT:\n<p>Dear [guest name or \"Valued Guest\"],</p>\n\n<p>Thank you for reaching out to us. Please find the answers to your questions below:</p>\n\n<p><strong style=\"color:#1a73e8;\">1. [Question]</strong><br>[Answer]</p>\n\n<p><strong style=\"color:#1a73e8;\">2. [Question]</strong><br>[Answer]</p>\n\n<p>If you have any further questions, please don't hesitate to reach out.</p>\n\n<p>Warm regards,<br>\nHotel Support Team<br>\n📞 +XX-XXXX-XXXX<br>\n🌐 <a href=\"http://www.yourhotel.com\">www.yourhotel.com</a></p>\n\n<p>By Gemini_2.5_Flash</p>\n<p>Gemini File Search</p>\nLANGUAGE_DETECTED: [language name]\n\nBEFORE OUTPUTTING, VERIFY SILENTLY:\n- Does the reply language match the customer's language?\n- Are all answers based only on File Search results?\n- Does the format match single or point form correctly?\n- Is LANGUAGE_DETECTED tag included at the bottom?\n\nThen output the final HTML reply ONLY. No checklist, no commentary, no extra text.",
+              "role": "model"
+            }
+          ]
+        },
+        "builtInTools": {
+          "fileSearch": {
+            "fileSearchStoreNames": "[\"fileSearchStores/hotelcustomersupport-ijric18drsfe\"]"
+          }
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.googleGemini",
+      "typeVersion": 1.1,
+      "position": [
+        1648,
+        2560
+      ],
+      "id": "eeb07cd5-e243-432e-b80c-bd0b5837f1c9",
+      "name": "Message Model - Gemini FS",
+      "alwaysOutputData": true,
+      "credentials": {
+        "googlePalmApi": {
+          "id": "JotYgsTc9JLNcYun",
+          "name": "Google Gemini(PaLM) Api - Testing Before Bulk Email"
+        }
+      },
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "const content = $input.item.json.content;\n\n// Guard against empty/undefined Gemini response (safety filter or API error)\nif (!content || !content.parts || content.parts.length === 0) {\n  return {\n    json: {\n      ...$input.item.json,\n      language_detected: 'unknown',\n      ai_response: ''\n    }\n  };\n}\n\nconst parts = content.parts;\n\n// Safely find the HTML reply part (contains <p> and LANGUAGE_DETECTED)\nconst replyPart = parts.find(p => \n  p.text && \n  p.text.includes('<p>') && \n  p.text.includes('LANGUAGE_DETECTED')\n) || parts[2] || parts[1]; // fallback\n\nconst output = replyPart ? replyPart.text : '';\n\n// Extract language\nconst langMatch = output.match(/LANGUAGE_DETECTED:\\s*(.+)/);\nconst language_detected = langMatch ? langMatch[1].trim() : 'English';\n\n// Remove the tag from the HTML\nconst ai_response = output.replace(/LANGUAGE_DETECTED:.+/, '').trim();\n\nreturn {\n  json: {\n    ...$input.item.json,\n    language_detected,\n    ai_response\n  }\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1984,
+        2208
+      ],
+      "id": "d05ae789-643f-4abb-94ca-4ebff11dc218",
+      "name": "Code in JavaScript - Gemini FS",
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "4f667e5d-ee75-448b-b89d-37d1c7539e59",
+              "name": "time_reply_generated",
+              "value": "={{ new Date().toISOString() }}",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2400,
+        2016
+      ],
+      "id": "548781a9-b295-4b42-99f1-e47b06302ae5",
+      "name": "Set After Reply - Gemini FS",
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "operation": "reply",
+        "messageId": "={{ $('Get Many Messages - Gemini FS').item.json.id }}",
+        "message": "={{ $('Code in JavaScript - Gemini FS').item.json.ai_response }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        2704,
+        2000
+      ],
+      "id": "1dabb54e-c48d-4a97-b57e-49a3efbec03b",
+      "name": "Reply to the email - Gemini FS",
+      "webhookId": "7e635eab-5e72-49af-874a-6d4e73e4f6a1",
+      "alwaysOutputData": true,
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "oa22yNKV1n7ZBlbL",
+          "name": "Gmail account - kohxl.w@gmail.com"
+        }
+      },
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "operation": "markAsRead",
+        "messageId": "={{ $('Get Many Messages - Gemini FS').item.json.id }}"
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        2976,
+        1984
+      ],
+      "id": "bb41fd66-5a0d-4496-86b1-17efe6d41fcf",
+      "name": "Mark a message as read - Gemini FS",
+      "webhookId": "4e0cd5e3-3c87-4f2d-8037-e4b48aca37fb",
+      "alwaysOutputData": true,
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "oa22yNKV1n7ZBlbL",
+          "name": "Gmail account - kohxl.w@gmail.com"
+        }
+      },
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "2d3c39a2-0086-4a18-b1c5-0694eba70d91",
+              "name": "time_reply_sent",
+              "value": "={{ new Date().toISOString() }}",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        3296,
+        2000
+      ],
+      "id": "46613ec4-5787-444b-8610-e5e365e2a8fa",
+      "name": "Set After Reply Sent - Gemini FS"
+    },
+    {
+      "parameters": {
+        "schema": {
+          "__rl": true,
+          "mode": "list",
+          "value": "public"
+        },
+        "table": {
+          "__rl": true,
+          "value": "email_comparison_logs",
+          "mode": "list",
+          "cachedResultName": "email_comparison_logs"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "needs_reply": "={{ $('Assess if message needs a reply - Gemini FS').item.json.needsReply }}",
+            "generation_seconds": "={{ (new Date($('Set After Reply - Gemini FS').item.json.time_reply_generated) - new Date($('Set After Classification FS1').item.json.time_classification_done)) / 1000 }}",
+            "total_seconds": "={{ (new Date() - new Date($('Set Time Received - Gemini FS').item.json.time_received)) / 1000 }}",
+            "category": "={{ $('Assess if message needs a reply - Gemini FS').item.json.category }}",
+            "urgency": "={{ $('Assess if message needs a reply - Gemini FS').item.json.urgency }}",
+            "threadId": "={{ $('Get Many Messages - Gemini FS').item.json.threadId }}",
+            "email_id": "={{ $('Get Many Messages - Gemini FS').item.json.id }}",
+            "customer_email": "={{ $('Get Many Messages - Gemini FS').item.json.From }}",
+            "subject": "={{ $('Get Many Messages - Gemini FS').item.json.Subject }}",
+            "customer_message": "={{ $('Get Many Messages - Gemini FS').item.json.snippet }}",
+            "approach": "Gemini File Search",
+            "time_received": "={{ $('Set Time Received - Gemini FS').item.json.time_received }}",
+            "time_classification_done": "={{ $('Set After Classification FS1').item.json.time_classification_done }}",
+            "language_detected": "={{ $('Code in JavaScript - Gemini FS').item.json.language_detected }}",
+            "model_used": "Gemini_2.5_Flash",
+            "time_reply_generated": "={{ $('Set After Reply - Gemini FS').item.json.time_reply_generated }}",
+            "classification_seconds": "={{ (new Date($('Set After Classification FS1').item.json.time_classification_done) - new Date($('Set Time Received - Gemini FS').item.json.time_received)) / 1000 }}",
+            "ai_response": "={{ $('Code in JavaScript - Gemini FS').item.json.ai_response }}",
+            "time_reply_sent": "={{ $json.time_reply_sent }}"
+          },
+          "matchingColumns": [
+            "id"
+          ],
+          "schema": [
+            {
+              "id": "id",
+              "displayName": "id",
+              "required": false,
+              "defaultMatch": true,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "threadId",
+              "displayName": "threadId",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "email_id",
+              "displayName": "email_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "customer_email",
+              "displayName": "customer_email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "subject",
+              "displayName": "subject",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "customer_message",
+              "displayName": "customer_message",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "category",
+              "displayName": "category",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "urgency",
+              "displayName": "urgency",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "language_detected",
+              "displayName": "language_detected",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "needs_reply",
+              "displayName": "needs_reply",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "boolean",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "approach",
+              "displayName": "approach",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "model_used",
+              "displayName": "model_used",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "time_received",
+              "displayName": "time_received",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "dateTime",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "time_classification_done",
+              "displayName": "time_classification_done",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "dateTime",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "time_reply_generated",
+              "displayName": "time_reply_generated",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "dateTime",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "time_reply_sent",
+              "displayName": "time_reply_sent",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "dateTime",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "classification_seconds",
+              "displayName": "classification_seconds",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "generation_seconds",
+              "displayName": "generation_seconds",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "total_seconds",
+              "displayName": "total_seconds",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "ai_response",
+              "displayName": "ai_response",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "status",
+              "displayName": "status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        3648,
+        2576
+      ],
+      "id": "2e7ae803-248f-4f9d-b154-85cfc022ae07",
+      "name": "Postgres Log - Gemini FS",
+      "credentials": {
+        "postgres": {
+          "id": "XF2BVuSFwwWW0soK",
+          "name": "Postgres Account - Writer"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "00bd92f8-df42-4238-912d-48887b19382c",
+              "leftValue": "={{ $json.ai_response !== '' }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        2176,
+        2112
+      ],
+      "id": "5060939e-731c-46c0-986e-403db096bbda",
+      "name": "If Node - Gemini FS"
+    }
+  ],
+  "connections": {
+    "If Needs Reply1": {
+      "main": [
+        [
+          {
+            "node": "Message Model - Gemini FS",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Mark a message as read",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set After Classification FS1": {
+      "main": [
+        [
+          {
+            "node": "If Needs Reply1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger Gmail - Gemini FS": {
+      "main": [
+        [
+          {
+            "node": "Get Many Messages - Gemini FS",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Many Messages - Gemini FS": {
+      "main": [
+        [
+          {
+            "node": "Set Time Received - Gemini FS",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Time Received - Gemini FS": {
+      "main": [
+        [
+          {
+            "node": "Assess if message needs a reply - Gemini FS",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model - Gemini FS": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Assess if message needs a reply - Gemini FS",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Assess if message needs a reply - Gemini FS": {
+      "main": [
+        [
+          {
+            "node": "Set After Classification FS1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model - Gemini FS1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "JSON Parser - Gemini FS",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "JSON Parser - Gemini FS": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Assess if message needs a reply - Gemini FS",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Message Model - Gemini FS": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript - Gemini FS",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Postgres Log - Gemini FS",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript - Gemini FS": {
+      "main": [
+        [
+          {
+            "node": "If Node - Gemini FS",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set After Reply - Gemini FS": {
+      "main": [
+        [
+          {
+            "node": "Reply to the email - Gemini FS",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Reply to the email - Gemini FS": {
+      "main": [
+        [
+          {
+            "node": "Mark a message as read - Gemini FS",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        []
+      ]
+    },
+    "Mark a message as read - Gemini FS": {
+      "main": [
+        [
+          {
+            "node": "Set After Reply Sent - Gemini FS",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set After Reply Sent - Gemini FS": {
+      "main": [
+        [
+          {
+            "node": "Postgres Log - Gemini FS",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If Node - Gemini FS": {
+      "main": [
+        [
+          {
+            "node": "Set After Reply - Gemini FS",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Postgres Log - Gemini FS",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false,
+    "timeSavedMode": "fixed",
+    "timezone": "Asia/Kuala_Lumpur",
+    "callerPolicy": "workflowsFromSameOwner",
+    "timeSavedPerExecution": 0
+  },
+  "staticData": {
+    "node:Receive Email from Gmail": {
+      "lastTimeChecked": 1772605721,
+      "possibleDuplicates": [
+        "19cb788dc57551da",
+        "19cb6c3266195520"
+      ]
+    },
+    "node:Schedule Trigger": {
+      "recurrenceRules": []
+    },
+    "node:Schedule Trigger Gmail - Gemini FS": {
+      "recurrenceRules": []
+    }
+  },
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {
+    "Schedule Trigger Gmail - Gemini FS": [
+      {
+        "json": {
+          "timestamp": "2026-03-05T21:00:31.012+08:00",
+          "Readable date": "March 5th 2026, 9:00:31 pm",
+          "Readable time": "9:00:31 pm",
+          "Day of week": "Thursday",
+          "Year": "2026",
+          "Month": "March",
+          "Day of month": "05",
+          "Hour": "21",
+          "Minute": "00",
+          "Second": "31",
+          "Timezone": "Asia/Kuala_Lumpur (UTC+08:00)"
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      }
+    ]
+  },
+  "versionId": "00f69bae-5d04-4dbb-b93f-bef9fc36c144",
+  "activeVersionId": null,
+  "triggerCount": 1,
+  "shared": [
+    {
+      "updatedAt": "2026-03-04T10:45:29.742Z",
+      "createdAt": "2026-03-04T10:45:29.742Z",
+      "role": "workflow:owner",
+      "workflowId": "ef8wXe2ClIq4r6ej",
+      "projectId": "jEyFJXtUUwEM8iYb"
+    }
+  ],
+  "activeVersion": null,
+  "tags": []
+}
