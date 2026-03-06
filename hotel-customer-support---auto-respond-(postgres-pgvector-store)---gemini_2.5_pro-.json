@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-03-05T04:23:17.310Z",
+  "updatedAt": "2026-03-05T05:58:19.625Z",
   "createdAt": "2026-03-04T09:54:21.198Z",
   "id": "MsfnrRWoXOPhEnU9",
   "name": "Hotel Customer Support - Auto Respond (Postgres PGVector Store) - Gemini_2.5_Pro",
@@ -18,7 +18,8 @@
         896,
         1920
       ],
-      "typeVersion": 1
+      "typeVersion": 1,
+      "alwaysOutputData": true
     },
     {
       "parameters": {
@@ -121,6 +122,7 @@
       ],
       "id": "6a3933ad-c87b-458d-b233-20b0aa123fc8",
       "name": "Google Gemini Chat Model",
+      "alwaysOutputData": true,
       "credentials": {
         "googlePalmApi": {
           "id": "e1yHl6CC9Njzmx2V",
@@ -188,6 +190,7 @@
       ],
       "id": "e9f281b9-f506-4e46-92cc-c9bc7e38cdf4",
       "name": "Google Gemini Chat Model1",
+      "alwaysOutputData": true,
       "credentials": {
         "googlePalmApi": {
           "id": "e1yHl6CC9Njzmx2V",
@@ -733,6 +736,7 @@
       "id": "78b13dd7-a54c-4e36-88a1-7ce1fbec0770",
       "name": "Mark a message as read1",
       "webhookId": "9dbb8eba-7092-46af-967e-293dc2876b90",
+      "alwaysOutputData": true,
       "credentials": {
         "gmailOAuth2": {
           "id": "oa22yNKV1n7ZBlbL",
@@ -972,7 +976,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "d7711000-b79d-47fe-8ac6-caa09a5e621f",
+  "versionId": "a6965721-ee71-44bb-8185-db4a6b53a5f6",
   "activeVersionId": null,
   "triggerCount": 1,
   "shared": [
