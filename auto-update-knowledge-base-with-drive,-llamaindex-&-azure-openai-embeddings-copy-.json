@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-02-24T16:06:26.784Z",
+  "updatedAt": "2026-03-07T16:38:17.000Z",
   "createdAt": "2026-02-23T04:44:25.319Z",
   "id": "QpvK2gcUeFFsGtpv",
   "name": "Auto-update knowledge base with Drive, LlamaIndex & Azure OpenAI embeddings copy",
@@ -71,12 +71,11 @@
       "parameters": {
         "conditions": {
           "options": {
-            "version": 2,
+            "caseSensitive": false,
             "leftValue": "",
-            "caseSensitive": true,
-            "typeValidation": "strict"
+            "typeValidation": "strict",
+            "version": 2
           },
-          "combinator": "and",
           "conditions": [
             {
               "id": "921ff875-817d-47fd-bd47-530ebdc21902",
@@ -88,9 +87,12 @@
               "leftValue": "={{ $json.status }}",
               "rightValue": "SUCCESS"
             }
-          ]
+          ],
+          "combinator": "and"
         },
-        "options": {}
+        "options": {
+          "ignoreCase": true
+        }
       },
       "id": "b7df8b41-355b-4158-b18e-e2b3bd9a445f",
       "name": "Check Parsing Completion1",
@@ -403,7 +405,7 @@
     "templateId": "9174"
   },
   "pinData": {},
-  "versionId": "43f51dd1-f6b2-49b8-8d72-0c1e3daca4e5",
+  "versionId": "a0cde08e-8878-43d6-a63e-f3812686b82f",
   "activeVersionId": null,
   "triggerCount": 0,
   "shared": [
