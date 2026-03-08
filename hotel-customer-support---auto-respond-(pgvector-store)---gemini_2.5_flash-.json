@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-03-07T04:03:19.643Z",
+  "updatedAt": "2026-03-08T04:57:54.310Z",
   "createdAt": "2026-03-04T09:54:21.198Z",
   "id": "MsfnrRWoXOPhEnU9",
   "name": "Hotel Customer Support - Auto Respond (PGVector Store) - Gemini_2.5_Flash",
@@ -150,8 +150,8 @@
       "alwaysOutputData": false,
       "credentials": {
         "gmailOAuth2": {
-          "id": "KARfljGIBjePqPOs",
-          "name": "Gmail account - xlwork2402@gmail.com"
+          "id": "oa22yNKV1n7ZBlbL",
+          "name": "Gmail account - kohxl.w@gmail.com"
         }
       }
     },
@@ -163,6 +163,12 @@
               "id": "0538305c-d972-4807-a9ab-f193e845c15f",
               "name": "time_received",
               "value": "={{ new Date().toISOString() }}",
+              "type": "string"
+            },
+            {
+              "id": "92581c78-be46-4ae2-ad8f-ea918c690589",
+              "name": "=message_id",
+              "value": "={{ $json.id }}",
               "type": "string"
             }
           ]
@@ -194,8 +200,8 @@
       "alwaysOutputData": true,
       "credentials": {
         "googlePalmApi": {
-          "id": "JotYgsTc9JLNcYun",
-          "name": "Google Gemini(PaLM) Api - Testing Before Bulk Email"
+          "id": "m2RretHsxySteOZo",
+          "name": "Google Gemini(PaLM) Api Account - PGVector Store"
         }
       }
     },
@@ -213,8 +219,8 @@
       "name": "Google Gemini Chat Model - PGVector Store (JSON)",
       "credentials": {
         "googlePalmApi": {
-          "id": "JotYgsTc9JLNcYun",
-          "name": "Google Gemini(PaLM) Api - Testing Before Bulk Email"
+          "id": "m2RretHsxySteOZo",
+          "name": "Google Gemini(PaLM) Api Account - PGVector Store"
         }
       }
     },
@@ -340,8 +346,8 @@
       "alwaysOutputData": true,
       "credentials": {
         "googlePalmApi": {
-          "id": "JotYgsTc9JLNcYun",
-          "name": "Google Gemini(PaLM) Api - Testing Before Bulk Email"
+          "id": "m2RretHsxySteOZo",
+          "name": "Google Gemini(PaLM) Api Account - PGVector Store"
         }
       }
     },
@@ -359,15 +365,15 @@
       "name": "Embeddings Google Gemini - PGVector Store",
       "credentials": {
         "googlePalmApi": {
-          "id": "JotYgsTc9JLNcYun",
-          "name": "Google Gemini(PaLM) Api - Testing Before Bulk Email"
+          "id": "m2RretHsxySteOZo",
+          "name": "Google Gemini(PaLM) Api Account - PGVector Store"
         }
       }
     },
     {
       "parameters": {
         "mode": "runOnceForEachItem",
-        "jsCode": "const content = $input.item.json.content;\n\n// Guard against empty/undefined Gemini response (safety filter or API error)\nif (!content || !content.parts || content.parts.length === 0) {\n  return {\n    json: {\n      ...$input.item.json,\n      language_detected: 'unknown',\n      ai_response: '',\n      status: 'skipped'\n    }\n  };\n}\n\nconst parts = content.parts;\n\n// Safely find the HTML reply part (contains <p> and LANGUAGE_DETECTED)\nconst replyPart = parts.find(p => \n  p.text && \n  p.text.includes('<p>') && \n  p.text.includes('LANGUAGE_DETECTED')\n) || parts[2] || parts[1]; // fallback\n\nlet output = replyPart ? replyPart.text : '';\n\n// Strip *** BEGIN/END FINAL REPLY *** markers — extract only the reply content\nconst finalReplyMatch = output.match(/\\*{3}\\s*BEGIN FINAL REPLY\\s*\\*{3}([\\s\\S]*?)\\*{3}\\s*END FINAL REPLY\\s*\\*{3}/);\nif (finalReplyMatch) {\n  output = finalReplyMatch[1].trim();\n}\n\n// Extract language\nconst langMatch = output.match(/LANGUAGE_DETECTED:\\s*(.+)/);\nconst language_detected = langMatch ? langMatch[1].trim() : 'English';\n\n// Remove the LANGUAGE_DETECTED tag from the HTML\nconst ai_response = output.replace(/LANGUAGE_DETECTED:.+/, '').trim();\n\nreturn {\n  json: {\n    ...$input.item.json,\n    language_detected,\n    ai_response,\n    status: 'sent'\n  }\n};"
+        "jsCode": "const item = $input.item.json;\n\n// n8n AI Agent outputs response as a plain string under \"output\"\nconst output_raw = item.output;\n\n// Guard against empty response\nif (!output_raw || output_raw.trim() === '') {\n  return {\n    json: {\n      ...item,\n      language_detected: 'unknown',\n      ai_response: '',\n      status: 'skipped'\n    }\n  };\n}\n\nlet output = output_raw;\n\n// Strip *** BEGIN/END FINAL REPLY *** markers if present\nconst finalReplyMatch = output.match(/\\*{3}\\s*BEGIN FINAL REPLY\\s*\\*{3}([\\s\\S]*?)\\*{3}\\s*END FINAL REPLY\\s*\\*{3}/);\nif (finalReplyMatch) {\n  output = finalReplyMatch[1].trim();\n}\n\n// Extract LANGUAGE_DETECTED\nconst langMatch = output.match(/LANGUAGE_DETECTED:\\s*([^\\n\\r]+)/);\nconst language_detected = langMatch ? langMatch[1].trim() : 'English';\n\n// Remove LANGUAGE_DETECTED line from HTML output\nconst ai_response = output\n  .replace(/LANGUAGE_DETECTED:[^\\n\\r]*/g, '')\n  .trim();\n\nreturn {\n  json: {\n    ...item,\n    language_detected,\n    ai_response,\n    status: 'pending'  // neutral — overwritten by downstream Set nodes\n  }\n};"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
@@ -408,7 +414,7 @@
       "parameters": {
         "operation": "reply",
         "messageId": "={{ $('Get many messages - PGVector Store').item.json.id }}",
-        "message": "={{ $('AI Agent - PGVector Store').item.json.output }}",
+        "message": "={{ $('Code in JavaScript - PGVector Store').item.json.ai_response }}",
         "options": {}
       },
       "type": "n8n-nodes-base.gmail",
@@ -423,8 +429,8 @@
       "alwaysOutputData": false,
       "credentials": {
         "gmailOAuth2": {
-          "id": "KARfljGIBjePqPOs",
-          "name": "Gmail account - xlwork2402@gmail.com"
+          "id": "oa22yNKV1n7ZBlbL",
+          "name": "Gmail account - kohxl.w@gmail.com"
         }
       },
       "onError": "continueErrorOutput"
@@ -432,7 +438,7 @@
     {
       "parameters": {
         "operation": "markAsRead",
-        "messageId": "={{ $('Get many messages - PGVector Store').item.json.id }}"
+        "messageId": "={{ $json.message_id }}"
       },
       "type": "n8n-nodes-base.gmail",
       "typeVersion": 2.2,
@@ -446,8 +452,8 @@
       "alwaysOutputData": false,
       "credentials": {
         "gmailOAuth2": {
-          "id": "KARfljGIBjePqPOs",
-          "name": "Gmail account - xlwork2402@gmail.com"
+          "id": "oa22yNKV1n7ZBlbL",
+          "name": "Gmail account - kohxl.w@gmail.com"
         }
       }
     },
@@ -459,6 +465,12 @@
               "id": "d92ee360-2342-4f4c-8370-4afc3820776b",
               "name": "time_reply_sent",
               "value": "={{ new Date().toISOString() }}",
+              "type": "string"
+            },
+            {
+              "id": "ac22af18-6b02-4236-995f-9548bad27b21",
+              "name": "status",
+              "value": "sent",
               "type": "string"
             }
           ]
@@ -505,8 +517,8 @@
             "time_classification_done": "={{ $('Set After Classification - PGVector Store').item.json.time_classification_done }}",
             "time_received": "={{ $('Set Time Received - PGVector Store').item.json.time_received }}",
             "approach": "=Postgres PGVector Store",
-            "model_used": "=Gemini_Pro_Latest (3.1 Pro Preview)",
-            "ai_response": "={{ $('Code in JavaScript - PGVector Store').item.json.ai_response }}",
+            "model_used": "=Gemini_2.5_Flash",
+            "ai_response": "={{ $('Code in JavaScript - PGVector Store').item.json.output }}",
             "language_detected": "={{ $('Code in JavaScript - PGVector Store').item.json.language_detected }}",
             "time_reply_sent": "={{ $json.time_reply_sent }}",
             "classification_seconds": "={{ (new Date($('Set After Classification - PGVector Store').item.json.time_classification_done) - new Date($('Set Time Received - PGVector Store').item.json.time_received)) / 1000 }}",
@@ -773,8 +785,8 @@
       "alwaysOutputData": false,
       "credentials": {
         "gmailOAuth2": {
-          "id": "KARfljGIBjePqPOs",
-          "name": "Gmail account - xlwork2402@gmail.com"
+          "id": "oa22yNKV1n7ZBlbL",
+          "name": "Gmail account - kohxl.w@gmail.com"
         }
       }
     },
@@ -1083,7 +1095,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "b82f2410-55e5-49f9-98ff-85a0613f62c2",
+  "versionId": "bd6efd5b-38b7-4eb7-be1f-ffd68af735a2",
   "activeVersionId": null,
   "triggerCount": 1,
   "shared": [
