@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-03-08T04:57:54.310Z",
+  "updatedAt": "2026-03-08T07:57:43.685Z",
   "createdAt": "2026-03-04T09:54:21.198Z",
   "id": "MsfnrRWoXOPhEnU9",
   "name": "Hotel Customer Support - Auto Respond (PGVector Store) - Gemini_2.5_Flash",
@@ -17,8 +17,8 @@
       "name": "Sticky Note2",
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        1200,
-        1552
+        1168,
+        1536
       ],
       "typeVersion": 1
     },
@@ -438,7 +438,7 @@
     {
       "parameters": {
         "operation": "markAsRead",
-        "messageId": "={{ $json.message_id }}"
+        "messageId": "={{ $('Get many messages - PGVector Store').item.json.id }}"
       },
       "type": "n8n-nodes-base.gmail",
       "typeVersion": 2.2,
@@ -1095,7 +1095,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "bd6efd5b-38b7-4eb7-be1f-ffd68af735a2",
+  "versionId": "9d1b8cd0-3d13-475d-b57b-de100c0e671d",
   "activeVersionId": null,
   "triggerCount": 1,
   "shared": [
