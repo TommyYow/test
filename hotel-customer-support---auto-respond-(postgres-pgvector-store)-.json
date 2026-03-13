@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-03-04T10:42:31.415Z",
+  "updatedAt": "2026-03-12T11:58:51.844Z",
   "createdAt": "2026-02-23T09:17:48.289Z",
   "id": "136yfxh8NWJ4Ebmn",
   "name": "Hotel Customer Support - Auto Respond (Postgres PGVector Store)",
@@ -124,7 +124,7 @@
       "credentials": {
         "googlePalmApi": {
           "id": "fWa8nrFVTByaSTxH",
-          "name": "Google Gemini(PaLM) Api - PG VGStore"
+          "name": "Google Gemini(PaLM) Api - GeminiFileSearch(Bulk)"
         }
       }
     },
@@ -191,7 +191,7 @@
       "credentials": {
         "googlePalmApi": {
           "id": "fWa8nrFVTByaSTxH",
-          "name": "Google Gemini(PaLM) Api - PG VGStore"
+          "name": "Google Gemini(PaLM) Api - GeminiFileSearch(Bulk)"
         }
       }
     },
@@ -233,7 +233,7 @@
       "credentials": {
         "googlePalmApi": {
           "id": "fWa8nrFVTByaSTxH",
-          "name": "Google Gemini(PaLM) Api - PG VGStore"
+          "name": "Google Gemini(PaLM) Api - GeminiFileSearch(Bulk)"
         }
       }
     },
@@ -253,7 +253,7 @@
       "credentials": {
         "googlePalmApi": {
           "id": "fWa8nrFVTByaSTxH",
-          "name": "Google Gemini(PaLM) Api - PG VGStore"
+          "name": "Google Gemini(PaLM) Api - GeminiFileSearch(Bulk)"
         }
       }
     },
@@ -374,7 +374,7 @@
       "credentials": {
         "googlePalmApi": {
           "id": "fWa8nrFVTByaSTxH",
-          "name": "Google Gemini(PaLM) Api - PG VGStore"
+          "name": "Google Gemini(PaLM) Api - GeminiFileSearch(Bulk)"
         }
       }
     },
@@ -441,7 +441,7 @@
       "credentials": {
         "googlePalmApi": {
           "id": "fWa8nrFVTByaSTxH",
-          "name": "Google Gemini(PaLM) Api - PG VGStore"
+          "name": "Google Gemini(PaLM) Api - GeminiFileSearch(Bulk)"
         }
       }
     },
@@ -482,7 +482,7 @@
       "credentials": {
         "googlePalmApi": {
           "id": "fWa8nrFVTByaSTxH",
-          "name": "Google Gemini(PaLM) Api - PG VGStore"
+          "name": "Google Gemini(PaLM) Api - GeminiFileSearch(Bulk)"
         }
       }
     },
@@ -502,7 +502,7 @@
       "credentials": {
         "googlePalmApi": {
           "id": "fWa8nrFVTByaSTxH",
-          "name": "Google Gemini(PaLM) Api - PG VGStore"
+          "name": "Google Gemini(PaLM) Api - GeminiFileSearch(Bulk)"
         }
       }
     },
@@ -623,7 +623,7 @@
       "credentials": {
         "googlePalmApi": {
           "id": "fWa8nrFVTByaSTxH",
-          "name": "Google Gemini(PaLM) Api - PG VGStore"
+          "name": "Google Gemini(PaLM) Api - GeminiFileSearch(Bulk)"
         }
       }
     },
@@ -690,7 +690,7 @@
       "credentials": {
         "googlePalmApi": {
           "id": "fWa8nrFVTByaSTxH",
-          "name": "Google Gemini(PaLM) Api - PG VGStore"
+          "name": "Google Gemini(PaLM) Api - GeminiFileSearch(Bulk)"
         }
       }
     },
@@ -731,7 +731,7 @@
       "credentials": {
         "googlePalmApi": {
           "id": "fWa8nrFVTByaSTxH",
-          "name": "Google Gemini(PaLM) Api - PG VGStore"
+          "name": "Google Gemini(PaLM) Api - GeminiFileSearch(Bulk)"
         }
       }
     },
@@ -751,7 +751,7 @@
       "credentials": {
         "googlePalmApi": {
           "id": "fWa8nrFVTByaSTxH",
-          "name": "Google Gemini(PaLM) Api - PG VGStore"
+          "name": "Google Gemini(PaLM) Api - GeminiFileSearch(Bulk)"
         }
       }
     },
@@ -861,6 +861,12 @@
               "id": "0538305c-d972-4807-a9ab-f193e845c15f",
               "name": "time_received",
               "value": "={{ new Date().toISOString() }}",
+              "type": "string"
+            },
+            {
+              "id": "fd1ca503-9b49-4b1b-b4c8-52e469074f82",
+              "name": "",
+              "value": "",
               "type": "string"
             }
           ]
@@ -1180,7 +1186,7 @@
     },
     {
       "parameters": {
-        "jsCode": "const output = $input.item.json.output;                                                                                                                                  \n\n  // Extract language                                                                                                                                                      \n  const langMatch = output.match(/LANGUAGE_DETECTED:\\s*(.+)/);                                                                                                             \n  const language_detected = langMatch ? langMatch[1].trim() : null;\n\n  // Remove the tag from the HTML                                                                                                                                          \n  const ai_response = output.replace(/LANGUAGE_DETECTED:.+/, '').trim();                                                                                                   \n\n  return {                                                                                                                                                                 \n    json: {                                                                                                                                                                \n      ...$input.item.json,                                                                                                                                                 \n      language_detected,                                                                                                                                                   \n      ai_response\n    }\n  };"
+        "jsCode": "const output = $input.item.json.output;       \n$input.first().json.\n\n  // Extract language                                                                                                                                                      \n  const langMatch = output.match(/LANGUAGE_DETECTED:\\s*(.+)/);                                                                                                             \n  const language_detected = langMatch ? langMatch[1].trim() : null;\n\n  // Remove the tag from the HTML                                                                                                                                          \n  const ai_response = output.replace(/LANGUAGE_DETECTED:.+/, '').trim();                                                                                                   \n\n  return {                                                                                                                                                                 \n    json: {                                                                                                                                                                \n      ...$input.item.json,                                                                                                                                                 \n      language_detected,                                                                                                                                                   \n      ai_response\n    }\n  };"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
@@ -1963,6 +1969,30 @@
           "name": "Gmail account - kohxl.w@gmail.com"
         }
       }
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        1235.9884774573716
+      ],
+      "id": "6970fbf3-e3f4-4792-ab9e-62047d56abf1",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        208,
+        1248
+      ],
+      "id": "6c291288-4e49-49a7-a210-25627cfac938",
+      "name": "Edit Fields"
     }
   ],
   "connections": {
@@ -2472,6 +2502,17 @@
           }
         ]
       ]
+    },
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "settings": {
@@ -2495,7 +2536,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "2b2652c7-673a-45db-ae65-991ebfce9250",
+  "versionId": "a1c61b4a-589d-4e37-8a6a-d2074b6a43fe",
   "activeVersionId": null,
   "triggerCount": 0,
   "shared": [
