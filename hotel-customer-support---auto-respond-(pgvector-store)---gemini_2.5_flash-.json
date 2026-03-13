@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-03-08T07:57:43.685Z",
+  "updatedAt": "2026-03-12T12:07:21.730Z",
   "createdAt": "2026-03-04T09:54:21.198Z",
   "id": "MsfnrRWoXOPhEnU9",
   "name": "Hotel Customer Support - Auto Respond (PGVector Store) - Gemini_2.5_Flash",
@@ -1094,8 +1094,75 @@
   "meta": {
     "templateCredsSetupCompleted": true
   },
-  "pinData": {},
-  "versionId": "9d1b8cd0-3d13-475d-b57b-de100c0e671d",
+  "pinData": {
+    "Get many messages - PGVector Store": [
+      {
+        "json": {
+          "id": "19ce1eddca371f9d",
+          "threadId": "19cdfcfb8c2e2014",
+          "snippet": "A new sign-in on Mac kohxl.w@gmail.com We noticed a new sign-in to your Google Account on a Mac device. If this was you, you don't need to do anything. If not, we'll help you secure your",
+          "payload": {
+            "mimeType": "multipart/alternative"
+          },
+          "sizeEstimate": 12237,
+          "historyId": "361479",
+          "internalDate": "1773316986000",
+          "labels": [
+            {
+              "id": "INBOX",
+              "name": "INBOX"
+            },
+            {
+              "id": "IMPORTANT",
+              "name": "IMPORTANT"
+            },
+            {
+              "id": "CATEGORY_UPDATES",
+              "name": "CATEGORY_UPDATES"
+            },
+            {
+              "id": "UNREAD",
+              "name": "UNREAD"
+            }
+          ],
+          "Subject": "Security alert",
+          "From": "Google <no-reply@accounts.google.com>",
+          "To": "kohxl.w@gmail.com"
+        }
+      },
+      {
+        "json": {
+          "id": "19ce1ebf9c2e7878",
+          "threadId": "19ce1ebf9c2e7878",
+          "snippet": "Hi, Hotel got what service ?",
+          "payload": {
+            "mimeType": "text/plain"
+          },
+          "sizeEstimate": 10657,
+          "historyId": "361452",
+          "internalDate": "1773316854000",
+          "labels": [
+            {
+              "id": "INBOX",
+              "name": "INBOX"
+            },
+            {
+              "id": "CATEGORY_PERSONAL",
+              "name": "CATEGORY_PERSONAL"
+            },
+            {
+              "id": "UNREAD",
+              "name": "UNREAD"
+            }
+          ],
+          "From": "Happy Lin <kohxlin@outlook.com>",
+          "To": "\"kohxl.w@gmail.com\" <kohxl.w@gmail.com>",
+          "Subject": "Hotel inquiry - KXL"
+        }
+      }
+    ]
+  },
+  "versionId": "158b1b97-5318-49c4-be73-348d29e8c576",
   "activeVersionId": null,
   "triggerCount": 1,
   "shared": [
