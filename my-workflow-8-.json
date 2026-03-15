@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-03-14T03:32:52.783Z",
+  "updatedAt": "2026-03-14T15:18:01.773Z",
   "createdAt": "2026-03-14T03:25:33.697Z",
   "id": "D0O7WW6278ruuXWK",
   "name": "My workflow 8",
@@ -8,11 +8,17 @@
   "nodes": [
     {
       "parameters": {
-        "formTitle": "test",
+        "formTitle": "Form",
         "formFields": {
           "values": [
             {
-              "fieldLabel": "Name"
+              "fieldLabel": "Name",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {}
+                ]
+              }
             }
           ]
         },
@@ -21,12 +27,25 @@
       "type": "n8n-nodes-base.formTrigger",
       "typeVersion": 2.5,
       "position": [
-        0,
+        -320,
+        -128
+      ],
+      "id": "c497ac89-a3f5-4c6f-8241-d0906d4e8abb",
+      "name": "On form submission",
+      "webhookId": "ddafd86d-a5a1-4925-8875-1b0dcb47cd52"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        208,
         0
       ],
-      "id": "58a9598b-2206-4ae2-a0bf-dd3358abed8a",
-      "name": "On form submission",
-      "webhookId": "c6634247-214d-4c6e-a6c0-be6a93594027"
+      "id": "f9733204-8248-42f6-b39b-47f5577b4ef3",
+      "name": "HTTP Request"
     },
     {
       "parameters": {
@@ -37,34 +56,86 @@
           "mode": "list",
           "cachedResultName": "test",
           "cachedResultUrl": "/projects/saQ1jG0Qa3Kzfsse/datatables/yZi39OSl4IvxtpuP"
+        },
+        "filters": {
+          "conditions": [
+            {}
+          ]
         }
       },
       "type": "n8n-nodes-base.dataTable",
       "typeVersion": 1.1,
       "position": [
-        208,
+        416,
         0
       ],
-      "id": "683bc4fc-19a4-401c-a4a8-72a339d95c95",
+      "id": "ae8e1515-87ce-4ff8-91db-2f0382f97eb7",
       "name": "Get row(s)"
     },
     {
       "parameters": {
+        "formTitle": "Form",
+        "formFields": {
+          "values": [
+            {
+              "fieldType": "hiddenField"
+            }
+          ]
+        },
         "options": {}
       },
-      "type": "n8n-nodes-base.emailSend",
-      "typeVersion": 2.1,
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.5,
       "position": [
-        416,
-        0
+        -192,
+        -320
       ],
-      "id": "33087a51-d182-410c-8181-3fc00a7e14e2",
-      "name": "Send an Email",
-      "webhookId": "37bc4f25-5802-431f-b197-750074caf366"
+      "id": "5f2be0a3-0a12-4a1b-a40b-c0578036140b",
+      "name": "On form submission1",
+      "webhookId": "44498590-ab88-4fe6-b8a7-4c1941b2a0e7"
+    },
+    {
+      "parameters": {
+        "formTitle": "Form",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Name",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {}
+                ]
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.5,
+      "position": [
+        -128,
+        32
+      ],
+      "id": "8250d0ac-8304-4588-9803-be4f8a9b4698",
+      "name": "On form submission2",
+      "webhookId": "db6cb8cf-69e3-4a4c-a009-a938b1ee9f20"
     }
   ],
   "connections": {
     "On form submission": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
       "main": [
         [
           {
@@ -77,9 +148,25 @@
     },
     "Get row(s)": {
       "main": [
+        []
+      ]
+    },
+    "On form submission1": {
+      "main": [
         [
           {
-            "node": "Send an Email",
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "On form submission2": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
             "type": "main",
             "index": 0
           }
@@ -93,9 +180,11 @@
     "availableInMCP": false
   },
   "staticData": null,
-  "meta": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
   "pinData": {},
-  "versionId": "cc864828-4682-4276-8b03-eb934ef24f2b",
+  "versionId": "ff5262ad-6ca4-4d28-8d82-6c815c8f601d",
   "activeVersionId": null,
   "triggerCount": 0,
   "shared": [
