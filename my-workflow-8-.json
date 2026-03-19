@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-03-18T03:55:25.003Z",
+  "updatedAt": "2026-03-18T09:10:55.295Z",
   "createdAt": "2026-03-14T03:25:33.697Z",
   "id": "D0O7WW6278ruuXWK",
   "name": "My workflow 8",
@@ -77,7 +77,10 @@
         "formTitle": "Form",
         "formFields": {
           "values": [
-            {}
+            {
+              "fieldType": "html",
+              "html": "<!-- OSK Property — Sales Gallery Walk-In Visitor Form: Intro Section -->\n<!-- Tailwind CSS utility classes only. No <style>, <script>, <input>, or inline styles. -->\n\n<link rel=\"preconnect\" href=\"https://fonts.googleapis.com\">\n<link rel=\"preconnect\" href=\"https://fonts.gstatic.com\" crossorigin>\n<link href=\"https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=DM+Sans:wght@300;400;500&display=swap\" rel=\"stylesheet\">\n<link href=\"https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css\" rel=\"stylesheet\">\n\n<section class=\"min-h-screen bg-gray-100 flex items-center justify-center py-12 px-6\">\n\n  <div class=\"bg-white w-full max-w-2xl rounded-sm shadow-2xl overflow-hidden\">\n\n    <!-- Header -->\n    <div class=\"bg-black px-12 pt-9 pb-0 flex flex-col items-start gap-5\">\n\n      <img\n        src=\"/mnt/user-data/uploads/1773824080039_image.png\"\n        alt=\"OSK Property\"\n        class=\"h-14 w-auto object-contain\"\n      >\n\n      <div class=\"text-xs font-medium tracking-widest uppercase border-l-2 border-yellow-700 pl-3 pb-6 text-yellow-700\">\n        Sales Gallery &nbsp;·&nbsp; Visitor Registration\n      </div>\n\n      <div class=\"w-full h-1 bg-gradient-to-r from-yellow-700 to-transparent -mt-1\"></div>\n    </div>\n\n    <!-- Body -->\n    <div class=\"px-12 pt-10 pb-10\">\n\n      <!-- Title -->\n      <h1 class=\"text-4xl font-medium text-gray-900 leading-tight mb-2\" style=\"font-family:'Cormorant Garamond',serif;\">\n        Welcome to Our<br>\n        <span class=\"text-yellow-700\">Sales Gallery</span>\n      </h1>\n\n      <p class=\"text-sm text-gray-500 tracking-wide mb-6\">\n        Walk-In Visitor Registration Form\n      </p>\n\n      <!-- Divider -->\n      <div class=\"w-10 h-px bg-yellow-700 mb-6\"></div>\n\n      <!-- Intro -->\n      <p class=\"text-sm leading-relaxed text-gray-500 mb-8\">\n        Thank you for visiting us today. To assist you better and connect you with the right\n        property consultant, we kindly request a moment of your time to complete this short\n        registration form. Your details allow our team to personalise your experience and\n        follow up with relevant information on our current and upcoming developments.\n      </p>\n\n      <!-- Info pills -->\n      <div class=\"flex flex-wrap gap-2 mb-8\">\n\n        <div class=\"flex items-center gap-2 bg-gray-100 border border-gray-200 px-3 py-2 rounded-sm text-xs font-medium text-gray-800\">\n          <svg class=\"w-3.5 h-3.5 text-yellow-700 flex-shrink-0\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" viewBox=\"0 0 24 24\">\n            <circle cx=\"12\" cy=\"12\" r=\"10\"/><polyline points=\"12 6 12 12 16 14\"/>\n          </svg>\n          Takes ~2 minutes\n        </div>\n\n        <div class=\"flex items-center gap-2 bg-gray-100 border border-gray-200 px-3 py-2 rounded-sm text-xs font-medium text-gray-800\">\n          <svg class=\"w-3.5 h-3.5 text-yellow-700 flex-shrink-0\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" viewBox=\"0 0 24 24\">\n            <rect x=\"3\" y=\"11\" width=\"18\" height=\"11\" rx=\"2\"/><path d=\"M7 11V7a5 5 0 0 1 10 0v4\"/>\n          </svg>\n          Secure &amp; Confidential\n        </div>\n\n        <div class=\"flex items-center gap-2 bg-gray-100 border border-gray-200 px-3 py-2 rounded-sm text-xs font-medium text-gray-800\">\n          <svg class=\"w-3.5 h-3.5 text-yellow-700 flex-shrink-0\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" viewBox=\"0 0 24 24\">\n            <path d=\"M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2\"/><circle cx=\"9\" cy=\"7\" r=\"4\"/>\n            <path d=\"M23 21v-2a4 4 0 0 0-3-3.87\"/><path d=\"M16 3.13a4 4 0 0 1 0 7.75\"/>\n          </svg>\n          Personal Consultant Assigned\n        </div>\n\n      </div>\n\n      <!-- PDPA Notice -->\n      <div class=\"bg-yellow-50 border border-yellow-200 border-l-4 border-l-yellow-700 rounded-sm p-5\">\n\n        <div class=\"flex items-center gap-2 text-xs font-medium tracking-widest uppercase text-yellow-700 mb-3\">\n          <svg class=\"w-3.5 h-3.5 flex-shrink-0\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" viewBox=\"0 0 24 24\">\n            <path d=\"M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z\"/>\n          </svg>\n          Personal Data Protection Notice (PDPA)\n        </div>\n\n        <p class=\"text-xs leading-relaxed text-yellow-900\">\n          Pursuant to the <strong>Personal Data Protection Act 2010 (Malaysia)</strong>, OSK Property Holdings Berhad\n          and its related companies (\"OSK Property\") collect and process the personal data you provide in this form\n          for the purposes of visitor management, property consultancy services, and follow-up communications\n          regarding our developments and promotional offers.\n          <br><br>\n          Your data will be kept secure and will not be disclosed to third parties without your consent, except\n          as required by law. You have the right to access or correct your personal data at any time. By proceeding\n          to complete this form, you <strong>consent</strong> to the collection and processing of your personal data\n          as described above and in accordance with our\n          <a href=\"https://oskproperty.com.my/privacy-policy\" target=\"_blank\" rel=\"noopener\" class=\"underline text-yellow-800\">\n            Privacy Policy\n          </a>.\n        </p>\n\n      </div>\n\n    </div>\n\n  </div>\n\n</section>"
+            }
           ]
         },
         "options": {}
@@ -168,11 +171,108 @@
       "type": "n8n-nodes-base.microsoftExcel",
       "typeVersion": 2.2,
       "position": [
-        -160,
-        -400
+        48,
+        -272
       ],
       "id": "ca4d7868-8e11-403b-a8ce-7bf1e651ae18",
       "name": "Get rows from sheet"
+    },
+    {
+      "parameters": {
+        "authentication": "predefinedCredentialType",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        400,
+        -272
+      ],
+      "id": "7e9618b5-b62a-445b-9f88-4f37bdacd8ca",
+      "name": "HTTP Request2"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.emailReadImap",
+      "typeVersion": 2.1,
+      "position": [
+        448,
+        288
+      ],
+      "id": "81de517f-cf14-4a9c-8c97-10d36d027078",
+      "name": "Email Trigger (IMAP)"
+    },
+    {
+      "parameters": {
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.microsoftOutlook",
+      "typeVersion": 2,
+      "position": [
+        -240,
+        288
+      ],
+      "id": "43ac4748-ac81-4045-bde9-2cf8b9884a53",
+      "name": "Send a message",
+      "webhookId": "872ed6cc-86fe-4191-8ea1-bc04d9d154c1"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        -32,
+        288
+      ],
+      "id": "b8c5b060-7959-46d7-9625-8dd774be8b58",
+      "name": "Send a message1",
+      "webhookId": "5171ba6a-4ab1-4fc9-8d2f-63af95becd86"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [
+        224,
+        288
+      ],
+      "id": "89eb2eb1-4a26-4a64-a903-218cb2facea8",
+      "name": "Send an Email",
+      "webhookId": "255f1314-9814-48da-9941-680992ddbbb0"
+    },
+    {
+      "parameters": {
+        "formFields": {
+          "values": [
+            {
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "="
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.form",
+      "typeVersion": 2.5,
+      "position": [
+        240,
+        -272
+      ],
+      "id": "2e8d0d02-2a55-4eda-91b7-597095d22667",
+      "name": "Form",
+      "webhookId": "a196a2fd-076e-4ac7-b676-002f1fd01a9d"
     }
   ],
   "connections": {
@@ -210,6 +310,11 @@
             "node": "HTTP Request",
             "type": "main",
             "index": 0
+          },
+          {
+            "node": "Get rows from sheet",
+            "type": "main",
+            "index": 0
           }
         ]
       ]
@@ -227,7 +332,46 @@
     },
     "Get rows from sheet": {
       "main": [
-        []
+        [
+          {
+            "node": "Form",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Email Trigger (IMAP)": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a message": {
+      "main": [
+        [
+          {
+            "node": "Send a message1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a message1": {
+      "main": [
+        [
+          {
+            "node": "Send an Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
       ]
     }
   },
@@ -241,7 +385,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "1ecc33fe-e3b7-4745-bbc7-d8f3083e623f",
+  "versionId": "f5ce09ce-4409-4311-96e9-67b265e6c1d1",
   "activeVersionId": null,
   "triggerCount": 0,
   "shared": [
