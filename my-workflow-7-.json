@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-03-24T02:05:56.854Z",
+  "updatedAt": "2026-03-25T15:20:22.998Z",
   "createdAt": "2026-03-12T11:41:16.802Z",
   "id": "Sv6p41U2Z3vHomRu",
   "name": "My workflow 7",
@@ -18,7 +18,7 @@
       "typeVersion": 2.1,
       "position": [
         -256,
-        16
+        -128
       ],
       "id": "2c56258c-bd0a-4eb9-9574-fc75718a3469",
       "name": "Webhook",
@@ -33,11 +33,40 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        -48,
-        16
+        -80,
+        128
       ],
       "id": "272b98e3-aca7-4e8c-92de-91b487de70e0",
       "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "klooooooooooooo",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        160,
+        96
+      ],
+      "id": "c1892379-85cd-4803-969c-6dfb977a59c3",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "operation": "create",
+        "requestOptions": {}
+      },
+      "type": "n8n-nodes-base.adalo",
+      "typeVersion": 1,
+      "position": [
+        240,
+        -144
+      ],
+      "id": "1e25b652-6c12-4a6c-97b3-4eb5ce988b6f",
+      "name": "Create collection"
     }
   ],
   "connections": {
@@ -46,6 +75,17 @@
         [
           {
             "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
             "type": "main",
             "index": 0
           }
@@ -69,8 +109,8 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "1e05e145-7d19-49c2-988a-c0c1766a593f",
-  "activeVersionId": "5eba4289-a826-40ff-aa0c-2d2609ed9d7e",
+  "versionId": "a6b6f384-4898-4efe-86e0-81ab0d6accb7",
+  "activeVersionId": "1e05e145-7d19-49c2-988a-c0c1766a593f",
   "triggerCount": 1,
   "shared": [
     {
@@ -82,13 +122,14 @@
     }
   ],
   "activeVersion": {
-    "updatedAt": "2026-03-23T16:43:45.744Z",
-    "createdAt": "2026-03-23T16:43:11.412Z",
-    "versionId": "5eba4289-a826-40ff-aa0c-2d2609ed9d7e",
+    "updatedAt": "2026-03-25T14:52:49.252Z",
+    "createdAt": "2026-03-24T02:05:56.857Z",
+    "versionId": "1e05e145-7d19-49c2-988a-c0c1766a593f",
     "workflowId": "Sv6p41U2Z3vHomRu",
     "nodes": [
       {
         "parameters": {
+          "httpMethod": "DELETE",
           "path": "26eaf494-918c-4ed9-98d7-cf0b52a50a45",
           "options": {
             "responseData": "test"
@@ -134,9 +175,9 @@
       }
     },
     "authors": "Xin Lin Koh",
-    "name": "Version 5eba4289",
+    "name": "Current changes",
     "description": "",
-    "autosaved": false
+    "autosaved": true
   },
   "tags": []
 }
