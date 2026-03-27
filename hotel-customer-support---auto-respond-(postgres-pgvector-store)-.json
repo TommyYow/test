@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-03-16T06:52:12.123Z",
+  "updatedAt": "2026-03-26T09:50:55.959Z",
   "createdAt": "2026-02-23T09:17:48.289Z",
   "id": "136yfxh8NWJ4Ebmn",
   "name": "Hotel Customer Support - Auto Respond (Postgres PGVector Store)",
@@ -1956,43 +1956,19 @@
       "type": "n8n-nodes-base.gmail",
       "typeVersion": 2.2,
       "position": [
-        -1024,
+        -1200,
         2288
       ],
       "id": "b2e9bd21-3bb8-4bc4-a418-028cdcb277c8",
       "name": "Get many messages",
       "webhookId": "5415845c-e4db-467f-9d95-5de1cf3a42bb",
-      "alwaysOutputData": true,
+      "alwaysOutputData": false,
       "credentials": {
         "gmailOAuth2": {
           "id": "oa22yNKV1n7ZBlbL",
           "name": "Gmail account - kohxl.w@gmail.com"
         }
       }
-    },
-    {
-      "parameters": {},
-      "type": "n8n-nodes-base.manualTrigger",
-      "typeVersion": 1,
-      "position": [
-        0,
-        1248
-      ],
-      "id": "6970fbf3-e3f4-4792-ab9e-62047d56abf1",
-      "name": "When clicking ‘Execute workflow’"
-    },
-    {
-      "parameters": {
-        "options": {}
-      },
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
-      "position": [
-        208,
-        1248
-      ],
-      "id": "6c291288-4e49-49a7-a210-25627cfac938",
-      "name": "Edit Fields"
     },
     {
       "parameters": {
@@ -2006,6 +1982,17 @@
       ],
       "id": "180a3d9e-b32e-4687-9a04-07055c9724fd",
       "name": "HTTP Request"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -1536,
+        2304
+      ],
+      "id": "8dff1170-a502-4bd7-96fc-769864ac4b6c",
+      "name": "When clicking ‘Execute workflow’"
     }
   ],
   "connections": {
@@ -2512,6 +2499,11 @@
             "node": "Set Time Received",
             "type": "main",
             "index": 0
+          },
+          {
+            "node": "Set Time Received1",
+            "type": "main",
+            "index": 0
           }
         ]
       ]
@@ -2520,7 +2512,7 @@
       "main": [
         [
           {
-            "node": "Edit Fields",
+            "node": "Get many messages",
             "type": "main",
             "index": 0
           }
@@ -2549,7 +2541,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "ca15568c-4f32-4efa-8500-729410df0bec",
+  "versionId": "dc554ed4-f8cb-4760-bb81-3207d5159300",
   "activeVersionId": null,
   "triggerCount": 0,
   "shared": [
