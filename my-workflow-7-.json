@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-03-25T15:20:22.998Z",
+  "updatedAt": "2026-03-26T09:53:14.862Z",
   "createdAt": "2026-03-12T11:41:16.802Z",
   "id": "Sv6p41U2Z3vHomRu",
   "name": "My workflow 7",
@@ -41,32 +41,16 @@
     },
     {
       "parameters": {
-        "promptType": "define",
-        "text": "klooooooooooooo",
-        "options": {}
+        "jsCode": "// Loop over input items and add a new field called 'myNewField' to the JSON of each one\nfor (const item of $input.all()) {\n  item.json.myNewField = 1;\n}\n\nreturn $input.all();"
       },
-      "type": "@n8n/n8n-nodes-langchain.agent",
-      "typeVersion": 3.1,
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
       "position": [
-        160,
-        96
+        128,
+        128
       ],
-      "id": "c1892379-85cd-4803-969c-6dfb977a59c3",
-      "name": "AI Agent"
-    },
-    {
-      "parameters": {
-        "operation": "create",
-        "requestOptions": {}
-      },
-      "type": "n8n-nodes-base.adalo",
-      "typeVersion": 1,
-      "position": [
-        240,
-        -144
-      ],
-      "id": "1e25b652-6c12-4a6c-97b3-4eb5ce988b6f",
-      "name": "Create collection"
+      "id": "72a247de-4a59-4ba8-a18f-f07a9d20abd6",
+      "name": "Code in JavaScript"
     }
   ],
   "connections": {
@@ -85,7 +69,7 @@
       "main": [
         [
           {
-            "node": "AI Agent",
+            "node": "Code in JavaScript",
             "type": "main",
             "index": 0
           }
@@ -109,8 +93,8 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "a6b6f384-4898-4efe-86e0-81ab0d6accb7",
-  "activeVersionId": "1e05e145-7d19-49c2-988a-c0c1766a593f",
+  "versionId": "14259877-bcba-46be-af18-e4e12885fbe3",
+  "activeVersionId": "14259877-bcba-46be-af18-e4e12885fbe3",
   "triggerCount": 1,
   "shared": [
     {
@@ -122,9 +106,9 @@
     }
   ],
   "activeVersion": {
-    "updatedAt": "2026-03-25T14:52:49.252Z",
-    "createdAt": "2026-03-24T02:05:56.857Z",
-    "versionId": "1e05e145-7d19-49c2-988a-c0c1766a593f",
+    "updatedAt": "2026-03-26T09:54:15.020Z",
+    "createdAt": "2026-03-26T09:53:14.865Z",
+    "versionId": "14259877-bcba-46be-af18-e4e12885fbe3",
     "workflowId": "Sv6p41U2Z3vHomRu",
     "nodes": [
       {
@@ -139,7 +123,7 @@
         "typeVersion": 2.1,
         "position": [
           -256,
-          16
+          -128
         ],
         "id": "2c56258c-bd0a-4eb9-9574-fc75718a3469",
         "name": "Webhook",
@@ -154,11 +138,24 @@
         "type": "n8n-nodes-base.set",
         "typeVersion": 3.4,
         "position": [
-          -48,
-          16
+          -80,
+          128
         ],
         "id": "272b98e3-aca7-4e8c-92de-91b487de70e0",
         "name": "Edit Fields"
+      },
+      {
+        "parameters": {
+          "jsCode": "// Loop over input items and add a new field called 'myNewField' to the JSON of each one\nfor (const item of $input.all()) {\n  item.json.myNewField = 1;\n}\n\nreturn $input.all();"
+        },
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          128,
+          128
+        ],
+        "id": "72a247de-4a59-4ba8-a18f-f07a9d20abd6",
+        "name": "Code in JavaScript"
       }
     ],
     "connections": {
@@ -167,6 +164,17 @@
           [
             {
               "node": "Edit Fields",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Edit Fields": {
+        "main": [
+          [
+            {
+              "node": "Code in JavaScript",
               "type": "main",
               "index": 0
             }
