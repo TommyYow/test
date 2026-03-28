@@ -1,9 +1,9 @@
 {
-  "updatedAt": "2026-03-26T09:53:14.862Z",
+  "updatedAt": "2026-03-27T08:28:06.983Z",
   "createdAt": "2026-03-12T11:41:16.802Z",
   "id": "Sv6p41U2Z3vHomRu",
   "name": "My workflow 7",
-  "active": true,
+  "active": false,
   "isArchived": false,
   "nodes": [
     {
@@ -51,10 +51,31 @@
       ],
       "id": "72a247de-4a59-4ba8-a18f-f07a9d20abd6",
       "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "options": {
+          "reset": false
+        }
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        0,
+        -336
+      ],
+      "id": "d5791501-0e3c-4b2c-874e-7ccbd6fb969c",
+      "name": "Loop Over Items",
+      "executeOnce": false
     }
   ],
   "connections": {
     "Webhook": {
+      "main": [
+        []
+      ]
+    },
+    "Edit Fields": {
       "main": [
         [
           {
@@ -65,11 +86,12 @@
         ]
       ]
     },
-    "Edit Fields": {
+    "Loop Over Items": {
       "main": [
+        [],
         [
           {
-            "node": "Code in JavaScript",
+            "node": "Loop Over Items",
             "type": "main",
             "index": 0
           }
@@ -93,8 +115,8 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "14259877-bcba-46be-af18-e4e12885fbe3",
-  "activeVersionId": "14259877-bcba-46be-af18-e4e12885fbe3",
+  "versionId": "b3f81134-c761-4707-9438-210652d3935c",
+  "activeVersionId": null,
   "triggerCount": 1,
   "shared": [
     {
@@ -105,87 +127,6 @@
       "projectId": "jEyFJXtUUwEM8iYb"
     }
   ],
-  "activeVersion": {
-    "updatedAt": "2026-03-26T09:54:15.020Z",
-    "createdAt": "2026-03-26T09:53:14.865Z",
-    "versionId": "14259877-bcba-46be-af18-e4e12885fbe3",
-    "workflowId": "Sv6p41U2Z3vHomRu",
-    "nodes": [
-      {
-        "parameters": {
-          "httpMethod": "DELETE",
-          "path": "26eaf494-918c-4ed9-98d7-cf0b52a50a45",
-          "options": {
-            "responseData": "test"
-          }
-        },
-        "type": "n8n-nodes-base.webhook",
-        "typeVersion": 2.1,
-        "position": [
-          -256,
-          -128
-        ],
-        "id": "2c56258c-bd0a-4eb9-9574-fc75718a3469",
-        "name": "Webhook",
-        "webhookId": "26eaf494-918c-4ed9-98d7-cf0b52a50a45"
-      },
-      {
-        "parameters": {
-          "mode": "raw",
-          "jsonOutput": "={\n  \"my_field_1\": \"{{ $json.executionMode }}\",\n  \"my_field_2\": 1\n}",
-          "options": {}
-        },
-        "type": "n8n-nodes-base.set",
-        "typeVersion": 3.4,
-        "position": [
-          -80,
-          128
-        ],
-        "id": "272b98e3-aca7-4e8c-92de-91b487de70e0",
-        "name": "Edit Fields"
-      },
-      {
-        "parameters": {
-          "jsCode": "// Loop over input items and add a new field called 'myNewField' to the JSON of each one\nfor (const item of $input.all()) {\n  item.json.myNewField = 1;\n}\n\nreturn $input.all();"
-        },
-        "type": "n8n-nodes-base.code",
-        "typeVersion": 2,
-        "position": [
-          128,
-          128
-        ],
-        "id": "72a247de-4a59-4ba8-a18f-f07a9d20abd6",
-        "name": "Code in JavaScript"
-      }
-    ],
-    "connections": {
-      "Webhook": {
-        "main": [
-          [
-            {
-              "node": "Edit Fields",
-              "type": "main",
-              "index": 0
-            }
-          ]
-        ]
-      },
-      "Edit Fields": {
-        "main": [
-          [
-            {
-              "node": "Code in JavaScript",
-              "type": "main",
-              "index": 0
-            }
-          ]
-        ]
-      }
-    },
-    "authors": "Xin Lin Koh",
-    "name": "Current changes",
-    "description": "",
-    "autosaved": true
-  },
+  "activeVersion": null,
   "tags": []
 }
