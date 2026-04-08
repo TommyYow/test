@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-03-31T15:20:14.282Z",
+  "updatedAt": "2026-04-08T01:36:28.713Z",
   "createdAt": "2026-03-31T15:20:14.282Z",
   "id": "sMCcl1n7q73k9FJD",
   "name": "Generate pro construction quotes from jotform to email with Supabase CRM",
@@ -865,7 +865,7 @@
     "templateId": "9608"
   },
   "pinData": {},
-  "versionId": "39820bd3-c263-4ac0-9ec4-c17ef27ba4fa",
+  "versionId": "9e997761-4c66-464f-add1-592e913e0b17",
   "activeVersionId": null,
   "triggerCount": 0,
   "shared": [
