@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-03-27T08:28:06.983Z",
+  "updatedAt": "2026-04-07T15:20:34.316Z",
   "createdAt": "2026-03-12T11:41:16.802Z",
   "id": "Sv6p41U2Z3vHomRu",
   "name": "My workflow 7",
@@ -67,6 +67,76 @@
       "id": "d5791501-0e3c-4b2c-874e-7ccbd6fb969c",
       "name": "Loop Over Items",
       "executeOnce": false
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "0cac36c2-6a49-4d6e-98fa-eaef21d7a06c",
+              "leftValue": "={{ $json.age }}",
+              "rightValue": 20,
+              "operator": {
+                "type": "number",
+                "operation": "gt"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        96,
+        -32
+      ],
+      "id": "e7e3e881-ce11-4329-9018-63b78be71fb9",
+      "name": "If"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -336,
+        0
+      ],
+      "id": "8c514842-6b04-4b0d-b6af-6f9827d3c7b5",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        304,
+        -128
+      ],
+      "id": "9b08f29d-68e1-4e4d-b97d-d436db4fd45f",
+      "name": "Edit Fields1"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        304,
+        64
+      ],
+      "id": "f0d40310-0164-44e9-b326-638951328c9f",
+      "name": "Edit Fields2"
     }
   ],
   "connections": {
@@ -97,6 +167,35 @@
           }
         ]
       ]
+    },
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Edit Fields2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "settings": {
@@ -114,8 +213,16 @@
   "meta": {
     "templateCredsSetupCompleted": true
   },
-  "pinData": {},
-  "versionId": "b3f81134-c761-4707-9438-210652d3935c",
+  "pinData": {
+    "When clicking ‘Execute workflow’": [
+      {
+        "json": {
+          "age": 30
+        }
+      }
+    ]
+  },
+  "versionId": "3728e7af-229f-4d2a-b010-b41a3c7492a4",
   "activeVersionId": null,
   "triggerCount": 1,
   "shared": [
