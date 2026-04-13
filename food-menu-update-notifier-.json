@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-04-08T04:28:42.637Z",
+  "updatedAt": "2026-04-13T02:00:33.090Z",
   "createdAt": "2026-04-08T04:28:32.770Z",
   "id": "Moz8opkTxlnc5Eqi",
   "name": "Food menu update notifier",
@@ -209,11 +209,11 @@
       "parameters": {
         "conditions": {
           "options": {
-            "leftValue": "",
             "caseSensitive": true,
-            "typeValidation": "strict"
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 1
           },
-          "combinator": "and",
           "conditions": [
             {
               "id": "whatsapp-condition",
@@ -224,7 +224,8 @@
               "leftValue": "={{ $json['WhatsApp Notifications'] }}",
               "rightValue": "Yes"
             }
-          ]
+          ],
+          "combinator": "and"
         },
         "options": {}
       },
@@ -889,7 +890,7 @@
     "templateId": "5877"
   },
   "pinData": {},
-  "versionId": "3ab639e9-400d-4862-9792-9bda68053cfb",
+  "versionId": "1e836058-45a2-46da-98c9-0a810060f7a4",
   "activeVersionId": null,
   "triggerCount": 0,
   "shared": [
