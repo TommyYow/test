@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-04-08T01:36:28.713Z",
+  "updatedAt": "2026-04-13T01:19:54.296Z",
   "createdAt": "2026-03-31T15:20:14.282Z",
   "id": "sMCcl1n7q73k9FJD",
   "name": "Generate pro construction quotes from jotform to email with Supabase CRM",
@@ -54,8 +54,7 @@
     },
     {
       "parameters": {
-        "errorType": "errorObject",
-        "errorObject": "={{\n  {\n    failed_node: \"upsert form submission\",\n    error_message: $json.error || \"Node execution failed\",\n    submission_id: $('Webhook').item.json.body.submissionID || \"unknown\",\n    timestamp: new Date().toISOString(),\n    execution_id: $execution.id\n  }\n}}"
+        "errorType": "errorObject"
       },
       "id": "274e1421-0331-4c7b-9f12-18f56f7f693b",
       "name": "upsert form customer -error",
@@ -865,7 +864,7 @@
     "templateId": "9608"
   },
   "pinData": {},
-  "versionId": "9e997761-4c66-464f-add1-592e913e0b17",
+  "versionId": "f379085a-2df3-44c4-99d8-79cd7d278f1b",
   "activeVersionId": null,
   "triggerCount": 0,
   "shared": [
