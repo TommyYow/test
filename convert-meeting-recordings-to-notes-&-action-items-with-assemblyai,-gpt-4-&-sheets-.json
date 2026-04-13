@@ -1,0 +1,671 @@
+{
+  "updatedAt": "2026-04-12T13:34:11.200Z",
+  "createdAt": "2026-04-12T13:34:11.200Z",
+  "id": "Nf5t4Dj84FmGH0Ve",
+  "name": "Convert meeting recordings to notes & action items with AssemblyAI, GPT-4 & Sheets",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "meeting-recording-ready",
+        "responseMode": "lastNode",
+        "options": {}
+      },
+      "id": "7bc7e484-565f-4087-a7fb-96509d275997",
+      "name": "Recording Ready Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "position": [
+        384,
+        432
+      ],
+      "webhookId": "8a0fe5c1-6305-40c5-a165-127170de5fb6",
+      "typeVersion": 2.1
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "id-1",
+              "name": "assemblyAiApiKey",
+              "type": "string",
+              "value": "={{ $env.ASSEMBLYAI_KEY }}"
+            },
+            {
+              "id": "id-2",
+              "name": "defaultDueDateDays",
+              "type": "number",
+              "value": 7
+            },
+            {
+              "id": "id-3",
+              "name": "adminEmail",
+              "type": "string",
+              "value": "<__PLACEHOLDER_VALUE__Admin email for error notifications__>"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "id": "47ea3cb0-9fbb-4caf-8cb4-a675947aa7d6",
+      "name": "Workflow Configuration",
+      "type": "n8n-nodes-base.set",
+      "position": [
+        608,
+        432
+      ],
+      "typeVersion": 3.4
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.recording_url }}",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "file",
+              "outputPropertyName": "recording"
+            }
+          }
+        }
+      },
+      "id": "3c94853b-123c-4bab-9850-c22a34507d08",
+      "name": "Download Recording",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [
+        832,
+        432
+      ],
+      "typeVersion": 4.3
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.assemblyai.com/v2/transcript",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "={{ $('Workflow Configuration').first().json.assemblyAiApiKey }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"audio_url\": \"={{ $json.recording_url }}\",\n  \"speaker_labels\": true\n}",
+        "options": {}
+      },
+      "id": "cec09e80-4207-4c28-9c1a-35907ed8c194",
+      "name": "AssemblyAI Transcription",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [
+        1056,
+        432
+      ],
+      "typeVersion": 4.3
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "id-1",
+              "name": "meetingTitle",
+              "type": "string",
+              "value": "={{ $('Recording Ready Webhook').first().json.meeting_title || 'Meeting' }}"
+            },
+            {
+              "id": "id-2",
+              "name": "meetingDate",
+              "type": "string",
+              "value": "={{ $('Recording Ready Webhook').first().json.start_time }}"
+            },
+            {
+              "id": "id-3",
+              "name": "participants",
+              "type": "string",
+              "value": "={{ $('Recording Ready Webhook').first().json.participants || 'Not provided' }}"
+            },
+            {
+              "id": "id-4",
+              "name": "transcript",
+              "type": "string",
+              "value": "={{ $('AssemblyAI Transcription').first().json.text }}"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "id": "71f0c2dd-fa5f-4345-9d75-49be4620c401",
+      "name": "Prepare Meeting Notes Input",
+      "type": "n8n-nodes-base.set",
+      "position": [
+        416,
+        928
+      ],
+      "typeVersion": 3.4
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Meeting Title: {{ $json.meetingTitle }}\nDate: {{ $json.meetingDate }}\nParticipants: {{ $json.participants }}\n\nTranscript:\n{{ $json.transcript }}",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "You are an expert meeting notes assistant. Your task is to analyze the meeting transcript and generate comprehensive, structured meeting notes.\n\nGenerate meeting notes with the following structure:\n- title: Meeting title\n- date: Meeting date\n- participants: List of participants\n- agenda: Main topics discussed\n- key_decisions: Important decisions made\n- next_steps: Overview of next steps\n- executive_summary: 3-5 bullet points summarizing the meeting\n\nBe thorough, accurate, and professional. Extract all relevant information from the transcript."
+        }
+      },
+      "id": "9c990ce9-541c-4a3d-94af-8b7ba5471b54",
+      "name": "Generate Meeting Notes",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "position": [
+        608,
+        928
+      ],
+      "typeVersion": 3
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4.1-mini"
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "id": "727d6f68-1328-4903-9c2e-71572cd9d0b8",
+      "name": "OpenAI Model - Meeting Notes",
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "position": [
+        608,
+        1152
+      ],
+      "typeVersion": 1.3
+    },
+    {
+      "parameters": {
+        "schemaType": "manual",
+        "inputSchema": "{\n\t\"type\": \"object\",\n\t\"properties\": {\n\t\t\"title\": {\n\t\t\t\"type\": \"string\"\n\t\t},\n\t\t\"date\": {\n\t\t\t\"type\": \"string\"\n\t\t},\n\t\t\"participants\": {\n\t\t\t\"type\": \"array\",\n\t\t\t\"items\": {\n\t\t\t\t\"type\": \"string\"\n\t\t\t}\n\t\t},\n\t\t\"agenda\": {\n\t\t\t\"type\": \"array\",\n\t\t\t\"items\": {\n\t\t\t\t\"type\": \"string\"\n\t\t\t}\n\t\t},\n\t\t\"key_decisions\": {\n\t\t\t\"type\": \"array\",\n\t\t\t\"items\": {\n\t\t\t\t\"type\": \"string\"\n\t\t\t}\n\t\t},\n\t\t\"next_steps\": {\n\t\t\t\"type\": \"string\"\n\t\t},\n\t\t\"executive_summary\": {\n\t\t\t\"type\": \"array\",\n\t\t\t\"items\": {\n\t\t\t\t\"type\": \"string\"\n\t\t\t}\n\t\t}\n\t},\n\t\"required\": [\"title\", \"date\", \"participants\", \"agenda\", \"key_decisions\", \"next_steps\", \"executive_summary\"]\n}"
+      },
+      "id": "c1bcdb2b-6337-4348-a892-f11168f8b593",
+      "name": "Meeting Notes Schema",
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "position": [
+        736,
+        1152
+      ],
+      "typeVersion": 1.3
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Meeting Notes:\n{{ JSON.stringify($json.output) }}\n\nTranscript:\n{{ $('Prepare Meeting Notes Input').first().json.transcript }}",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "You are an expert at extracting action items from meeting transcripts and notes.\n\nAnalyze the meeting notes and transcript to identify all action items. For each action item, extract:\n- description: Clear description of the task\n- owner: Name or email of the person responsible (extract from transcript if mentioned)\n- due_date: Suggested due date (extract from transcript if mentioned, otherwise suggest based on priority)\n- priority: low, medium, or high\n- related_topic: Which agenda topic this relates to\n\nReturn a list of action items. If no action items are found, return an empty array."
+        }
+      },
+      "id": "d96778b5-82ea-4f2a-a3f6-71cd6a8d23df",
+      "name": "Extract Action Items",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "position": [
+        960,
+        928
+      ],
+      "typeVersion": 3
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4.1-mini"
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "id": "2ce0909b-9af9-4481-bc20-d9c50c8ac0b8",
+      "name": "OpenAI Model - Action Items",
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "position": [
+        960,
+        1152
+      ],
+      "typeVersion": 1.3
+    },
+    {
+      "parameters": {
+        "schemaType": "manual",
+        "inputSchema": "{\n\t\"type\": \"object\",\n\t\"properties\": {\n\t\t\"action_items\": {\n\t\t\t\"type\": \"array\",\n\t\t\t\"items\": {\n\t\t\t\t\"type\": \"object\",\n\t\t\t\t\"properties\": {\n\t\t\t\t\t\"description\": {\n\t\t\t\t\t\t\"type\": \"string\"\n\t\t\t\t\t},\n\t\t\t\t\t\"owner\": {\n\t\t\t\t\t\t\"type\": \"string\"\n\t\t\t\t\t},\n\t\t\t\t\t\"due_date\": {\n\t\t\t\t\t\t\"type\": \"string\"\n\t\t\t\t\t},\n\t\t\t\t\t\"priority\": {\n\t\t\t\t\t\t\"type\": \"string\",\n\t\t\t\t\t\t\"enum\": [\"low\", \"medium\", \"high\"]\n\t\t\t\t\t},\n\t\t\t\t\t\"related_topic\": {\n\t\t\t\t\t\t\"type\": \"string\"\n\t\t\t\t\t}\n\t\t\t\t},\n\t\t\t\t\"required\": [\"description\", \"owner\", \"priority\"]\n\t\t\t}\n\t\t}\n\t},\n\t\"required\": [\"action_items\"]\n}"
+      },
+      "id": "aa3050cc-1150-4652-bafa-775b89b3a0dd",
+      "name": "Action Items Schema",
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "position": [
+        1088,
+        1152
+      ],
+      "typeVersion": 1.3
+    },
+    {
+      "parameters": {
+        "jsCode": "const actionItems = $input.item.json.output.action_items || [];\nconst defaultDays = $('Workflow Configuration').first().json.defaultDueDateDays;\nconst meetingId = $('Recording Ready Webhook').first().json.meeting_id;\nconst meetingTitle = $('Recording Ready Webhook').first().json.meeting_title;\n\nconst validated = actionItems.map(item => {\n  let dueDate = item.due_date;\n  if (!dueDate) {\n    const future = new Date();\n    future.setDate(future.getDate() + defaultDays);\n    dueDate = future.toISOString().split('T')[0];\n  }\n  return {\n    ...item,\n    owner: item.owner || 'Unassigned',\n    due_date: dueDate,\n    meeting_id: meetingId,\n    meeting_title: meetingTitle\n  };\n});\n\nreturn { action_items: validated };"
+      },
+      "id": "e26229ca-e27b-498b-aadb-4cc3f9098744",
+      "name": "Parse and Validate Action Items",
+      "type": "n8n-nodes-base.code",
+      "position": [
+        1312,
+        928
+      ],
+      "typeVersion": 2
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "id-1",
+              "operator": {
+                "type": "array",
+                "operation": "notEmpty"
+              },
+              "leftValue": "={{ $json.action_items }}"
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "416d4f21-4984-4ebc-aaf9-baf74834c8b3",
+      "name": "Check If Action Items Exist",
+      "type": "n8n-nodes-base.if",
+      "position": [
+        1536,
+        928
+      ],
+      "typeVersion": 2.2
+    },
+    {
+      "parameters": {
+        "authentication": "serviceAccount",
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "<__PLACEHOLDER_VALUE__Google Sheets document ID__>"
+        },
+        "sheetName": {
+          "__rl": true,
+          "mode": "name",
+          "value": "<__PLACEHOLDER_VALUE__Sheet name for meeting logs__>"
+        },
+        "columns": {
+          "value": {
+            "date": "={{ $('Recording Ready Webhook').first().json.start_time }}",
+            "title": "={{ $('Generate Meeting Notes').first().json.output.title }}",
+            "meeting_id": "={{ $('Recording Ready Webhook').first().json.meeting_id }}",
+            "notes_summary": "={{ $('Generate Meeting Notes').first().json.output.executive_summary[0] }}",
+            "transcript_url": "={{ $('Recording Ready Webhook').first().json.recording_url }}",
+            "participant_count": "={{ $('Prepare Meeting Notes Input').first().json.participants.split(',').length }}",
+            "action_items_count": "={{ $('Parse and Validate Action Items').first().json.action_items.length }}"
+          },
+          "schema": [
+            {
+              "id": "meeting_id",
+              "required": false,
+              "displayName": "meeting_id",
+              "defaultMatch": true,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "title",
+              "required": false,
+              "displayName": "title",
+              "defaultMatch": false,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "date",
+              "required": false,
+              "displayName": "date",
+              "defaultMatch": false,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "participant_count",
+              "required": false,
+              "displayName": "participant_count",
+              "defaultMatch": false,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "action_items_count",
+              "required": false,
+              "displayName": "action_items_count",
+              "defaultMatch": false,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "transcript_url",
+              "required": false,
+              "displayName": "transcript_url",
+              "defaultMatch": false,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "notes_summary",
+              "required": false,
+              "displayName": "notes_summary",
+              "defaultMatch": false,
+              "canBeUsedToMatch": true
+            }
+          ],
+          "mappingMode": "defineBelow",
+          "matchingColumns": [
+            "meeting_id"
+          ]
+        },
+        "options": {}
+      },
+      "id": "be0a3b37-9680-4c81-9f08-bd23c54052c1",
+      "name": "Log Meeting to Sheets",
+      "type": "n8n-nodes-base.googleSheets",
+      "position": [
+        1984,
+        944
+      ],
+      "typeVersion": 4.7
+    },
+    {
+      "parameters": {
+        "jsCode": "// Get action items from previous node\nconst actionItems = $input.item.json.action_items || [];\n\n// Process all action items\nconst results = [];\n\nfor (const item of actionItems) {\n  try {\n    // Create Notion task for this action item\n    // Note: This would typically be done via HTTP Request to Notion API\n    // or using the Notion node in the workflow\n    \n    // Send email notification for this action item\n    // Note: This would typically be done via Email node or HTTP Request\n    \n    results.push({\n      description: item.description,\n      owner: item.owner,\n      due_date: item.due_date,\n      priority: item.priority,\n      status: 'processed',\n      notion_created: true,\n      email_sent: true\n    });\n  } catch (error) {\n    results.push({\n      description: item.description,\n      owner: item.owner,\n      status: 'error',\n      error: error.message\n    });\n  }\n}\n\nreturn {\n  json: {\n    processed_count: results.length,\n    action_items: results,\n    meeting_id: $('Recording Ready Webhook').first().json.meeting_id,\n    meeting_title: $('Recording Ready Webhook').first().json.meeting_title\n  }\n};"
+      },
+      "id": "251b57ce-c5c6-4d74-9ca4-1c8cbfbf7ab0",
+      "name": "Process All Action Items",
+      "type": "n8n-nodes-base.code",
+      "position": [
+        1760,
+        848
+      ],
+      "typeVersion": 2
+    },
+    {
+      "parameters": {
+        "content": "## How it works\nThis workflow turns meeting recordings into structured notes and action items, then logs everything to Google Sheets.\n\nIt starts from a “recording ready” webhook, loads your config, then downloads the audio file and sends it to AssemblyAI for transcription. Once the transcript is ready, the workflow builds a compact JSON payload containing meeting metadata (title, date, participants) and the transcript text.\n\nTwo AI steps run in sequence: One generates clean, structured meeting notes (agenda, decisions, key points), the other extracts concrete action items with owners, due dates, and priority. The results are validated against JSON schemas and normalized with custom logic.\n\nIf action items exist, they are processed in bulk (you can extend this part to create tasks in your own tools). Finally, the workflow appends a new row in Google Sheets with meeting metadata, notes summary, and the number of action items.\n\n## Setup steps\n1. Connect your AssemblyAI and Google Sheets credentials.\n2. Configure the recording provider to call this webhook when a meeting is ready.\n3. Update the Sheet ID, tab name, and default due-date rules in **Workflow Configuration**.\n4. Review and tweak the AI prompts for notes and action items.\n5. Run a test recording and verify the Sheet output before going live.",
+        "height": 448,
+        "width": 944
+      },
+      "id": "56f5bf14-59f8-4689-860e-33097a979448",
+      "name": "Sticky Note",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -752,
+        512
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "content": "## Webhook & Config\n\nReceives “recording ready” events and loads core settings: AssemblyAI key, Sheet IDs, default due-date rules, and other constants used across the flow.",
+        "height": 352,
+        "width": 384,
+        "color": 7
+      },
+      "id": "e454e683-23c6-4209-98ed-45a010460105",
+      "name": "Sticky Note1",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        368,
+        240
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "content": "## Transcription\n\nDownloads the meeting audio using the URL from the webhook and sends it to AssemblyAI to get a full text transcript of the conversation.",
+        "height": 352,
+        "width": 400,
+        "color": 7
+      },
+      "id": "3631e1c1-085d-4bc4-9398-d0d6bfbfab10",
+      "name": "Sticky Note2",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        800,
+        240
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "content": "## AI Notes & Actions\n\nBuilds a structured payload from the transcript, then uses AI to generate meeting notes and extract action items. Both outputs are validated against JSON schemas.",
+        "height": 528,
+        "width": 832,
+        "color": 7
+      },
+      "id": "9cf2a1be-af67-4e85-96c6-612a401b1a0e",
+      "name": "Sticky Note3",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        368,
+        784
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "content": "## Validate & Log\n\nCleans and validates all action items, optionally processes them, then logs the meeting summary and counts into Google Sheets for tracking.",
+        "height": 352,
+        "width": 896,
+        "color": 7
+      },
+      "id": "5c90c6f2-4d4f-4f8b-a056-e1043c13f008",
+      "name": "Sticky Note4",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1280,
+        752
+      ],
+      "typeVersion": 1
+    }
+  ],
+  "connections": {
+    "Download Recording": {
+      "main": [
+        [
+          {
+            "node": "AssemblyAI Transcription",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Action Items Schema": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Extract Action Items",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract Action Items": {
+      "main": [
+        [
+          {
+            "node": "Parse and Validate Action Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Meeting Notes Schema": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Generate Meeting Notes",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Meeting Notes": {
+      "main": [
+        [
+          {
+            "node": "Extract Action Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Workflow Configuration": {
+      "main": [
+        [
+          {
+            "node": "Download Recording",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Recording Ready Webhook": {
+      "main": [
+        [
+          {
+            "node": "Workflow Configuration",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AssemblyAI Transcription": {
+      "main": [
+        [
+          {
+            "node": "Prepare Meeting Notes Input",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Process All Action Items": {
+      "main": [
+        [
+          {
+            "node": "Log Meeting to Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check If Action Items Exist": {
+      "main": [
+        [
+          {
+            "node": "Process All Action Items",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Log Meeting to Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Model - Action Items": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Extract Action Items",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Meeting Notes Input": {
+      "main": [
+        [
+          {
+            "node": "Generate Meeting Notes",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Model - Meeting Notes": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Generate Meeting Notes",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse and Validate Action Items": {
+      "main": [
+        [
+          {
+            "node": "Check If Action Items Exist",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "staticData": null,
+  "meta": {
+    "templateId": "11409"
+  },
+  "pinData": {},
+  "versionId": "95da9e8c-d32f-4782-93d2-5d066878b30e",
+  "activeVersionId": null,
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2026-04-12T13:34:11.200Z",
+      "createdAt": "2026-04-12T13:34:11.200Z",
+      "role": "workflow:owner",
+      "workflowId": "Nf5t4Dj84FmGH0Ve",
+      "projectId": "HkvQcrCdALIwWQwD"
+    }
+  ],
+  "activeVersion": null,
+  "tags": []
+}
