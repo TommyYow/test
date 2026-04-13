@@ -1,0 +1,672 @@
+{
+  "updatedAt": "2026-04-13T02:18:51.656Z",
+  "createdAt": "2026-04-13T02:18:51.656Z",
+  "id": "Rl3CXTME2LDJ0MPl",
+  "name": "Generate educational social media carousels with GPT-4.1, Templated.io & Google Drive 2",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "resource": "folder",
+        "name": "={{ $json['title-1'] }}",
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "My Drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "1hYztVnv9GthpxTFGBwc-oQTs_M9DhhE7",
+          "cachedResultUrl": "https://drive.google.com/drive/folders/1hYztVnv9GthpxTFGBwc-oQTs_M9DhhE7",
+          "cachedResultName": "RRSS"
+        },
+        "options": {
+          "simplifyOutput": false
+        }
+      },
+      "id": "2c977dd4-39c0-446a-847e-66b9a5345fb1",
+      "name": "Create folder",
+      "type": "n8n-nodes-base.googleDrive",
+      "position": [
+        1696,
+        352
+      ],
+      "typeVersion": 3,
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "arOykrX1iB5N3soz",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "basicAuth",
+        "formTitle": "Templated Form",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Prompt",
+              "fieldType": "textarea",
+              "requiredField": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "8b2d5d2f-4600-44c1-bc4b-31b5c2f15993",
+      "name": "Form",
+      "type": "n8n-nodes-base.formTrigger",
+      "position": [
+        928,
+        352
+      ],
+      "webhookId": "acb66942-21ea-4241-9277-36a003900ee4",
+      "typeVersion": 2.3
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4.1",
+          "cachedResultName": "GPT-4.1"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "You are an expert [ROLE], specialized in [TOPIC/AREA/INDUSTRY].  \nYour role is to generate highly reliable, accessible, and engaging content for Instagram carousel posts.  \n\n### Objectives:\n- Provide accurate, evidence-based educational information about the industry.\n- Break down complex concepts into simple, digestible explanations.\n- Empower and support the audience with clear takeaways.\n\n### Audience:\n[DESCRIBE YOUR AUDIENCE]\n\n### Style & Tone:\n- Clear, concise, empathetic, and encouraging.\n- Use friendly, inclusive language.\n- Avoid jargon; when using a technical terms, briefly define it in simple words.\n- Prioritize positive framing and practical advice (do’s instead of don’ts).\n\n### Structure for Instagram Carousel:\n- Slide 1: **Hook/Title** → Short, impactful, eye-catching statement or question. Subtitle for this one must be 1 liner.\n- Slide 2–5: **Educational content** → Each slide focuses on ONE key idea. Use bullet points, emojis, or simple metaphors for clarity.\n- Slide 6: **Practical takeaway** → A summary, tip, or call to action (e.g., “Share this with someone who needs it”).\n\n### Content rules:\n- Always factually correct, aligned with reputable organizations.\n- Use short paragraphs (max 3 lines per slide).\n- End each carousel with a motivational or supportive closing message.\n\n### Additional instruction:\n- In the response, include the key \"visual_suggestion\", with one set of keywords that summarizes the carousel. Optimize the response for keyword search, since it's going to be used on Pixabay API.\n- In the response, include the key \"topic\". Each carousel must match one of this topics:\n    - [LIST OF 5 TOPICS OR CATEGORIES]\n- In the response, include the key \"description\". This field should contain an optimized description for social media posts, with hashtags included.\n\n### Output format:\nRespond with a JSON object with this format:\n\n```\n{\n  \"response\": {\n    \"visual_suggestion\": <VISUAL_SUGGESTION>,\n    \"topic\": <TOPIC>,\n    \"description\": <DESCRIPTION>\n    \"title-1\": <TITLE-1>,\n    \"subtitle-1\": <SUBTITLE-1>,\n    \"title-2\": <TITLE-2>,\n    \"subtitle-2\": <SUBTITLE-2>,\n    ...\n  }\n}\n```\n",
+              "role": "system"
+            },
+            {
+              "content": "={{ $json.Prompt }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "385ca355-299a-40b5-920f-c97f4a8a1df0",
+      "name": "Generate Content",
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "position": [
+        1136,
+        352
+      ],
+      "typeVersion": 1.8
+    },
+    {
+      "parameters": {
+        "jsCode": "const json = JSON.parse($input.first().json.message.content).response;\nreturn json;"
+      },
+      "id": "f5f97dfc-0b86-4928-abc1-06773b3ca033",
+      "name": "Format content",
+      "type": "n8n-nodes-base.code",
+      "position": [
+        1488,
+        352
+      ],
+      "typeVersion": 2
+    },
+    {
+      "parameters": {
+        "url": "https://pixabay.com/api/",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "key",
+              "value": "10350858-ddea6aa3e58f17b75a8d6c29d"
+            },
+            {
+              "name": "q",
+              "value": "={{ $('Format content').item.json.visual_suggestion }}"
+            },
+            {
+              "name": "image_type",
+              "value": "photo"
+            },
+            {
+              "name": "orientation",
+              "value": "horizontal"
+            },
+            {
+              "name": "per_page",
+              "value": "3"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "3c412606-72f9-46b5-bdfb-a5f2275f4db8",
+      "name": "Get cover image",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [
+        1904,
+        352
+      ],
+      "typeVersion": 4.2
+    },
+    {
+      "parameters": {
+        "jsCode": "const first = $input.first().json.hits[0];\nreturn first;"
+      },
+      "id": "e82e9d3b-46cf-4211-9116-6157783f3624",
+      "name": "Get first result",
+      "type": "n8n-nodes-base.code",
+      "position": [
+        2112,
+        352
+      ],
+      "typeVersion": 2
+    },
+    {
+      "parameters": {
+        "format": "png",
+        "layers": {
+          "layer": [
+            {
+              "text": "={{ $('Format content').item.json['title-1'] }}",
+              "layerName": "=title-1"
+            },
+            {
+              "text": "={{ $('Format content').item.json['subtitle-1'] }}",
+              "layerName": "=subtitle-1"
+            },
+            {
+              "text": "={{ $('Format content').item.json['title-2'] }}",
+              "layerName": "title-2"
+            },
+            {
+              "text": "={{ $('Format content').item.json['subtitle-2'] }}",
+              "layerName": "subtitle-2"
+            },
+            {
+              "text": "={{ $('Format content').item.json['title-3'] }}",
+              "layerName": "title-3"
+            },
+            {
+              "text": "={{ $('Format content').item.json['subtitle-3'] }}",
+              "layerName": "subtitle-3"
+            },
+            {
+              "text": "={{ $('Format content').item.json['title-4'] }}",
+              "layerName": "title-4"
+            },
+            {
+              "text": "={{ $('Format content').item.json['subtitle-4'] }}",
+              "layerName": "subtitle-4"
+            },
+            {
+              "text": "={{ $('Format content').item.json['title-5'] }}",
+              "layerName": "title-5"
+            },
+            {
+              "text": "={{ $('Format content').item.json['subtitle-5'] }}",
+              "layerName": "subtitle-5"
+            },
+            {
+              "text": "={{ $('Format content').item.json['title-6'] }}",
+              "layerName": "title-6"
+            },
+            {
+              "text": "={{ $('Format content').item.json['subtitle-6'] }}",
+              "layerName": "subtitle-6"
+            },
+            {
+              "text": "={{ $('Format content').item.json['topic'] }}",
+              "layerName": "topic"
+            },
+            {
+              "text": "=",
+              "image_url": "={{ $json.largeImageURL }}",
+              "layerName": "img-1"
+            }
+          ]
+        },
+        "template": {
+          "__rl": true,
+          "mode": "list",
+          "value": "58756536-fd45-4e15-82aa-9189f0e042e9",
+          "cachedResultName": "Carousel"
+        },
+        "requestOptions": {}
+      },
+      "id": "eaf33708-4828-4da5-9012-7f8166aac8af",
+      "name": "Create Renders",
+      "type": "n8n-nodes-templated.templated",
+      "position": [
+        2320,
+        352
+      ],
+      "typeVersion": 1,
+      "credentials": {}
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.url }}",
+        "options": {}
+      },
+      "id": "bd135694-6bc2-4680-ad14-6549f6ff5479",
+      "name": "Download renders",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [
+        2528,
+        352
+      ],
+      "typeVersion": 4.2
+    },
+    {
+      "parameters": {
+        "inputDataFieldName": "=data",
+        "name": "={{ $json.page }}.png",
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "My Drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "={{ $('Create folder').item.json.id }}"
+        },
+        "options": {}
+      },
+      "id": "ccadfa31-4092-40d6-b78b-87fc21430f59",
+      "name": "Upload renders to Google Drive",
+      "type": "n8n-nodes-base.googleDrive",
+      "position": [
+        2736,
+        352
+      ],
+      "typeVersion": 3,
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "arOykrX1iB5N3soz",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "19YOuaADOGwR1WFzo3exxUp0h-dQeSJOhORDgoze7Z68",
+          "cachedResultUrl": "https://docs.google.com/YOUR_AWS_SECRET_KEY_HERE-dQeSJOhORDgoze7Z68/edit?usp=drivesdk",
+          "cachedResultName": "DB"
+        },
+        "sheetName": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gid=0",
+          "cachedResultUrl": "https://docs.google.com/YOUR_AWS_SECRET_KEY_HERE-dQeSJOhORDgoze7Z68/edit#gid=0",
+          "cachedResultName": "Hoja 1"
+        },
+        "columns": {
+          "value": {
+            "Title": "={{ $('Create folder').item.json.name }}",
+            "Topic": "={{ $('Format content').item.json.topic }}",
+            "Status": "Created",
+            "Created At": "={{ new Date($json.createdTime).toLocaleString() }}",
+            "Folder URL": "={{ $('Create folder').item.json.webViewLink }}",
+            "Description": "={{ $('Format content').item.json.description }}"
+          },
+          "schema": [
+            {
+              "id": "Created At",
+              "type": "string",
+              "display": true,
+              "required": false,
+              "displayName": "Created At",
+              "defaultMatch": false,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Title",
+              "type": "string",
+              "display": true,
+              "required": false,
+              "displayName": "Title",
+              "defaultMatch": false,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Topic",
+              "type": "string",
+              "display": true,
+              "required": false,
+              "displayName": "Topic",
+              "defaultMatch": false,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Folder URL",
+              "type": "string",
+              "display": true,
+              "required": false,
+              "displayName": "Folder URL",
+              "defaultMatch": false,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Description",
+              "type": "string",
+              "display": true,
+              "required": false,
+              "displayName": "Description",
+              "defaultMatch": false,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Publish On",
+              "type": "string",
+              "display": true,
+              "required": false,
+              "displayName": "Publish On",
+              "defaultMatch": false,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Status",
+              "type": "string",
+              "display": true,
+              "required": false,
+              "displayName": "Status",
+              "defaultMatch": false,
+              "canBeUsedToMatch": true
+            }
+          ],
+          "mappingMode": "defineBelow",
+          "matchingColumns": [],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "id": "436d9625-1780-4305-8c1d-9ff4192c52aa",
+      "name": "Save in DB",
+      "type": "n8n-nodes-base.googleSheets",
+      "position": [
+        2944,
+        352
+      ],
+      "executeOnce": true,
+      "typeVersion": 4.7
+    },
+    {
+      "parameters": {
+        "content": "## Generate and save Carousels for social media\n\nUsing:\n- Form\n- OpenAI\n- Pixabay\n- Templated.io\n- Google Drive\n- Google Sheets",
+        "height": 368,
+        "width": 336
+      },
+      "id": "6c0f9f50-4576-445b-9bd9-9776ec455261",
+      "name": "Sticky Note",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        368,
+        240
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "content": "## Form Node\nThe Form node collects a single “Prompt” (with basic auth) to kick off a new carousel request."
+      },
+      "id": "a3b16e07-7a3f-479e-bb72-06878a6871e4",
+      "name": "Sticky Note1",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        832,
+        160
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "content": "## OpenAI\n(OpenAI GPT-4.1) uses your system prompt + the form’s Prompt to produce JSON with titles/subtitles, topic, description, and visual_suggestion.",
+        "height": 176
+      },
+      "id": "ca6a020f-ca7c-4272-b6d6-f032be45b67f",
+      "name": "Sticky Note2",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1136,
+        544
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "content": "## Format Content\nFormat content parses the OpenAI raw message JSON and returns a clean object under the expected keys (e.g., title-1, subtitle-1, topic, visual_suggestion, description).",
+        "height": 176
+      },
+      "id": "f3c4ed17-db3e-48f8-bc57-871bae8c272f",
+      "name": "Sticky Note3",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1408,
+        128
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "content": "## Create Folder\nCreate folder (Google Drive) creates a subfolder inside RRSS named with title-1 to store this carousel’s assets."
+      },
+      "id": "7bc4072c-4463-44bb-98ca-cacd84f3f7e6",
+      "name": "Sticky Note4",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1616,
+        560
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "content": "## Get first result\nGet first result extracts the first Pixabay hit and exposes its fields (e.g., largeImageURL) for downstream use."
+      },
+      "id": "59daa80a-62a7-4239-8259-b0a1addbd565",
+      "name": "Sticky Note5",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        2048,
+        560
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "content": "## Get Cover Image\nGet cover image (HTTP Request → Pixabay) searches for a photo using the parsed visual_suggestion as the keyword query."
+      },
+      "id": "08ccabf0-d1cf-49d5-8a1c-997e23bf0180",
+      "name": "Sticky Note6",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1840,
+        128
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "content": "## Create Renders\nCreate Renders (Templated.io) renders the design by injecting all slide titles/subtitles/topic and sets the image layer (img-1) to the Pixabay largeImageURL."
+      },
+      "id": "1e111dbc-1673-4fa6-a145-2970c964dbc3",
+      "name": "Sticky Note7",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        2240,
+        128
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "content": "## Download Renders\nDownload renders (HTTP Request) downloads the rendered image(s) from the URL returned by Templated.io."
+      },
+      "id": "639c4818-2334-489b-9a23-cb7c550f9619",
+      "name": "Sticky Note8",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        2480,
+        560
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "content": "## Upload renders to GD\nUpload renders to Google Drive uploads the downloaded binary file to the newly created Drive folder with the name {{page}}.png.",
+        "height": 192
+      },
+      "id": "d0c6d4c8-ff53-49ed-8b19-2bd018931030",
+      "name": "Sticky Note9",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        2656,
+        112
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "content": "## Save in DB\nSave in DB (Google Sheets) appends a new row logging timestamp, title, topic, Drive folder link, description, and a default Status = Created."
+      },
+      "id": "de7f3716-81df-4c97-89f8-ad79204847c1",
+      "name": "Sticky Note10",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        2896,
+        560
+      ],
+      "typeVersion": 1
+    }
+  ],
+  "connections": {
+    "Form": {
+      "main": [
+        [
+          {
+            "node": "Generate Content",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create folder": {
+      "main": [
+        [
+          {
+            "node": "Get cover image",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Renders": {
+      "main": [
+        [
+          {
+            "node": "Download renders",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Format content": {
+      "main": [
+        [
+          {
+            "node": "Create folder",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get cover image": {
+      "main": [
+        [
+          {
+            "node": "Get first result",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download renders": {
+      "main": [
+        [
+          {
+            "node": "Upload renders to Google Drive",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Content": {
+      "main": [
+        [
+          {
+            "node": "Format content",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get first result": {
+      "main": [
+        [
+          {
+            "node": "Create Renders",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Upload renders to Google Drive": {
+      "main": [
+        [
+          {
+            "node": "Save in DB",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "staticData": null,
+  "meta": {
+    "templateId": "9654"
+  },
+  "pinData": {},
+  "versionId": "427d284f-6c10-421b-9303-ae53a45b8c10",
+  "activeVersionId": null,
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2026-04-13T02:18:51.656Z",
+      "createdAt": "2026-04-13T02:18:51.656Z",
+      "role": "workflow:owner",
+      "workflowId": "Rl3CXTME2LDJ0MPl",
+      "projectId": "HkvQcrCdALIwWQwD"
+    }
+  ],
+  "activeVersion": null,
+  "tags": []
+}
