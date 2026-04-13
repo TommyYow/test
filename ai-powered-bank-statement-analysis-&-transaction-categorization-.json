@@ -1,0 +1,296 @@
+{
+  "updatedAt": "2026-04-12T11:12:00.654Z",
+  "createdAt": "2026-04-12T11:08:25.106Z",
+  "id": "ttsUujSicSRpWg16",
+  "name": "AI-powered bank statement analysis & transaction categorization",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "path": "/upload-statement",
+        "responseMode": "responseNode",
+        "options": {
+          "rawBody": true
+        }
+      },
+      "id": "webhook-001",
+      "name": "Upload Statement",
+      "type": "n8n-nodes-base.webhook",
+      "position": [
+        368,
+        240
+      ],
+      "typeVersion": 2,
+      "webhookId": "2eacdf6a-1fa8-4fe1-94e3-f030ad8866bf"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Simple file processor\nconst inputData = $input.all()[0];\nconst files = [];\n\n// Handle file uploads\nif (inputData.binary) {\n  Object.keys(inputData.binary).forEach(key => {\n    const file = inputData.binary[key];\n    files.push({\n      filename: file.fileName,\n      contentType: file.mimeType,\n      uploadedAt: new Date().toISOString()\n    });\n  });\n}\n\nreturn files.map(file => ({\n  json: {\n    filename: file.filename,\n    contentType: file.contentType,\n    uploadedAt: file.uploadedAt,\n    status: 'ready_for_processing'\n  },\n  binary: inputData.binary\n}));"
+      },
+      "id": "file-handler-001",
+      "name": "File Handler",
+      "type": "n8n-nodes-base.code",
+      "position": [
+        576,
+        240
+      ],
+      "typeVersion": 2
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 1
+          },
+          "conditions": [
+            {
+              "id": "pdf-condition",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              },
+              "leftValue": "={{ $json.contentType }}",
+              "rightValue": "application/pdf"
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "file-type-switch-001",
+      "name": "Check File Type",
+      "type": "n8n-nodes-base.if",
+      "position": [
+        768,
+        240
+      ],
+      "typeVersion": 2
+    },
+    {
+      "parameters": {
+        "operation": "extractText"
+      },
+      "id": "pdf-extractor-001",
+      "name": "Extract PDF Text",
+      "type": "n8n-nodes-base.extractFromFile",
+      "position": [
+        976,
+        144
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "operation": "toFile",
+        "options": {}
+      },
+      "id": "excel-parser-001",
+      "name": "Parse Excel/CSV",
+      "type": "n8n-nodes-base.spreadsheetFile",
+      "position": [
+        976,
+        352
+      ],
+      "typeVersion": 2
+    },
+    {
+      "parameters": {
+        "model": "gpt-4o-mini",
+        "options": {},
+        "requestOptions": {}
+      },
+      "id": "ai-extractor-001",
+      "name": "AI Data Extractor",
+      "type": "n8n-nodes-base.openAi",
+      "position": [
+        1168,
+        240
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "jsCode": "// Clean and validate extracted data\nconst inputData = $input.all()[0];\nlet extractedData = {};\n\n// Parse AI response\ntry {\n  const content = inputData.json.message?.content || inputData.json;\n  if (typeof content === 'string') {\n    const jsonMatch = content.match(/{[\\s\\S]*}/);\n    if (jsonMatch) {\n      extractedData = JSON.parse(jsonMatch[0]);\n    }\n  } else {\n    extractedData = content;\n  }\n} catch (error) {\n  console.log('Parse error:', error.message);\n  extractedData = { transactions: [] };\n}\n\n// Clean transaction data\nconst cleanTransactions = (extractedData.transactions || []).map((tx, index) => ({\n  id: `tx_${Date.now()}_${index}`,\n  date: tx.date,\n  description: (tx.description || '').trim().toUpperCase(),\n  amount: parseFloat(tx.amount) || 0,\n  category: tx.category || 'other',\n  processed_at: new Date().toISOString()\n}));\n\n// Calculate summary\nconst totalExpenses = cleanTransactions\n  .filter(tx => tx.amount < 0)\n  .reduce((sum, tx) => sum + Math.abs(tx.amount), 0);\n\nconst totalIncome = cleanTransactions\n  .filter(tx => tx.amount > 0)\n  .reduce((sum, tx) => sum + tx.amount, 0);\n\nconst categoryTotals = {};\ncleanTransactions.forEach(tx => {\n  if (tx.amount < 0) { // Only expenses\n    categoryTotals[tx.category] = (categoryTotals[tx.category] || 0) + Math.abs(tx.amount);\n  }\n});\n\nreturn [{\n  json: {\n    account_info: {\n      account_number: extractedData.account_number || 'Unknown',\n      bank_name: extractedData.bank_name || 'Unknown',\n      statement_period: extractedData.statement_period || 'Unknown',\n      opening_balance: parseFloat(extractedData.opening_balance) || 0,\n      closing_balance: parseFloat(extractedData.closing_balance) || 0\n    },\n    transactions: cleanTransactions,\n    summary: {\n      total_transactions: cleanTransactions.length,\n      total_expenses: totalExpenses,\n      total_income: totalIncome,\n      net_change: totalIncome - totalExpenses,\n      category_breakdown: categoryTotals\n    },\n    processed_at: new Date().toISOString(),\n    status: 'completed'\n  }\n}]);"
+      },
+      "id": "data-processor-001",
+      "name": "Process & Summarize",
+      "type": "n8n-nodes-base.code",
+      "position": [
+        1376,
+        240
+      ],
+      "typeVersion": 2
+    },
+    {
+      "parameters": {
+        "schema": {
+          "__rl": true,
+          "mode": "list",
+          "value": "public"
+        },
+        "table": "bank_statements",
+        "columns": {
+          "value": {
+            "raw_data": "={{ JSON.stringify($json) }}",
+            "bank_name": "={{ $json.account_info.bank_name }}",
+            "processed_at": "={{ $json.processed_at }}",
+            "total_income": "={{ $json.summary.total_income }}",
+            "account_number": "={{ $json.account_info.account_number }}",
+            "total_expenses": "={{ $json.summary.total_expenses }}",
+            "statement_period": "={{ $json.account_info.statement_period }}",
+            "total_transactions": "={{ $json.summary.total_transactions }}"
+          },
+          "mappingMode": "defineBelow"
+        },
+        "options": {}
+      },
+      "id": "save-to-db-001",
+      "name": "Save to Database",
+      "type": "n8n-nodes-base.postgres",
+      "position": [
+        1568,
+        144
+      ],
+      "typeVersion": 2.4,
+      "credentials": {
+        "postgres": {
+          "id": "3pU8vz8Ui03Hajq7",
+          "name": "Postgres account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={\n  \"success\": true,\n  \"message\": \"Statement processed successfully\",\n  \"data\": {\n    \"account\": \"{{ $json.account_info.account_number }}\",\n    \"transactions_processed\": {{ $json.summary.total_transactions }},\n    \"total_expenses\": {{ $json.summary.total_expenses }},\n    \"total_income\": {{ $json.summary.total_income }},\n    \"categories\": {{ JSON.stringify($json.summary.category_breakdown) }}\n  }\n}",
+        "options": {}
+      },
+      "id": "response-001",
+      "name": "Send Response",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "position": [
+        1568,
+        352
+      ],
+      "typeVersion": 1
+    }
+  ],
+  "connections": {
+    "File Handler": {
+      "main": [
+        [
+          {
+            "node": "Check File Type",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check File Type": {
+      "main": [
+        [
+          {
+            "node": "Extract PDF Text",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Parse Excel/CSV",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse Excel/CSV": {
+      "main": [
+        [
+          {
+            "node": "AI Data Extractor",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract PDF Text": {
+      "main": [
+        [
+          {
+            "node": "AI Data Extractor",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Upload Statement": {
+      "main": [
+        [
+          {
+            "node": "File Handler",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Data Extractor": {
+      "main": [
+        [
+          {
+            "node": "Process & Summarize",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Process & Summarize": {
+      "main": [
+        [
+          {
+            "node": "Save to Database",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Send Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "staticData": null,
+  "meta": {
+    "templateId": "6629"
+  },
+  "pinData": {},
+  "versionId": "36fca35d-1c58-456a-b53f-4e8105a81e77",
+  "activeVersionId": null,
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2026-04-12T11:08:25.106Z",
+      "createdAt": "2026-04-12T11:08:25.106Z",
+      "role": "workflow:owner",
+      "workflowId": "ttsUujSicSRpWg16",
+      "projectId": "HkvQcrCdALIwWQwD"
+    }
+  ],
+  "activeVersion": null,
+  "tags": []
+}
