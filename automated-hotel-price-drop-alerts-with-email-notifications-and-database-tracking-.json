@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-04-08T04:16:10.175Z",
+  "updatedAt": "2026-04-13T01:33:43.580Z",
   "createdAt": "2026-04-08T04:16:10.175Z",
   "id": "prCh5AUA2BUafPAg",
   "name": "Automated hotel price drop alerts with email notifications and database tracking",
@@ -237,10 +237,11 @@
       "parameters": {
         "conditions": {
           "options": {
+            "caseSensitive": true,
             "leftValue": "",
-            "caseSensitive": false
+            "typeValidation": "strict",
+            "version": 1
           },
-          "combinator": "and",
           "conditions": [
             {
               "id": "price-reduced-check",
@@ -252,7 +253,8 @@
               "leftValue": "={{ $json.priceReduced }}",
               "rightValue": true
             }
-          ]
+          ],
+          "combinator": "and"
         },
         "options": {}
       },
@@ -728,7 +730,7 @@
     "templateId": "10390"
   },
   "pinData": {},
-  "versionId": "32dbc5b2-0206-4dde-9887-843ad8111288",
+  "versionId": "926bc0f8-4ade-4e9c-95ed-1a6b50b8599e",
   "activeVersionId": null,
   "triggerCount": 0,
   "shared": [
