@@ -1,0 +1,304 @@
+{
+  "updatedAt": "2026-04-13T02:03:26.514Z",
+  "createdAt": "2026-04-13T02:03:26.514Z",
+  "id": "iP9rJYvjeWyPqL5H",
+  "name": "Schedule food photo sharing to Pinterest with GPT-3.5 captions and Google Sheets",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {}
+          ]
+        }
+      },
+      "id": "adea325f-884b-4fc9-9582-74c97e9c3473",
+      "name": "Daily Post Scheduler",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "position": [
+        416,
+        512
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "resource": "spreadsheet",
+        "options": {}
+      },
+      "id": "1866b165-64c4-45ce-b9a5-e19e810272c4",
+      "name": "Fetch Food Photos from Sheet",
+      "type": "n8n-nodes-base.googleSheets",
+      "position": [
+        640,
+        512
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "{{$node['Google Sheets'].json['Status']}}",
+              "value2": "Pending"
+            },
+            {
+              "value1": "{{$node['Google Sheets'].json['Rating']}}",
+              "operation": "largerEqual",
+              "value2": 4
+            }
+          ]
+        }
+      },
+      "id": "522fc6bc-88a1-4c52-a16e-7a72c9ce8b62",
+      "name": "Filter 4+ Star Dishes",
+      "type": "n8n-nodes-base.if",
+      "position": [
+        848,
+        512
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "model": "gpt-3.5-turbo",
+        "prompt": "Generate a concise, engaging Pinterest caption for a food photo based on this customer feedback: '{{$node['Google Sheets'].json['Feedback']}}'. Keep it under 100 characters and include a positive tone.",
+        "options": {},
+        "requestOptions": {}
+      },
+      "id": "0818f0bb-a769-4e64-a951-106dcd3b12c6",
+      "name": "AI Caption Generator",
+      "type": "n8n-nodes-base.openAi",
+      "position": [
+        1072,
+        512
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "authentication": "headerAuth",
+        "requestMethod": "POST",
+        "url": "https://api.pinterest.com/v5/pins",
+        "jsonParameters": true,
+        "options": {},
+        "bodyParametersJson": "{\"title\":\"{{$node['Google Sheets'].json['Pin Title']}}\",\"description\":\"{{$node['Generate Caption'].json['text']}}\",\"link\":\"{{$node['Google Sheets'].json['Destination URL']}}\",\"board_id\":\"{{$node['Google Sheets'].json['Board ID']}}\",\"media_source\":{\"source_type\":\"image_url\",\"url\":\"{{$node['Google Sheets'].json['Image URL']}}\"}}"
+      },
+      "id": "1e7a31cd-e6be-48f1-aad1-6af1c56ccbab",
+      "name": "Upload to Pinterest",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [
+        1296,
+        512
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "resource": "spreadsheet",
+        "operation": "update"
+      },
+      "id": "cc06c3aa-e57a-4b01-9614-e2f5a4876dcf",
+      "name": "Mark as Posted in Sheet",
+      "type": "n8n-nodes-base.googleSheets",
+      "position": [
+        1520,
+        512
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "content": "Triggers the workflow at a scheduled time (e.g., once daily) to check for new food photos to post.\n\n",
+        "height": 420,
+        "width": 180,
+        "color": 6
+      },
+      "id": "62bec8d6-0535-425c-8151-af312a20e98e",
+      "name": "Sticky Note",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        368,
+        240
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "content": "Filters only those food entries with high ratings (4 stars or above) and unposted status.\n\n",
+        "height": 420,
+        "width": 180,
+        "color": 3
+      },
+      "id": "007ca09a-8d6a-4fa3-b02b-a066cc9a8999",
+      "name": "Sticky Note1",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        816,
+        240
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "content": "Uses AI (e.g., GPT/OpenAI) to create engaging and relevant captions for selected food photos.\n\n",
+        "height": 420,
+        "width": 180
+      },
+      "id": "107ef438-5954-4230-af66-b12ebaac449f",
+      "name": "Sticky Note2",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1040,
+        240
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "content": "Automatically posts the food photo with the generated caption to Pinterest via API.\n\n",
+        "height": 420,
+        "width": 180,
+        "color": 5
+      },
+      "id": "2990e8da-40e2-47aa-959a-b1c70741aec4",
+      "name": "Sticky Note3",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1248,
+        240
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "content": "Updates the Google Sheet to reflect that the photo has been successfully shared.\n\n",
+        "height": 420,
+        "width": 180,
+        "color": 3
+      },
+      "id": "14b92980-38cc-47bf-8e03-f1d530f276b3",
+      "name": "Sticky Note4",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1472,
+        240
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "content": "Retrieves rows from the Google Sheet that contain food photos and metadata like rating and status.\n\n",
+        "height": 420,
+        "width": 180,
+        "color": 4
+      },
+      "id": "4997f1e2-a34f-4aa3-8580-a63042f4aac9",
+      "name": "Sticky Note5",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        592,
+        240
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "content": "## Purpose: Automatically share highly-rated food photos from a spreadsheet to Pinterest with AI-generated captions, and mark them as posted.",
+        "height": 140,
+        "width": 720
+      },
+      "id": "ba50326f-70f6-4af4-a213-34752536cd40",
+      "name": "Sticky Note6",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        576,
+        -16
+      ],
+      "typeVersion": 1
+    }
+  ],
+  "connections": {
+    "Upload to Pinterest": {
+      "main": [
+        [
+          {
+            "node": "Mark as Posted in Sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Caption Generator": {
+      "main": [
+        [
+          {
+            "node": "Upload to Pinterest",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Daily Post Scheduler": {
+      "main": [
+        [
+          {
+            "node": "Fetch Food Photos from Sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter 4+ Star Dishes": {
+      "main": [
+        [
+          {
+            "node": "AI Caption Generator",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fetch Food Photos from Sheet": {
+      "main": [
+        [
+          {
+            "node": "Filter 4+ Star Dishes",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "staticData": null,
+  "meta": {
+    "templateId": "5989"
+  },
+  "pinData": {},
+  "versionId": "7b7b0eee-6ea9-4a89-878f-d9508b81fef8",
+  "activeVersionId": null,
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2026-04-13T02:03:26.514Z",
+      "createdAt": "2026-04-13T02:03:26.514Z",
+      "role": "workflow:owner",
+      "workflowId": "iP9rJYvjeWyPqL5H",
+      "projectId": "HkvQcrCdALIwWQwD"
+    }
+  ],
+  "activeVersion": null,
+  "tags": []
+}
