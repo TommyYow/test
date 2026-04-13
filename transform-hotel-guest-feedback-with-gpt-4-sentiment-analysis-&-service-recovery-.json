@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-04-08T04:21:14.450Z",
+  "updatedAt": "2026-04-13T01:44:56.815Z",
   "createdAt": "2026-04-08T04:21:14.450Z",
   "id": "JCN47CXS6uzEuoJr",
   "name": "Transform hotel guest feedback with GPT-4 sentiment analysis & service recovery",
@@ -171,11 +171,11 @@
       "parameters": {
         "conditions": {
           "options": {
-            "leftValue": "",
             "caseSensitive": true,
-            "typeValidation": "strict"
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 1
           },
-          "combinator": "or",
           "conditions": [
             {
               "id": "critical_issue",
@@ -204,7 +204,8 @@
               "leftValue": "={{ $json.requiresImmediateAction }}",
               "rightValue": true
             }
-          ]
+          ],
+          "combinator": "or"
         },
         "options": {}
       },
@@ -766,7 +767,7 @@
     "templateId": "9811"
   },
   "pinData": {},
-  "versionId": "69884c54-f54f-4b31-8b09-8a088fef0aa2",
+  "versionId": "67212eea-a85a-4563-98a8-dc7791ffaad8",
   "activeVersionId": null,
   "triggerCount": 0,
   "shared": [
