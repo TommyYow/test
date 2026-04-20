@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-04-13T02:25:36.529Z",
+  "updatedAt": "2026-04-19T09:42:07.317Z",
   "createdAt": "2026-04-13T02:25:36.529Z",
   "id": "sRIMsJlvzqOB8K8A",
   "name": "Receipt scanning & analysis workflow 2",
@@ -250,6 +250,17 @@
         240
       ],
       "typeVersion": 1
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.stripeTool",
+      "typeVersion": 1,
+      "position": [
+        306.87905604719765,
+        101.22123893805306
+      ],
+      "id": "c0590e79-943d-464b-9f63-8829d59ce279",
+      "name": "Get a balance in Stripe"
     }
   ],
   "connections": {
@@ -329,7 +340,7 @@
     "templateId": "7990"
   },
   "pinData": {},
-  "versionId": "86e36e8c-179f-4def-8909-f7d4eb0b683a",
+  "versionId": "2f8b1790-721f-4c72-a2b3-168dacf0366f",
   "activeVersionId": null,
   "triggerCount": 0,
   "shared": [
