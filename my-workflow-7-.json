@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-04-07T15:20:34.316Z",
+  "updatedAt": "2026-04-29T15:35:14.919Z",
   "createdAt": "2026-03-12T11:41:16.802Z",
   "id": "Sv6p41U2Z3vHomRu",
   "name": "My workflow 7",
@@ -95,8 +95,8 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        96,
-        -32
+        -560,
+        -336
       ],
       "id": "e7e3e881-ce11-4329-9018-63b78be71fb9",
       "name": "If"
@@ -106,27 +106,53 @@
       "type": "n8n-nodes-base.manualTrigger",
       "typeVersion": 1,
       "position": [
-        -336,
-        0
+        -768,
+        -336
       ],
       "id": "8c514842-6b04-4b0d-b6af-6f9827d3c7b5",
       "name": "When clicking ‘Execute workflow’"
     },
     {
       "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "37a71822-400d-4e96-99f9-ca8c414455c2",
+              "name": "$today",
+              "value": "={{ $execution }}",
+              "type": "object"
+            }
+          ]
+        },
         "options": {}
       },
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        304,
-        -128
+        -320,
+        -384
       ],
       "id": "9b08f29d-68e1-4e4d-b97d-d436db4fd45f",
       "name": "Edit Fields1"
     },
     {
       "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "e1433edd-02d3-481e-a474-92e62f478406",
+              "name": "",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "59d55031-4d40-4cb8-88db-ce42f2d2ddde",
+              "name": "$now",
+              "value": "={{ $now }}",
+              "type": "object"
+            }
+          ]
+        },
         "options": {}
       },
       "type": "n8n-nodes-base.set",
@@ -137,6 +163,31 @@
       ],
       "id": "f0d40310-0164-44e9-b326-638951328c9f",
       "name": "Edit Fields2"
+    },
+    {
+      "parameters": {
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {}
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {}
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        240,
+        240
+      ],
+      "id": "4f4a34ca-f9b0-4dbd-be05-321fd4d5af3b",
+      "name": "HTTP Request"
     }
   ],
   "connections": {
@@ -188,13 +239,7 @@
             "index": 0
           }
         ],
-        [
-          {
-            "node": "Edit Fields2",
-            "type": "main",
-            "index": 0
-          }
-        ]
+        []
       ]
     }
   },
@@ -222,7 +267,7 @@
       }
     ]
   },
-  "versionId": "3728e7af-229f-4d2a-b010-b41a3c7492a4",
+  "versionId": "780b9b86-000c-4a64-9f97-223581223ed1",
   "activeVersionId": null,
   "triggerCount": 1,
   "shared": [
