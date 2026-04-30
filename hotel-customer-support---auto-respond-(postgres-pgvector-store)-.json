@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-03-26T09:50:55.959Z",
+  "updatedAt": "2026-04-29T16:47:26.608Z",
   "createdAt": "2026-02-23T09:17:48.289Z",
   "id": "136yfxh8NWJ4Ebmn",
   "name": "Hotel Customer Support - Auto Respond (Postgres PGVector Store)",
@@ -1988,8 +1988,8 @@
       "type": "n8n-nodes-base.manualTrigger",
       "typeVersion": 1,
       "position": [
-        -1536,
-        2304
+        -1600,
+        2288
       ],
       "id": "8dff1170-a502-4bd7-96fc-769864ac4b6c",
       "name": "When clicking ‘Execute workflow’"
@@ -2541,7 +2541,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "dc554ed4-f8cb-4760-bb81-3207d5159300",
+  "versionId": "3e255b26-47bd-4702-9f10-50b1d2c2fcd7",
   "activeVersionId": null,
   "triggerCount": 0,
   "shared": [
