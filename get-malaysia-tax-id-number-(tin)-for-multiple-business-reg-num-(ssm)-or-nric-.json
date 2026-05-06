@@ -1,0 +1,502 @@
+{
+  "updatedAt": "2026-05-06T02:44:49.032Z",
+  "createdAt": "2026-04-29T13:47:57.493Z",
+  "id": "lo3e9TGAcVCnWGlh",
+  "name": "Get Malaysia Tax ID Number (TIN) for multiple Business Reg Num (SSM) or NRIC",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "841a33de-26a1-4f28-b18e-1f1be736824f",
+      "name": "Search Taxpayer TIN",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [
+        688,
+        512
+      ],
+      "typeVersion": 4.1,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {},
+      "id": "bf6cdd8b-a4d4-4a64-828a-b7ae25eae4ba",
+      "name": "When clicking ‘Test workflow’",
+      "type": "n8n-nodes-base.manualTrigger",
+      "position": [
+        240,
+        368
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {},
+      "id": "1f9acf6f-e979-4494-8366-50b599b93583",
+      "name": "Wait",
+      "type": "n8n-nodes-base.wait",
+      "position": [
+        160,
+        624
+      ],
+      "webhookId": "8f276e03-d6fc-4013-9f03-63c9f419c591",
+      "typeVersion": 1.1
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "dd42b22e-1727-4ca2-9f73-0e42a81d663f",
+      "name": "Loop Over Items1",
+      "type": "n8n-nodes-base.splitInBatches",
+      "position": [
+        1392,
+        688
+      ],
+      "typeVersion": 3
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict"
+                },
+                "conditions": [
+                  {
+                    "leftValue": "",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "b60323da-4c1c-47c9-a797-f9eb222697f5",
+      "name": "Switch",
+      "type": "n8n-nodes-base.switch",
+      "position": [
+        880,
+        544
+      ],
+      "typeVersion": 3.2
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "6c14a451-2e4d-4563-9fd9-e6c8d74b9192",
+      "name": "If",
+      "type": "n8n-nodes-base.if",
+      "position": [
+        512,
+        592
+      ],
+      "notesInFlow": true,
+      "typeVersion": 2.2,
+      "notes": "token still valid?"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "0e52f338-62e2-4bc5-8138-e2f530f51df2",
+      "name": "Setup GSheet Connection",
+      "type": "n8n-nodes-base.set",
+      "position": [
+        688,
+        144
+      ],
+      "notesInFlow": true,
+      "typeVersion": 3.4,
+      "notes": "Setup GSheet connection"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "6056703e-d856-446c-8e1d-e1596fd66379",
+      "name": "Setup LHDN Connection",
+      "type": "n8n-nodes-base.set",
+      "position": [
+        192,
+        144
+      ],
+      "notesInFlow": true,
+      "typeVersion": 3.4,
+      "notes": "Set lhdn connection credentials"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "7318c493-b6c9-4e8c-bbec-314864827567",
+      "name": "Remember token expiry",
+      "type": "n8n-nodes-base.set",
+      "position": [
+        848,
+        368
+      ],
+      "notesInFlow": true,
+      "typeVersion": 3.4,
+      "notes": "track token expiry"
+    },
+    {
+      "parameters": {},
+      "id": "aed412ed-7809-4d2d-83aa-52c5b168a39e",
+      "name": "Compare token expiry vs now",
+      "type": "n8n-nodes-base.code",
+      "position": [
+        336,
+        624
+      ],
+      "notesInFlow": true,
+      "typeVersion": 2,
+      "notes": "check is token still valid"
+    },
+    {
+      "parameters": {},
+      "id": "205b1e20-b105-40fa-aef4-18423f1e0f1c",
+      "name": "Wait until token fully expired",
+      "type": "n8n-nodes-base.wait",
+      "position": [
+        688,
+        672
+      ],
+      "webhookId": "08c6e139-1d93-4c88-a869-c8d8d29057db",
+      "notesInFlow": true,
+      "typeVersion": 1.1,
+      "notes": "wait until token fully expired"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "mode": "list",
+          "value": ""
+        },
+        "sheetName": {
+          "__rl": true,
+          "mode": "list",
+          "value": ""
+        }
+      },
+      "id": "45fc5f3d-c0b6-4de1-ae84-c7d607a3c5d4",
+      "name": "Update Google Sheet with TIN not found",
+      "type": "n8n-nodes-base.googleSheets",
+      "position": [
+        1136,
+        320
+      ],
+      "notesInFlow": true,
+      "typeVersion": 4.1,
+      "notes": "tin_not_found"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "mode": "list",
+          "value": ""
+        },
+        "sheetName": {
+          "__rl": true,
+          "mode": "list",
+          "value": ""
+        }
+      },
+      "id": "4e448342-d50d-45cc-925c-1bf7158e51a0",
+      "name": "Update Google Sheet with failure",
+      "type": "n8n-nodes-base.googleSheets",
+      "position": [
+        1136,
+        512
+      ],
+      "notesInFlow": true,
+      "typeVersion": 4.1,
+      "notes": "bad_request_or_more_than_1_tin_found"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "mode": "list",
+          "value": ""
+        },
+        "sheetName": {
+          "__rl": true,
+          "mode": "list",
+          "value": ""
+        }
+      },
+      "id": "bb6577f4-f39e-4066-9a6e-ea567ad0816b",
+      "name": "Update Google Sheet with found TIN",
+      "type": "n8n-nodes-base.googleSheets",
+      "position": [
+        1136,
+        688
+      ],
+      "notesInFlow": true,
+      "typeVersion": 4.1,
+      "notes": "tin_found and saved"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "mode": "list",
+          "value": ""
+        },
+        "sheetName": {
+          "__rl": true,
+          "mode": "list",
+          "value": ""
+        }
+      },
+      "id": "4d508da2-6066-4205-88f8-dcd5009706e0",
+      "name": "Get all Google Sheet records to process",
+      "type": "n8n-nodes-base.googleSheets",
+      "position": [
+        1136,
+        144
+      ],
+      "notesInFlow": true,
+      "typeVersion": 4.1,
+      "notes": "Get rows to process for TIN"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "28ebf5fd-e7f8-46d5-88fd-41ab9689bd39",
+      "name": "Get new LHDN API Token",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [
+        528,
+        368
+      ],
+      "notesInFlow": true,
+      "typeVersion": 4.1,
+      "notes": "get lhdn api token"
+    }
+  ],
+  "connections": {
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Search Taxpayer TIN",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Wait until token fully expired",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "Compare token expiry vs now",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Update Google Sheet with TIN not found",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items1": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Search Taxpayer TIN": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Remember token expiry": {
+      "main": [
+        [
+          {
+            "node": "Get all Google Sheet records to process",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Setup LHDN Connection": {
+      "main": [
+        [
+          {
+            "node": "Setup GSheet Connection",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get new LHDN API Token": {
+      "main": [
+        [
+          {
+            "node": "Remember token expiry",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Setup GSheet Connection": {
+      "main": [
+        [
+          {
+            "node": "Get new LHDN API Token",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Compare token expiry vs now": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait until token fully expired": {
+      "main": [
+        [
+          {
+            "node": "Get new LHDN API Token",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update Google Sheet with failure": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When clicking ‘Test workflow’": {
+      "main": [
+        [
+          {
+            "node": "Setup LHDN Connection",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update Google Sheet with found TIN": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update Google Sheet with TIN not found": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get all Google Sheet records to process": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {},
+  "versionId": "534705cc-c8cf-4d5c-9ba5-821ff44162c5",
+  "activeVersionId": null,
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2026-04-29T13:47:57.493Z",
+      "createdAt": "2026-04-29T13:47:57.493Z",
+      "role": "workflow:owner",
+      "workflowId": "lo3e9TGAcVCnWGlh",
+      "projectId": "jEyFJXtUUwEM8iYb"
+    }
+  ],
+  "activeVersion": null,
+  "tags": []
+}
