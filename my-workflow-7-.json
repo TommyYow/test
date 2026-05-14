@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-04-29T15:35:14.919Z",
+  "updatedAt": "2026-05-13T09:39:30.937Z",
   "createdAt": "2026-03-12T11:41:16.802Z",
   "id": "Sv6p41U2Z3vHomRu",
   "name": "My workflow 7",
@@ -102,17 +102,6 @@
       "name": "If"
     },
     {
-      "parameters": {},
-      "type": "n8n-nodes-base.manualTrigger",
-      "typeVersion": 1,
-      "position": [
-        -768,
-        -336
-      ],
-      "id": "8c514842-6b04-4b0d-b6af-6f9827d3c7b5",
-      "name": "When clicking ‘Execute workflow’"
-    },
-    {
       "parameters": {
         "assignments": {
           "assignments": [
@@ -188,6 +177,244 @@
       ],
       "id": "4f4a34ca-f9b0-4dbd-be05-321fd4d5af3b",
       "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        0,
+        0
+      ],
+      "id": "4c658048-4c56-472f-9676-ef11abbe40b9",
+      "name": "HTTP Request1"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -752,
+        -288
+      ],
+      "id": "b4f8e6f5-6c0d-46c6-8c80-aa782538434f",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "path": "1c9c8b6a-668f-441a-8793-410916acd46a",
+        "authentication": "basicAuth",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -448,
+        -192
+      ],
+      "id": "b3bc61bf-6bf9-4865-83a7-88274b32c1c6",
+      "name": "Webhook1",
+      "webhookId": "1c9c8b6a-668f-441a-8793-410916acd46a"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "2ce121bf-223d-4eeb-925c-59a2aad18d03",
+              "leftValue": "",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -720,
+        32
+      ],
+      "id": "d4a795ba-3a1f-4c74-b9a2-d33de5c41434",
+      "name": "If1"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "fbf5aa56-0b70-4516-9386-2d6cae335a01"
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "1fcf5d14-0771-4433-b7ae-d36e2a9db9a8",
+                    "leftValue": "",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        -496,
+        48
+      ],
+      "id": "2b3e1127-769b-4f3e-bc08-aeda108a5c59",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "ad590d46-fa54-4d5c-bdbc-09c1cf309a44",
+              "leftValue": "",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            },
+            {
+              "id": "18ba0ba4-d1f0-4dff-a867-1b91e4238edc",
+              "leftValue": "",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            },
+            {
+              "id": "b055e05a-5c1e-483c-b6ad-a6f8ab1cc648",
+              "leftValue": "",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        272,
+        -192
+      ],
+      "id": "d7a1f722-2812-49ca-8a7c-df2324b5e342",
+      "name": "If2"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.executionData",
+      "typeVersion": 1.1,
+      "position": [
+        -240,
+        0
+      ],
+      "id": "5845a63b-b372-43bc-9cc3-8f296610ec33",
+      "name": "Execution Data"
+    },
+    {
+      "parameters": {
+        "operation": "upload",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.ftp",
+      "typeVersion": 1,
+      "position": [
+        352,
+        278.21563720703125
+      ],
+      "id": "ada0c95c-c222-4438-94c1-07346ed1a4ab",
+      "name": "FTP"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "3a7f9d96-f6f0-42cb-8fd1-28961f1ff44c",
+              "name": "",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        560,
+        288
+      ],
+      "id": "80f85fab-22ff-41c4-8060-e8b9fb287728",
+      "name": "Edit Fields3"
     }
   ],
   "connections": {
@@ -219,17 +446,6 @@
         ]
       ]
     },
-    "When clicking ‘Execute workflow’": {
-      "main": [
-        [
-          {
-            "node": "If",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "If": {
       "main": [
         [
@@ -240,6 +456,56 @@
           }
         ],
         []
+      ]
+    },
+    "Webhook1": {
+      "main": [
+        []
+      ]
+    },
+    "If1": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Execution Data",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        []
+      ]
+    },
+    "Execution Data": {
+      "main": [
+        [
+          {
+            "node": "FTP",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "FTP": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields3",
+            "type": "main",
+            "index": 0
+          }
+        ]
       ]
     }
   },
@@ -258,16 +524,8 @@
   "meta": {
     "templateCredsSetupCompleted": true
   },
-  "pinData": {
-    "When clicking ‘Execute workflow’": [
-      {
-        "json": {
-          "age": 30
-        }
-      }
-    ]
-  },
-  "versionId": "780b9b86-000c-4a64-9f97-223581223ed1",
+  "pinData": {},
+  "versionId": "d654a690-431e-401a-962a-c587b7841bd1",
   "activeVersionId": null,
   "triggerCount": 1,
   "shared": [
