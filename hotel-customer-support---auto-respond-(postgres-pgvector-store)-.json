@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-04-29T16:47:26.608Z",
+  "updatedAt": "2026-05-15T13:49:20.751Z",
   "createdAt": "2026-02-23T09:17:48.289Z",
   "id": "136yfxh8NWJ4Ebmn",
   "name": "Hotel Customer Support - Auto Respond (Postgres PGVector Store)",
@@ -154,12 +154,20 @@
             {
               "id": "53849246-ad32-4845-9976-9f9688f5a6f2",
               "operator": {
-                "type": "boolean",
-                "operation": "true",
-                "singleValue": true
+                "type": "dateTime",
+                "operation": "equals"
               },
               "leftValue": "={{ $json.needsReply }}",
               "rightValue": "true"
+            },
+            {
+              "id": "4b38a176-f59a-4d02-8509-c40287c6b994",
+              "leftValue": "",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
             }
           ],
           "combinator": "or"
@@ -2541,7 +2549,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "3e255b26-47bd-4702-9f10-50b1d2c2fcd7",
+  "versionId": "f69b8234-1332-4aeb-8211-536ae142370c",
   "activeVersionId": null,
   "triggerCount": 0,
   "shared": [
