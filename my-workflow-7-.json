@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-05-15T03:32:21.968Z",
+  "updatedAt": "2026-05-15T13:34:16.578Z",
   "createdAt": "2026-03-12T11:41:16.802Z",
   "id": "Sv6p41U2Z3vHomRu",
   "name": "My workflow 7",
@@ -62,11 +62,21 @@
           "conditions": [
             {
               "id": "0cac36c2-6a49-4d6e-98fa-eaef21d7a06c",
-              "leftValue": "={{ $json.age }}",
+              "leftValue": "",
               "rightValue": 20,
               "operator": {
-                "type": "number",
-                "operation": "gt"
+                "type": "string",
+                "operation": "equals"
+              }
+            },
+            {
+              "id": "789d29a8-9cdc-4a6d-ae40-91f64c7f1ced",
+              "leftValue": "=",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
               }
             }
           ],
@@ -185,12 +195,12 @@
           "conditions": [
             {
               "id": "2ce121bf-223d-4eeb-925c-59a2aad18d03",
-              "leftValue": "",
-              "rightValue": "",
+              "leftValue": "0",
+              "rightValue": 0,
               "operator": {
-                "type": "string",
-                "operation": "equals",
-                "name": "filter.operator.equals"
+                "type": "object",
+                "operation": "exists",
+                "singleValue": true
               }
             },
             {
@@ -201,6 +211,15 @@
                 "type": "string",
                 "operation": "equals",
                 "name": "filter.operator.equals"
+              }
+            },
+            {
+              "id": "af034db0-8762-411e-9229-333400b6cd75",
+              "leftValue": "",
+              "rightValue": "",
+              "operator": {
+                "type": "dateTime",
+                "operation": "after"
               }
             }
           ],
@@ -231,37 +250,13 @@
                 },
                 "conditions": [
                   {
-                    "id": "1fcf5d14-0771-4433-b7ae-d36e2a9db9a8",
-                    "leftValue": "height",
-                    "rightValue": "120",
+                    "leftValue": "",
+                    "rightValue": "",
                     "operator": {
                       "type": "string",
-                      "operation": "equals",
-                      "name": "filter.operator.equals"
-                    }
-                  }
-                ],
-                "combinator": "and"
-              }
-            },
-            {
-              "conditions": {
-                "options": {
-                  "caseSensitive": true,
-                  "leftValue": "",
-                  "typeValidation": "strict",
-                  "version": 3
-                },
-                "conditions": [
-                  {
-                    "id": "7b1c062c-3656-4654-9b57-4fadef21e6f6",
-                    "leftValue": "age",
-                    "rightValue": "50",
-                    "operator": {
-                      "type": "string",
-                      "operation": "equals",
-                      "name": "filter.operator.equals"
-                    }
+                      "operation": "equals"
+                    },
+                    "id": "36bb697b-c884-402d-ac56-49527236347b"
                   }
                 ],
                 "combinator": "and"
@@ -521,7 +516,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "31ab67e7-e74b-4f97-a78b-4d274e6ed89e",
+  "versionId": "2133f9c1-68e7-433b-a10f-88ddcd928680",
   "activeVersionId": null,
   "triggerCount": 1,
   "shared": [
