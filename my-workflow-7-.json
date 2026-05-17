@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-05-15T13:34:16.578Z",
+  "updatedAt": "2026-05-16T09:35:01.496Z",
   "createdAt": "2026-03-12T11:41:16.802Z",
   "id": "Sv6p41U2Z3vHomRu",
   "name": "My workflow 7",
@@ -195,12 +195,11 @@
           "conditions": [
             {
               "id": "2ce121bf-223d-4eeb-925c-59a2aad18d03",
-              "leftValue": "0",
-              "rightValue": 0,
+              "leftValue": 0,
+              "rightValue": null,
               "operator": {
-                "type": "object",
-                "operation": "exists",
-                "singleValue": true
+                "type": "number",
+                "operation": "equals"
               }
             },
             {
@@ -382,8 +381,8 @@
       "type": "n8n-nodes-base.manualTrigger",
       "typeVersion": 1,
       "position": [
-        284.34165571616296,
-        304.1144053876478
+        288,
+        320
       ],
       "id": "2cbe92fb-fd00-4d4e-86b8-ac64bd7075ca",
       "name": "When clicking ‘Execute workflow’"
@@ -516,7 +515,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "2133f9c1-68e7-433b-a10f-88ddcd928680",
+  "versionId": "b5eab5a9-56ad-4ee9-8a6e-ba3ce1b5d80c",
   "activeVersionId": null,
   "triggerCount": 1,
   "shared": [
