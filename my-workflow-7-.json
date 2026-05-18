@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-05-16T09:35:01.496Z",
+  "updatedAt": "2026-05-18T03:14:02.263Z",
   "createdAt": "2026-03-12T11:41:16.802Z",
   "id": "Sv6p41U2Z3vHomRu",
   "name": "My workflow 7",
@@ -7,233 +7,15 @@
   "isArchived": false,
   "nodes": [
     {
-      "parameters": {
-        "mode": "raw",
-        "jsonOutput": "={\n  \"my_field_1\": \"{{ $json.executionMode }}\",\n  \"my_field_2\": 1\n}",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
       "position": [
-        -80,
-        128
+        -816,
+        -112
       ],
-      "id": "272b98e3-aca7-4e8c-92de-91b487de70e0",
-      "name": "Edit Fields"
-    },
-    {
-      "parameters": {
-        "jsCode": "// Loop over input items and add a new field called 'myNewField' to the JSON of each one\nfor (const item of $input.all()) {\n  item.json.myNewField = 1;\n}\n\nreturn $input.all();"
-      },
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
-      "position": [
-        128,
-        128
-      ],
-      "id": "72a247de-4a59-4ba8-a18f-f07a9d20abd6",
-      "name": "Code in JavaScript"
-    },
-    {
-      "parameters": {
-        "options": {
-          "reset": false
-        }
-      },
-      "type": "n8n-nodes-base.splitInBatches",
-      "typeVersion": 3,
-      "position": [
-        0,
-        -336
-      ],
-      "id": "d5791501-0e3c-4b2c-874e-7ccbd6fb969c",
-      "name": "Loop Over Items",
-      "executeOnce": false
-    },
-    {
-      "parameters": {
-        "conditions": {
-          "options": {
-            "caseSensitive": true,
-            "leftValue": "",
-            "typeValidation": "strict",
-            "version": 3
-          },
-          "conditions": [
-            {
-              "id": "0cac36c2-6a49-4d6e-98fa-eaef21d7a06c",
-              "leftValue": "",
-              "rightValue": 20,
-              "operator": {
-                "type": "string",
-                "operation": "equals"
-              }
-            },
-            {
-              "id": "789d29a8-9cdc-4a6d-ae40-91f64c7f1ced",
-              "leftValue": "=",
-              "rightValue": "",
-              "operator": {
-                "type": "string",
-                "operation": "equals",
-                "name": "filter.operator.equals"
-              }
-            }
-          ],
-          "combinator": "and"
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.if",
-      "typeVersion": 2.3,
-      "position": [
-        -560,
-        -336
-      ],
-      "id": "e7e3e881-ce11-4329-9018-63b78be71fb9",
-      "name": "If"
-    },
-    {
-      "parameters": {
-        "assignments": {
-          "assignments": [
-            {
-              "id": "37a71822-400d-4e96-99f9-ca8c414455c2",
-              "name": "$today",
-              "value": "={{ $execution }}",
-              "type": "object"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
-      "position": [
-        -320,
-        -384
-      ],
-      "id": "9b08f29d-68e1-4e4d-b97d-d436db4fd45f",
-      "name": "Edit Fields1"
-    },
-    {
-      "parameters": {
-        "assignments": {
-          "assignments": [
-            {
-              "id": "e1433edd-02d3-481e-a474-92e62f478406",
-              "name": "",
-              "value": "",
-              "type": "string"
-            },
-            {
-              "id": "59d55031-4d40-4cb8-88db-ce42f2d2ddde",
-              "name": "$now",
-              "value": "={{ $now }}",
-              "type": "object"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
-      "position": [
-        304,
-        64
-      ],
-      "id": "f0d40310-0164-44e9-b326-638951328c9f",
-      "name": "Edit Fields2"
-    },
-    {
-      "parameters": {
-        "sendHeaders": true,
-        "headerParameters": {
-          "parameters": [
-            {}
-          ]
-        },
-        "sendBody": true,
-        "bodyParameters": {
-          "parameters": [
-            {}
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.4,
-      "position": [
-        240,
-        240
-      ],
-      "id": "4f4a34ca-f9b0-4dbd-be05-321fd4d5af3b",
-      "name": "HTTP Request"
-    },
-    {
-      "parameters": {
-        "options": {}
-      },
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.4,
-      "position": [
-        0,
-        0
-      ],
-      "id": "4c658048-4c56-472f-9676-ef11abbe40b9",
-      "name": "HTTP Request1"
-    },
-    {
-      "parameters": {
-        "conditions": {
-          "options": {
-            "caseSensitive": true,
-            "leftValue": "",
-            "typeValidation": "strict",
-            "version": 3
-          },
-          "conditions": [
-            {
-              "id": "2ce121bf-223d-4eeb-925c-59a2aad18d03",
-              "leftValue": 0,
-              "rightValue": null,
-              "operator": {
-                "type": "number",
-                "operation": "equals"
-              }
-            },
-            {
-              "id": "5013cc64-b83a-427e-b3ec-da169f732021",
-              "leftValue": "",
-              "rightValue": "",
-              "operator": {
-                "type": "string",
-                "operation": "equals",
-                "name": "filter.operator.equals"
-              }
-            },
-            {
-              "id": "af034db0-8762-411e-9229-333400b6cd75",
-              "leftValue": "",
-              "rightValue": "",
-              "operator": {
-                "type": "dateTime",
-                "operation": "after"
-              }
-            }
-          ],
-          "combinator": "and"
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.if",
-      "typeVersion": 2.3,
-      "position": [
-        -880,
-        -160
-      ],
-      "id": "d4a795ba-3a1f-4c74-b9a2-d33de5c41434",
-      "name": "If1"
+      "id": "59bd95a8-7c85-49db-86b6-7891473c5e83",
+      "name": "When clicking ‘Execute workflow’"
     },
     {
       "parameters": {
@@ -249,13 +31,35 @@
                 },
                 "conditions": [
                   {
-                    "leftValue": "",
-                    "rightValue": "",
+                    "id": "187a3b7b-b4ca-4bc5-9640-6bc2b3d94aee",
+                    "leftValue": "={{ $json.ultramarathon_time }}",
+                    "rightValue": 15,
                     "operator": {
-                      "type": "string",
-                      "operation": "equals"
+                      "type": "number",
+                      "operation": "gt"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.ultramarathon_time }}",
+                    "rightValue": 10,
+                    "operator": {
+                      "type": "number",
+                      "operation": "lt"
                     },
-                    "id": "36bb697b-c884-402d-ac56-49527236347b"
+                    "id": "758aaeda-a8d5-4983-ad0c-795a89c95bc5"
                   }
                 ],
                 "combinator": "and"
@@ -263,200 +67,147 @@
             }
           ]
         },
-        "options": {}
+        "options": {
+          "fallbackOutput": "none"
+        }
       },
       "type": "n8n-nodes-base.switch",
       "typeVersion": 3.4,
       "position": [
-        -784,
-        64
+        -192,
+        -160
       ],
-      "id": "2b3e1127-769b-4f3e-bc08-aeda108a5c59",
+      "id": "a8bdc3b8-849b-4387-a4ca-3a29d5202efe",
       "name": "Switch"
     },
     {
       "parameters": {
-        "conditions": {
-          "options": {
-            "caseSensitive": true,
-            "leftValue": "",
-            "typeValidation": "strict",
-            "version": 3
-          },
-          "conditions": [
-            {
-              "id": "ad590d46-fa54-4d5c-bdbc-09c1cf309a44",
-              "leftValue": "",
-              "rightValue": "",
-              "operator": {
-                "type": "string",
-                "operation": "equals",
-                "name": "filter.operator.equals"
-              }
-            },
-            {
-              "id": "18ba0ba4-d1f0-4dff-a867-1b91e4238edc",
-              "leftValue": "",
-              "rightValue": "",
-              "operator": {
-                "type": "string",
-                "operation": "equals",
-                "name": "filter.operator.equals"
-              }
-            },
-            {
-              "id": "b055e05a-5c1e-483c-b6ad-a6f8ab1cc648",
-              "leftValue": "",
-              "rightValue": "",
-              "operator": {
-                "type": "string",
-                "operation": "equals",
-                "name": "filter.operator.equals"
-              }
-            }
-          ],
-          "combinator": "and"
-        },
-        "options": {}
+        "jsCode": "return [\n  { json: { ultramarathon_time: 7.25 } },\n  { json: { ultramarathon_time: 18.5 } },\n  { json: { ultramarathon_time: 6.75 } },\n  { json: { ultramarathon_time: 6.8 } },\n  { json: { ultramarathon_time: 10.2 } },\n  { json: { ultramarathon_time: 12.9 } },\n  { json: { ultramarathon_time: 17.5 } },\n  { json: { ultramarathon_time: 8.1 } },\n  { json: { ultramarathon_time: 9.1 } },\n  { json: { ultramarathon_time: 18.0 } }\n];"
       },
-      "type": "n8n-nodes-base.if",
-      "typeVersion": 2.3,
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
       "position": [
-        272,
-        -192
+        -448,
+        -176
       ],
-      "id": "d7a1f722-2812-49ca-8a7c-df2324b5e342",
-      "name": "If2"
-    },
-    {
-      "parameters": {},
-      "type": "n8n-nodes-base.executionData",
-      "typeVersion": 1.1,
-      "position": [
-        -240,
-        0
-      ],
-      "id": "5845a63b-b372-43bc-9cc3-8f296610ec33",
-      "name": "Execution Data"
+      "id": "53458ca8-f97c-48ae-a332-997149bd8f13",
+      "name": "Code in JavaScript"
     },
     {
       "parameters": {
-        "operation": "upload",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.ftp",
-      "typeVersion": 1,
-      "position": [
-        352,
-        288
-      ],
-      "id": "ada0c95c-c222-4438-94c1-07346ed1a4ab",
-      "name": "FTP"
-    },
-    {
-      "parameters": {
-        "assignments": {
-          "assignments": [
-            {
-              "id": "3a7f9d96-f6f0-42cb-8fd1-28961f1ff44c",
-              "name": "",
-              "value": "",
-              "type": "string"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
-      "position": [
-        560,
-        288
-      ],
-      "id": "80f85fab-22ff-41c4-8060-e8b9fb287728",
-      "name": "Edit Fields3"
-    },
-    {
-      "parameters": {},
-      "type": "n8n-nodes-base.manualTrigger",
-      "typeVersion": 1,
-      "position": [
-        288,
-        320
-      ],
-      "id": "2cbe92fb-fd00-4d4e-86b8-ac64bd7075ca",
-      "name": "When clicking ‘Execute workflow’"
-    },
-    {
-      "parameters": {
-        "url": "https://www.time.gov/",
+        "url": "https://dummyjson.com/products/1",
         "options": {}
       },
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.4,
       "position": [
-        496,
-        320
+        -400,
+        112
       ],
-      "id": "ae7103dc-d998-4e60-8f34-c7118a1b4caf",
-      "name": "HTTP Request2"
+      "id": "a45af3e7-acdd-41ed-a916-b26fc0a0314b",
+      "name": "HTTP Request"
     },
     {
       "parameters": {
-        "path": "7cf0cdae-8b1f-45ef-b598-673b6b5da745",
-        "authentication": "jwtAuth",
-        "options": {}
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "187a3b7b-b4ca-4bc5-9640-6bc2b3d94aee",
+                    "leftValue": "={{ $json.availabilityStatus }}",
+                    "rightValue": "In Stock",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.returnPolicy }}",
+                    "rightValue": "No return policy",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "758aaeda-a8d5-4983-ad0c-795a89c95bc5"
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "3988c86b-58b8-42a8-967d-9dae9cefa87a",
+                    "leftValue": "={{ $json.minimumOrderQuantity }}",
+                    "rightValue": 10,
+                    "operator": {
+                      "type": "number",
+                      "operation": "gt"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "options": {
+          "fallbackOutput": "none"
+        }
       },
-      "type": "n8n-nodes-base.webhook",
-      "typeVersion": 2.1,
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
       "position": [
-        -576,
-        -32
+        -144,
+        112
       ],
-      "id": "af16685a-b8e4-4ea4-8ca4-2c0dd10f837c",
-      "name": "Webhook",
-      "webhookId": "7cf0cdae-8b1f-45ef-b598-673b6b5da745"
+      "id": "582a3031-a8e2-45bb-8edf-29c7529569f2",
+      "name": "Switch1"
     }
   ],
   "connections": {
-    "Edit Fields": {
+    "When clicking ‘Execute workflow’": {
       "main": [
         [
           {
-            "node": "Edit Fields",
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "HTTP Request",
             "type": "main",
             "index": 0
           }
         ]
-      ]
-    },
-    "Loop Over Items": {
-      "main": [
-        [],
-        [
-          {
-            "node": "Loop Over Items",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "If": {
-      "main": [
-        [
-          {
-            "node": "Edit Fields1",
-            "type": "main",
-            "index": 0
-          }
-        ],
-        []
-      ]
-    },
-    "If1": {
-      "main": [
-        []
       ]
     },
     "Switch": {
@@ -465,33 +216,22 @@
         []
       ]
     },
-    "Execution Data": {
+    "Code in JavaScript": {
       "main": [
         [
           {
-            "node": "FTP",
+            "node": "Switch",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "FTP": {
+    "HTTP Request": {
       "main": [
         [
           {
-            "node": "Edit Fields3",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "When clicking ‘Execute workflow’": {
-      "main": [
-        [
-          {
-            "node": "HTTP Request2",
+            "node": "Switch1",
             "type": "main",
             "index": 0
           }
@@ -515,7 +255,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "b5eab5a9-56ad-4ee9-8a6e-ba3ce1b5d80c",
+  "versionId": "b52f24c6-9d75-4e2b-9725-dead2fd081e5",
   "activeVersionId": null,
   "triggerCount": 1,
   "shared": [
