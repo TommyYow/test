@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-05-18T03:14:02.263Z",
+  "updatedAt": "2026-05-18T08:08:06.880Z",
   "createdAt": "2026-03-12T11:41:16.802Z",
   "id": "Sv6p41U2Z3vHomRu",
   "name": "My workflow 7",
@@ -7,238 +7,29 @@
   "isArchived": false,
   "nodes": [
     {
-      "parameters": {},
-      "type": "n8n-nodes-base.manualTrigger",
-      "typeVersion": 1,
-      "position": [
-        -816,
-        -112
-      ],
-      "id": "59bd95a8-7c85-49db-86b6-7891473c5e83",
-      "name": "When clicking ‘Execute workflow’"
-    },
-    {
       "parameters": {
-        "rules": {
-          "values": [
-            {
-              "conditions": {
-                "options": {
-                  "caseSensitive": true,
-                  "leftValue": "",
-                  "typeValidation": "strict",
-                  "version": 3
-                },
-                "conditions": [
-                  {
-                    "id": "187a3b7b-b4ca-4bc5-9640-6bc2b3d94aee",
-                    "leftValue": "={{ $json.ultramarathon_time }}",
-                    "rightValue": 15,
-                    "operator": {
-                      "type": "number",
-                      "operation": "gt"
-                    }
-                  }
-                ],
-                "combinator": "and"
-              }
-            },
-            {
-              "conditions": {
-                "options": {
-                  "caseSensitive": true,
-                  "leftValue": "",
-                  "typeValidation": "strict",
-                  "version": 3
-                },
-                "conditions": [
-                  {
-                    "leftValue": "={{ $json.ultramarathon_time }}",
-                    "rightValue": 10,
-                    "operator": {
-                      "type": "number",
-                      "operation": "lt"
-                    },
-                    "id": "758aaeda-a8d5-4983-ad0c-795a89c95bc5"
-                  }
-                ],
-                "combinator": "and"
-              }
-            }
-          ]
-        },
-        "options": {
-          "fallbackOutput": "none"
-        }
-      },
-      "type": "n8n-nodes-base.switch",
-      "typeVersion": 3.4,
-      "position": [
-        -192,
-        -160
-      ],
-      "id": "a8bdc3b8-849b-4387-a4ca-3a29d5202efe",
-      "name": "Switch"
-    },
-    {
-      "parameters": {
-        "jsCode": "return [\n  { json: { ultramarathon_time: 7.25 } },\n  { json: { ultramarathon_time: 18.5 } },\n  { json: { ultramarathon_time: 6.75 } },\n  { json: { ultramarathon_time: 6.8 } },\n  { json: { ultramarathon_time: 10.2 } },\n  { json: { ultramarathon_time: 12.9 } },\n  { json: { ultramarathon_time: 17.5 } },\n  { json: { ultramarathon_time: 8.1 } },\n  { json: { ultramarathon_time: 9.1 } },\n  { json: { ultramarathon_time: 18.0 } }\n];"
-      },
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
-      "position": [
-        -448,
-        -176
-      ],
-      "id": "53458ca8-f97c-48ae-a332-997149bd8f13",
-      "name": "Code in JavaScript"
-    },
-    {
-      "parameters": {
-        "url": "https://dummyjson.com/products/1",
+        "path": "86b5f539-f2f8-4fde-bdc1-1821b1f0f81f",
+        "authentication": "basicAuth",
         "options": {}
       },
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.4,
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
       "position": [
-        -400,
-        112
+        -768,
+        -64
       ],
-      "id": "a45af3e7-acdd-41ed-a916-b26fc0a0314b",
-      "name": "HTTP Request"
-    },
-    {
-      "parameters": {
-        "rules": {
-          "values": [
-            {
-              "conditions": {
-                "options": {
-                  "caseSensitive": true,
-                  "leftValue": "",
-                  "typeValidation": "strict",
-                  "version": 3
-                },
-                "conditions": [
-                  {
-                    "id": "187a3b7b-b4ca-4bc5-9640-6bc2b3d94aee",
-                    "leftValue": "={{ $json.availabilityStatus }}",
-                    "rightValue": "In Stock",
-                    "operator": {
-                      "type": "string",
-                      "operation": "equals"
-                    }
-                  }
-                ],
-                "combinator": "and"
-              }
-            },
-            {
-              "conditions": {
-                "options": {
-                  "caseSensitive": true,
-                  "leftValue": "",
-                  "typeValidation": "strict",
-                  "version": 3
-                },
-                "conditions": [
-                  {
-                    "leftValue": "={{ $json.returnPolicy }}",
-                    "rightValue": "No return policy",
-                    "operator": {
-                      "type": "string",
-                      "operation": "equals"
-                    },
-                    "id": "758aaeda-a8d5-4983-ad0c-795a89c95bc5"
-                  }
-                ],
-                "combinator": "and"
-              }
-            },
-            {
-              "conditions": {
-                "options": {
-                  "caseSensitive": true,
-                  "leftValue": "",
-                  "typeValidation": "strict",
-                  "version": 3
-                },
-                "conditions": [
-                  {
-                    "id": "3988c86b-58b8-42a8-967d-9dae9cefa87a",
-                    "leftValue": "={{ $json.minimumOrderQuantity }}",
-                    "rightValue": 10,
-                    "operator": {
-                      "type": "number",
-                      "operation": "gt"
-                    }
-                  }
-                ],
-                "combinator": "and"
-              }
-            }
-          ]
-        },
-        "options": {
-          "fallbackOutput": "none"
+      "id": "203e0d84-662e-4415-975b-84cb5724cfa4",
+      "name": "Webhook",
+      "webhookId": "86b5f539-f2f8-4fde-bdc1-1821b1f0f81f",
+      "credentials": {
+        "httpBasicAuth": {
+          "id": "d19GraZ69CxqyjGy",
+          "name": "kxl-webhook"
         }
-      },
-      "type": "n8n-nodes-base.switch",
-      "typeVersion": 3.4,
-      "position": [
-        -144,
-        112
-      ],
-      "id": "582a3031-a8e2-45bb-8edf-29c7529569f2",
-      "name": "Switch1"
+      }
     }
   ],
-  "connections": {
-    "When clicking ‘Execute workflow’": {
-      "main": [
-        [
-          {
-            "node": "Code in JavaScript",
-            "type": "main",
-            "index": 0
-          },
-          {
-            "node": "HTTP Request",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Switch": {
-      "main": [
-        [],
-        []
-      ]
-    },
-    "Code in JavaScript": {
-      "main": [
-        [
-          {
-            "node": "Switch",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "HTTP Request": {
-      "main": [
-        [
-          {
-            "node": "Switch1",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    }
-  },
+  "connections": {},
   "settings": {
     "executionOrder": "v1",
     "binaryMode": "separate",
@@ -255,7 +46,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "b52f24c6-9d75-4e2b-9725-dead2fd081e5",
+  "versionId": "cfe5e72a-5e32-4cd2-9157-483059d38912",
   "activeVersionId": null,
   "triggerCount": 1,
   "shared": [
