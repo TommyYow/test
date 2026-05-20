@@ -1,148 +1,43 @@
 {
-  "updatedAt": "2026-04-30T02:16:46.636Z",
-  "createdAt": "2026-04-29T13:47:57.493Z",
-  "id": "lo3e9TGAcVCnWGlh",
+  "updatedAt": "2026-05-19T09:12:56.638Z",
+  "createdAt": "2026-05-19T09:09:02.532Z",
+  "id": "m1FbIDEuLHMYAFLD",
   "name": "My workflow 10",
   "active": false,
   "isArchived": false,
   "nodes": [
     {
       "parameters": {
-        "assignments": {
-          "assignments": [
-            {
-              "id": "26cc14ec-14ca-48bd-acaa-4114171e5761",
-              "name": "Step",
-              "value": "={{ $json.data }}",
-              "type": "string"
-            }
-          ]
-        },
+        "path": "c9823125-94f9-473f-b011-578d27c6f0de",
         "options": {}
       },
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
       "position": [
-        128,
-        -192
+        0,
+        0
       ],
-      "id": "13b5ab59-b37d-4133-8f89-ca02710dd3d3",
-      "name": "Edit Fields"
+      "id": "1afbe4fc-ca67-4196-804c-1ec6baee6ed5",
+      "name": "Webhook",
+      "webhookId": "c9823125-94f9-473f-b011-578d27c6f0de"
     },
     {
       "parameters": {
-        "url": "https://www.google.com/",
+        "path": "ba9c83d9-9226-49cb-b968-c2f300ba83ef",
         "options": {}
       },
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.4,
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
       "position": [
-        -80,
-        -192
+        208,
+        0
       ],
-      "id": "146a25fe-43c7-44f9-90cf-db28cd3c9d98",
-      "name": "HTTP Request 001"
-    },
-    {
-      "parameters": {
-        "options": {}
-      },
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.4,
-      "position": [
-        272,
-        176
-      ],
-      "id": "b95459b7-cf05-4a85-b602-63e04ad4b37f",
-      "name": "HTTP Request"
-    },
-    {
-      "parameters": {
-        "options": {}
-      },
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.4,
-      "position": [
-        480,
-        176
-      ],
-      "id": "d431df08-728d-4c14-8ce6-0f274abe6c5d",
-      "name": "HTTP Request2"
-    },
-    {
-      "parameters": {
-        "url": "https://www.google.com/",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.4,
-      "position": [
-        -64,
-        128
-      ],
-      "id": "180a4eb9-0cc4-4bcc-97ea-1808ad4af08e",
-      "name": "HTTP Request 002"
-    },
-    {
-      "parameters": {
-        "options": {}
-      },
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.4,
-      "position": [
-        464,
-        -144
-      ],
-      "id": "cdcf00de-70e3-4ddc-90d9-af9360b39674",
-      "name": "HTTP Request1"
-    },
-    {
-      "parameters": {},
-      "type": "n8n-nodes-base.manualTrigger",
-      "typeVersion": 1,
-      "position": [
-        -496,
-        -32
-      ],
-      "id": "59b70965-fe09-431c-a356-79897ebf8258",
-      "name": "When clicking ‘Execute workflow’"
+      "id": "cfad940b-c76d-4aec-8707-dd51d18bf7b8",
+      "name": "Webhook1",
+      "webhookId": "ba9c83d9-9226-49cb-b968-c2f300ba83ef"
     }
   ],
-  "connections": {
-    "HTTP Request 001": {
-      "main": [
-        [
-          {
-            "node": "Edit Fields",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "HTTP Request": {
-      "main": [
-        [
-          {
-            "node": "HTTP Request2",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "When clicking ‘Execute workflow’": {
-      "main": [
-        [
-          {
-            "node": "HTTP Request 001",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    }
-  },
+  "connections": {},
   "settings": {
     "executionOrder": "v1",
     "binaryMode": "separate"
@@ -150,15 +45,15 @@
   "staticData": null,
   "meta": null,
   "pinData": {},
-  "versionId": "eba74930-6e1d-45d3-9946-67bafcccf2e5",
+  "versionId": "4a262cdd-bf31-4b02-872c-db0707cc9da7",
   "activeVersionId": null,
   "triggerCount": 0,
   "shared": [
     {
-      "updatedAt": "2026-04-29T13:47:57.493Z",
-      "createdAt": "2026-04-29T13:47:57.493Z",
+      "updatedAt": "2026-05-19T09:09:02.532Z",
+      "createdAt": "2026-05-19T09:09:02.532Z",
       "role": "workflow:owner",
-      "workflowId": "lo3e9TGAcVCnWGlh",
+      "workflowId": "m1FbIDEuLHMYAFLD",
       "projectId": "jEyFJXtUUwEM8iYb"
     }
   ],
