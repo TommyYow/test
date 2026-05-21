@@ -1,0 +1,108 @@
+{
+  "updatedAt": "2026-05-20T15:17:54.194Z",
+  "createdAt": "2026-05-20T15:16:27.937Z",
+  "id": "nqQxdRzvRGwFWemG",
+  "name": "My workflow 11",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "1890bc9a-2ba8-4396-9340-da56ebc46eea",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "operation": "pdf",
+        "options": {
+          "joinPages": true
+        }
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1.1,
+      "position": [
+        208,
+        0
+      ],
+      "id": "7e361d21-cce6-4f8c-bad2-c9ac950292bf",
+      "name": "Extract from File",
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "resource": "worksheet",
+        "operation": "append",
+        "workbook": {
+          "__rl": true,
+          "mode": "list",
+          "value": ""
+        },
+        "worksheet": {
+          "__rl": true,
+          "mode": "list",
+          "value": ""
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.microsoftExcel",
+      "typeVersion": 2.2,
+      "position": [
+        416,
+        0
+      ],
+      "id": "966f19a7-e029-40cb-b041-828aa4230c80",
+      "name": "Append data to sheet"
+    }
+  ],
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Extract from File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract from File": {
+      "main": [
+        [
+          {
+            "node": "Append data to sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {},
+  "versionId": "49250cf9-826f-48c1-8bc7-0b5dc1e13df5",
+  "activeVersionId": null,
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2026-05-20T15:16:27.937Z",
+      "createdAt": "2026-05-20T15:16:27.937Z",
+      "role": "workflow:owner",
+      "workflowId": "nqQxdRzvRGwFWemG",
+      "projectId": "aMgj29TxarMT8Wwf"
+    }
+  ],
+  "activeVersion": null,
+  "tags": []
+}
