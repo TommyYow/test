@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-05-19T09:12:56.638Z",
+  "updatedAt": "2026-05-21T08:10:35.316Z",
   "createdAt": "2026-05-19T09:09:02.532Z",
   "id": "m1FbIDEuLHMYAFLD",
   "name": "My workflow 10",
@@ -9,6 +9,7 @@
     {
       "parameters": {
         "path": "c9823125-94f9-473f-b011-578d27c6f0de",
+        "authentication": "basicAuth",
         "options": {}
       },
       "type": "n8n-nodes-base.webhook",
@@ -19,22 +20,33 @@
       ],
       "id": "1afbe4fc-ca67-4196-804c-1ec6baee6ed5",
       "name": "Webhook",
-      "webhookId": "c9823125-94f9-473f-b011-578d27c6f0de"
+      "webhookId": "c9823125-94f9-473f-b011-578d27c6f0de",
+      "credentials": {
+        "httpBasicAuth": {
+          "id": "d19GraZ69CxqyjGy",
+          "name": "kxl-webhook"
+        }
+      }
     },
     {
       "parameters": {
-        "path": "ba9c83d9-9226-49cb-b968-c2f300ba83ef",
         "options": {}
       },
-      "type": "n8n-nodes-base.webhook",
-      "typeVersion": 2.1,
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
       "position": [
-        208,
-        0
+        144,
+        144
       ],
-      "id": "cfad940b-c76d-4aec-8707-dd51d18bf7b8",
-      "name": "Webhook1",
-      "webhookId": "ba9c83d9-9226-49cb-b968-c2f300ba83ef"
+      "id": "78c013b3-bfb7-4728-a9bd-c6ef567bad9f",
+      "name": "Send a message",
+      "webhookId": "6aed9811-cf74-4ae0-b5fd-96d8ddfcdf04",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "KARfljGIBjePqPOs",
+          "name": "Gmail account - xlwork2402@gmail.com"
+        }
+      }
     }
   ],
   "connections": {},
@@ -43,9 +55,11 @@
     "binaryMode": "separate"
   },
   "staticData": null,
-  "meta": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
   "pinData": {},
-  "versionId": "4a262cdd-bf31-4b02-872c-db0707cc9da7",
+  "versionId": "6c9cd77f-f456-4dbb-8aa2-9d85662d6a98",
   "activeVersionId": null,
   "triggerCount": 0,
   "shared": [
