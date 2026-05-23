@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-05-21T08:10:35.316Z",
+  "updatedAt": "2026-05-22T12:52:49.182Z",
   "createdAt": "2026-05-19T09:09:02.532Z",
   "id": "m1FbIDEuLHMYAFLD",
   "name": "My workflow 10",
@@ -8,14 +8,17 @@
   "nodes": [
     {
       "parameters": {
+        "httpMethod": "POST",
         "path": "c9823125-94f9-473f-b011-578d27c6f0de",
         "authentication": "basicAuth",
-        "options": {}
+        "options": {
+          "responseData": ""
+        }
       },
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 2.1,
       "position": [
-        0,
+        -96,
         0
       ],
       "id": "1afbe4fc-ca67-4196-804c-1ec6baee6ed5",
@@ -47,9 +50,60 @@
           "name": "Gmail account - xlwork2402@gmail.com"
         }
       }
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "3bc65a8d-75ff-4146-bfcd-0304e3a98c18"
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        208,
+        0
+      ],
+      "id": "4a6a31e5-f97a-43d0-bc83-e84524c5042c",
+      "name": "Switch"
     }
   ],
-  "connections": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
   "settings": {
     "executionOrder": "v1",
     "binaryMode": "separate"
@@ -59,7 +113,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "6c9cd77f-f456-4dbb-8aa2-9d85662d6a98",
+  "versionId": "4d757929-bb99-4a45-af89-030e2804b8ca",
   "activeVersionId": null,
   "triggerCount": 0,
   "shared": [
