@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-05-22T12:52:49.182Z",
+  "updatedAt": "2026-05-28T09:33:23.579Z",
   "createdAt": "2026-05-19T09:09:02.532Z",
   "id": "m1FbIDEuLHMYAFLD",
   "name": "My workflow 10",
@@ -7,49 +7,29 @@
   "isArchived": false,
   "nodes": [
     {
-      "parameters": {
-        "httpMethod": "POST",
-        "path": "c9823125-94f9-473f-b011-578d27c6f0de",
-        "authentication": "basicAuth",
-        "options": {
-          "responseData": ""
-        }
-      },
-      "type": "n8n-nodes-base.webhook",
-      "typeVersion": 2.1,
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
       "position": [
-        -96,
-        0
+        -64,
+        -96
       ],
-      "id": "1afbe4fc-ca67-4196-804c-1ec6baee6ed5",
-      "name": "Webhook",
-      "webhookId": "c9823125-94f9-473f-b011-578d27c6f0de",
-      "credentials": {
-        "httpBasicAuth": {
-          "id": "d19GraZ69CxqyjGy",
-          "name": "kxl-webhook"
-        }
-      }
+      "id": "cabe4e91-2a1a-4767-b167-72ae2f41b135",
+      "name": "When clicking ‘Execute workflow’"
     },
     {
       "parameters": {
+        "url": "https://api.jsons.live/Amazon/1-level/1-KB/formatted",
         "options": {}
       },
-      "type": "n8n-nodes-base.gmail",
-      "typeVersion": 2.2,
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
       "position": [
         144,
-        144
+        -96
       ],
-      "id": "78c013b3-bfb7-4728-a9bd-c6ef567bad9f",
-      "name": "Send a message",
-      "webhookId": "6aed9811-cf74-4ae0-b5fd-96d8ddfcdf04",
-      "credentials": {
-        "gmailOAuth2": {
-          "id": "KARfljGIBjePqPOs",
-          "name": "Gmail account - xlwork2402@gmail.com"
-        }
-      }
+      "id": "b6bdbe98-dc78-490e-9fb4-499fa25548d4",
+      "name": "HTTP Request"
     },
     {
       "parameters": {
@@ -65,13 +45,13 @@
                 },
                 "conditions": [
                   {
-                    "leftValue": "",
-                    "rightValue": "",
+                    "leftValue": "=1 {{ $json.data[0].OrderID }}",
+                    "rightValue": "ORD0000002",
                     "operator": {
                       "type": "string",
                       "operation": "equals"
                     },
-                    "id": "3bc65a8d-75ff-4146-bfcd-0304e3a98c18"
+                    "id": "3f65c904-f3a6-4436-9acf-8463c91421d6"
                   }
                 ],
                 "combinator": "and"
@@ -79,20 +59,33 @@
             }
           ]
         },
-        "options": {}
+        "options": {
+          "fallbackOutput": "extra"
+        }
       },
       "type": "n8n-nodes-base.switch",
       "typeVersion": 3.4,
       "position": [
-        208,
-        0
+        400,
+        -128
       ],
-      "id": "4a6a31e5-f97a-43d0-bc83-e84524c5042c",
+      "id": "8a54eeeb-f906-46d2-bcc9-71f048cbd04f",
       "name": "Switch"
     }
   ],
   "connections": {
-    "Webhook": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
       "main": [
         [
           {
@@ -113,7 +106,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "4d757929-bb99-4a45-af89-030e2804b8ca",
+  "versionId": "161520c8-8ef0-48a5-8978-1e65ef2ed5c1",
   "activeVersionId": null,
   "triggerCount": 0,
   "shared": [
