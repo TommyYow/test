@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-05-28T09:33:23.579Z",
+  "updatedAt": "2026-05-29T12:40:46.643Z",
   "createdAt": "2026-05-19T09:09:02.532Z",
   "id": "m1FbIDEuLHMYAFLD",
   "name": "My workflow 10",
@@ -71,6 +71,20 @@
       ],
       "id": "8a54eeeb-f906-46d2-bcc9-71f048cbd04f",
       "name": "Switch"
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "const userId = $json.userId ?? 1;\n\nconst posts = await $http.request({\n  method: 'GET',\n  url: `https://jsonplaceholder.typicode.com/posts?userId=${userId}`\n});\n\nreturn posts.map(post => ({ json: post }));"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        48,
+        48
+      ],
+      "id": "6752b276-d605-4229-ac03-db1574a65fbd",
+      "name": "Code in JavaScript"
     }
   ],
   "connections": {
@@ -106,7 +120,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "161520c8-8ef0-48a5-8978-1e65ef2ed5c1",
+  "versionId": "8e6918f9-0b1a-4f8d-adfb-b2a5fbc1c6a2",
   "activeVersionId": null,
   "triggerCount": 0,
   "shared": [
