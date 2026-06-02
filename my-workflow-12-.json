@@ -1,0 +1,54 @@
+{
+  "updatedAt": "2026-06-01T15:53:17.439Z",
+  "createdAt": "2026-06-01T14:55:38.796Z",
+  "id": "O49YwJsAUzKcH0Uv",
+  "name": "My workflow 12",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "path": "cars/:id",
+        "options": {
+          "responseData": "<html><head></head><body><h1>hello world</h1></body></html>",
+          "responseHeaders": {
+            "entries": []
+          }
+        }
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "5af375f8-c77c-4b03-bd66-b195ef8ad1cd",
+      "name": "Webhook",
+      "webhookId": "73b35791-d41d-4319-895d-a52c71ac79f3"
+    }
+  ],
+  "connections": {},
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "9c0e6f8c-2269-467d-8fff-59aedc2f1076",
+  "activeVersionId": null,
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2026-06-01T14:55:38.796Z",
+      "createdAt": "2026-06-01T14:55:38.796Z",
+      "role": "workflow:owner",
+      "workflowId": "O49YwJsAUzKcH0Uv",
+      "projectId": "jEyFJXtUUwEM8iYb"
+    }
+  ],
+  "activeVersion": null,
+  "tags": []
+}
