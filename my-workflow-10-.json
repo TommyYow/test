@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-05-30T16:39:29.028Z",
+  "updatedAt": "2026-06-01T17:04:10.109Z",
   "createdAt": "2026-05-19T09:09:02.532Z",
   "id": "m1FbIDEuLHMYAFLD",
   "name": "My workflow 10",
@@ -33,50 +33,6 @@
     },
     {
       "parameters": {
-        "conditions": {
-          "options": {
-            "caseSensitive": true,
-            "leftValue": "",
-            "typeValidation": "strict",
-            "version": 3
-          },
-          "conditions": [
-            {
-              "id": "912e62f7-6dd4-4592-b54a-09afb911945e",
-              "leftValue": "=type",
-              "rightValue": 0,
-              "operator": {
-                "type": "number",
-                "operation": "exists",
-                "singleValue": true
-              }
-            },
-            {
-              "id": "fb0a7124-642d-4829-969a-e075e78707a9",
-              "leftValue": "=count",
-              "rightValue": 0,
-              "operator": {
-                "type": "number",
-                "operation": "exists",
-                "singleValue": true
-              }
-            }
-          ],
-          "combinator": "and"
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.if",
-      "typeVersion": 2.3,
-      "position": [
-        608,
-        -224
-      ],
-      "id": "6b02e4ad-693c-4b2a-9315-8fcb99e2a9f8",
-      "name": "If"
-    },
-    {
-      "parameters": {
         "jsCode": "// Loop over input items and add a new field called 'myNewField' to the JSON of each one\nfor (const item of $input.all()) {\n  item.json.myNewField = 1;\n}\n\nreturn $input.all();"
       },
       "type": "n8n-nodes-base.code",
@@ -87,6 +43,104 @@
       ],
       "id": "1a6d5bb2-8b67-48e2-b8c1-a133b99bba0a",
       "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "1f2ce079-f109-41c4-a2b7-0a9d9ff89ba1",
+              "leftValue": "",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        656,
+        -160
+      ],
+      "id": "81477526-2de0-40a3-b279-0c1e82274c24",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "1",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "0489161e-57dd-4b80-bc58-037ae66e5b17"
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "d5b6d2d8-b4d3-434a-92fe-6150a798a70e",
+                    "leftValue": "2",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "options": {
+          "fallbackOutput": "extra"
+        }
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        864,
+        -256
+      ],
+      "id": "0920fce3-c24b-4966-b388-cf82fcc0ee5e",
+      "name": "Switch"
     }
   ],
   "connections": {
@@ -103,9 +157,14 @@
     },
     "HTTP Request": {
       "main": [
+        []
+      ]
+    },
+    "If": {
+      "main": [
         [
           {
-            "node": "If",
+            "node": "Switch",
             "type": "main",
             "index": 0
           }
@@ -122,7 +181,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "ce371cf4-068f-4ae5-b531-cd51ed69c792",
+  "versionId": "c545ba78-9f3a-408e-9ce3-448265f12f86",
   "activeVersionId": null,
   "triggerCount": 0,
   "shared": [
