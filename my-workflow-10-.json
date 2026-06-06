@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-06-01T17:04:10.109Z",
+  "updatedAt": "2026-06-05T11:27:00.433Z",
   "createdAt": "2026-05-19T09:09:02.532Z",
   "id": "m1FbIDEuLHMYAFLD",
   "name": "My workflow 10",
@@ -19,7 +19,7 @@
     },
     {
       "parameters": {
-        "url": "https://api.jsons.live/Amazon/1-level/1-KB/formatted",
+        "url": "https://apis.jsons.live/Bookings/1-level/5-KB/minified",
         "options": {}
       },
       "type": "n8n-nodes-base.httpRequest",
@@ -92,36 +92,13 @@
                 },
                 "conditions": [
                   {
-                    "leftValue": "1",
+                    "leftValue": "=1 {{ $json.data[8].Booking_ID }}",
                     "rightValue": "",
                     "operator": {
                       "type": "string",
                       "operation": "equals"
                     },
                     "id": "0489161e-57dd-4b80-bc58-037ae66e5b17"
-                  }
-                ],
-                "combinator": "and"
-              }
-            },
-            {
-              "conditions": {
-                "options": {
-                  "caseSensitive": true,
-                  "leftValue": "",
-                  "typeValidation": "strict",
-                  "version": 3
-                },
-                "conditions": [
-                  {
-                    "id": "d5b6d2d8-b4d3-434a-92fe-6150a798a70e",
-                    "leftValue": "2",
-                    "rightValue": "",
-                    "operator": {
-                      "type": "string",
-                      "operation": "equals",
-                      "name": "filter.operator.equals"
-                    }
                   }
                 ],
                 "combinator": "and"
@@ -136,11 +113,48 @@
       "type": "n8n-nodes-base.switch",
       "typeVersion": 3.4,
       "position": [
-        864,
-        -256
+        368,
+        -320
       ],
       "id": "0920fce3-c24b-4966-b388-cf82fcc0ee5e",
       "name": "Switch"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "1e33e034-23dc-4a92-bbf6-8a420a91fd05",
+              "name": "data[0].Booking_ID",
+              "value": "={{ $json.data[0].Booking_ID }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        912,
+        -336
+      ],
+      "id": "6119aa19-fb35-4be7-afec-93861b117016",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "url": "https://apis.jsons.live/Bookings/1-level/5-KB/minified",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        384,
+        -144
+      ],
+      "id": "cb2b6c63-fc0c-4219-bca5-ef1b9464e377",
+      "name": "HTTP Request1"
     }
   ],
   "connections": {
@@ -157,14 +171,30 @@
     },
     "HTTP Request": {
       "main": [
-        []
+        [
+          {
+            "node": "HTTP Request1",
+            "type": "main",
+            "index": 0
+          }
+        ]
       ]
     },
     "If": {
       "main": [
+        []
+      ]
+    },
+    "Switch": {
+      "main": [
+        []
+      ]
+    },
+    "HTTP Request1": {
+      "main": [
         [
           {
-            "node": "Switch",
+            "node": "Edit Fields",
             "type": "main",
             "index": 0
           }
@@ -181,7 +211,7 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "versionId": "c545ba78-9f3a-408e-9ce3-448265f12f86",
+  "versionId": "a7f9eb1b-8279-414f-98a8-4e1cb3d368b5",
   "activeVersionId": null,
   "triggerCount": 0,
   "shared": [
